@@ -1,9 +1,13 @@
 package com.sist.web;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +43,11 @@ public class UserController {
 		return "user/signUp";
 	}
 	@PostMapping("/signUp.do")
-    public String postSignUp(@ModelAttribute UserVO user) {
-        // 검증 실패 시 다시 입력 폼으로
-//        if (bindingResult.hasErrors()) {
-//            return "user/signUp";
-//        }
+    public String postSignUp(@Validated @ModelAttribute("user") UserVO user, BindingResult bindingResult) {
+		// 검증 실패 시 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            return "user/signUp";
+        }
         // 검증 성공 시 회원 저장 (비밀번호 인코딩 포함)
 //        member.setPassword(passwordEncoder.encode(member.getPassword()));
         userService.addUser(user);

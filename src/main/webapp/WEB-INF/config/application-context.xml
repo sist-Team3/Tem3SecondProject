@@ -25,5 +25,10 @@
       p:suffix=".jsp"
       p:order="1"
     />
-
+    <!--  메시지 소스	-->
+	<bean id="messageSource"
+		  class="org.springframework.context.support.ResourceBundleMessageSource"
+		  p:basename="errors"
+		  p:defaultEncoding="UTF-8">
+	</bean>
 </beans>

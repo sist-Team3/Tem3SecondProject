@@ -20,7 +20,7 @@ public class UserValidator implements Validator {
         if (!StringUtils.hasText(user.getEmail())) {
             errors.rejectValue("email","required");
         }
-        if (user.getPassword().length() < 6) {
+        if (user.getPassword().length() < 9) {
             errors.rejectValue("password","min");
         }
         if (!StringUtils.hasText(user.getName())) {
