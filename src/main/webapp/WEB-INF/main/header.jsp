@@ -25,6 +25,7 @@
 					<li><a href="../mypage/main.do">아파트</a></li>
 					<li><a href="#">연립/다세대</a></li>
 					<li><a href="#">오피스텔</a></li>
+					<li><a href="../board/board.do">게시판</a></li>
 					<li><a href="../user/signUp.do">회원가입</a></li>
 					<li><a href="#">로그인</a></li>
 				</ul>
