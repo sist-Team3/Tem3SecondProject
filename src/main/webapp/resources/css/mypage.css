@@ -1,0 +1,269 @@
+@charset "UTF-8";
+.wrapper {
+    background-color: #f8f8f8;
+    margin-top: 74px;
+}
+
+div.wrapper div.container {
+    width: 1020px;
+    padding-bottom: 80px;
+}
+
+.wrapper .container #main-title {
+    color: #222;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 50px;
+}
+
+.wrapper .container .content-title {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 980px;
+}
+
+#account-delete {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 90px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 5px;
+}
+
+#account-delete a {
+    color: #999;
+}
+
+.wrapper .container #profile-body {
+    background-color: #fff;
+    width: 980px;
+    padding: 50px 30px 40px 30px;
+}
+
+.wrapper .container input[type='text'],
+.container select {
+    height: 34px;
+}
+
+.wrapper .container div.content-title img {
+    float: left;
+}
+
+.wrapper .container h2 {
+    font-size: 24px;
+    color: #444;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.wrapper .container table {
+    width: 100%;
+    border-top: 2px solid #444;
+}
+
+.wrapper .container table tr {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.wrapper .container table td,
+.container table th {
+    padding: 10px;
+}
+
+.wrapper .container table th {
+    background-color: #f8f8f8;
+    font-weight: normal;
+    width: 170px;
+}
+
+.wrapper #profile-table {
+    margin-bottom: 20px;
+}
+
+.wrapper #profile-table input[type='file'] {
+    display: none;
+}
+
+.wrapper #profile-table .name {
+    border-color: #ddd;
+    height: 45px;
+    width: 425px;
+}
+
+.wrapper #profile-table select {
+    border-radius: 0;
+    height: 45px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+.wrapper #profile-table .input-tel {
+    height: 45px;
+    width: 200px;
+    margin: 0 10px;
+    border: 1px solid #ddd;
+    
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin : 0;
+}
+
+.wrapper #profile-table .fixedValue {
+    height: 45px;
+    line-height: 45px;
+    color: #444;
+}
+
+.wrapper #password-table {
+    margin-bottom: 20px;
+}
+
+.wrapper #password-table input {
+    border: 1px solid #ddd;
+    height: 45px;
+    width: 425px;
+}
+
+.wrapper #btnProfileCancel {
+    background-color: #fff;
+    border: 1px solid #1db177;
+    color: #1db177;
+    font-size: 16px;
+    width: 150px;
+    height: 50px;
+    display: inline;
+}
+
+.wrapper .profile-update {
+    font-size: 16px;
+    width: 100px;
+    height: 30px;
+    display: inline;
+    margin-top: 0;
+    line-height: 16px;
+}
+
+.wrapper #password-table input,
+.wrapper #password-table input::-webkit-input-placeholder {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.wrapper #account-delete {
+    font-size: 16px;
+    margin-bottom: 40px;
+    text-decoration: none;
+    float: right;
+}
+.wrapper #account-delete a{
+    text-decoration: none;
+}
+
+.fixedValue {
+    margin: 0;
+    margin-left: 8px;
+}
+
+.wrapper #profile-table #profile-image {
+    margin: 10px 0px;
+    position: relative;
+    width: 70px;
+    height: 70px;
+    margin: 5px auto;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background-size: cover;
+    background-position: center center;
+    float: left;
+}
+
+.wrapper #profile-table #profile-image p {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    padding: 0px;
+    line-height: 25px;
+    border-radius: 50%;
+    background-color: #444;
+    top: 45px;
+    left: 45px;
+}
+
+.wrapper #profile-table #peterpan-membership {
+    margin: 10px 0px;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    margin: 15px auto;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center center;
+    float: left;
+}
+
+#peterpan-membership-change {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    padding: 0px;
+    line-height: 25px;
+    border-radius: 50%;
+    background-color: #444;
+    top: 45px;
+    left: 45px;
+    margin-right: 10px;
+}
+
+div#peterpan-membership-script {
+    display: inline-block;
+    padding-left: 10px;
+    padding-top: 16px;
+}
+
+span#user-grade {
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+span#zero-membership-button {
+    color: #818181;
+}
+
+span.right-half-box {
+    border-top: 1px solid #818181;
+    border-right: 1px solid #818181;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    transform: rotate(45deg);
+    position: relative;
+    top: -1px;
+}
+
+.wrapper #profile-table #post {
+	margin-left:15px;
+	display: inline;
+    border-color: #ddd;
+    height: 30px;
+    width: 100px;
+}
+.wrapper #profile-table #upostBtn{
+	margin-left: 10px
+}
+.wrapper #profile-table .address1{
+	height: 30px;
+    width: 400px;
+	margin: 10px 0 0 15px;
+}
+.wrapper #profile-table .address2{
+	height: 30px;
+    width: 400px;
+	margin: 10px 0 0 15px;
+}
