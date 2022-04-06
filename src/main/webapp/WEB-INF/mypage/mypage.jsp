@@ -154,18 +154,22 @@ function postFindBtn(){
 				pwd:{},
 			},
 			mounted:function(){
-				axios.get("http://localhost:8080/web/mypage/mypage_vue.do",{
-				}).then(res=>{
-					console.log(res)
-					this.user=res.data
-					let tmp = String(res.data.phone)
-					this.tel[0] = 0+tmp.substring(0,2)
-					this.tel[1] = tmp.substring(2,6)
-					this.tel[2] = tmp.substring(6,11)
-				})
+				this.getData();
 			},
 			methods:{
+				getData:function(){
+					axios.get("http://localhost:8080/web/mypage/mypage_vue.do",{
+					}).then(res=>{
+						console.log(res)
+						this.user=res.data
+						let tmp = String(res.data.phone)
+						this.tel[0] = 0+tmp.substring(0,2)
+						this.tel[1] = tmp.substring(2,6)
+						this.tel[2] = tmp.substring(6,11)
+					})
+				},
 				updateMy:function(){
+					$('span#validation').remove()
 					let html="<span id='validation' style='color:red'>"
 					window.scrollTo(0,200);
 					if($.trim(this.user.name)=="")
@@ -201,19 +205,22 @@ function postFindBtn(){
 						).then(res=>{
 							if(res.data==="OK"){
 								alert("정보가 수정되었습니다!")
+								this.getData();
 							}
 					})
 				},chkPW:function(){
 					 let pw = this.pwd.change_pwd
-					 let num = pw.search(/[0-9]/g);
-					 let eng = pw.search(/[a-z]/ig);
+					 let eng = pw.search(/[0-9]+[a-z]+/ig);
+					 let html="<span id='validation' style='color:red'>"
 					 if(pw.length < 8 || pw.length > 16){
-					  alert("8자리 ~ 16자리 이내로 입력해주세요.");
+					  $('#now_pwd').after(html)
+					  $('#change_pwd').val("");
+					  $('#change_pwd').focus();
 					  return false;
 					 }else if(pw.search(/\s/) != -1){
 					  alert("비밀번호는 공백 없이 입력해주세요.");
 					  return false;
-					 }else if(num < 0 || eng < 0 ){
+					 }else if(eng < 0 ){
 					  alert("영문,숫자를 혼합하여 입력해주세요.");
 					  return false;
 					 }else {
@@ -222,33 +229,29 @@ function postFindBtn(){
 					 }
 				},
 				updatePwd:function(){
-					let html="<span id='validation' style='color:red'>"
+					let pwdCheck=false;
+					$('span#validation').remove()
 					if($.trim(this.pwd.now_pwd)==""){
-						$('#now_pwd').focus();
-						html+='비밀번호를 입력하시오! </span>'
-						$('#now_pwd').after(html)
+						this.validAlert('now','비밀번호를 입력하시오!')
 						return;
-					}
-					if($.trim(this.pwd.change_pwd)==""){
-						$('#change_pwd').focus();
-						html+='비밀번호를 입력하시오! </span>'
-						$('#change_pwd').after(html)
+					}else if($.trim(this.pwd.change_pwd)==""){
+						this.validAlert('change','비밀번호를 입력하시오!')
 						return;
-					}
-					if($.trim(this.pwd.confirm_pwd)==""){
-						$('#confirm_pwd').focus();
-						html+='비밀번호를 입력하시오! </span>'
-						$('#confirm_pwd').after(html)
+					}else if($.trim(this.pwd.confirm_pwd)==""){
+						this.validAlert('confirm','비밀번호를 입력하시오!')
 						return;
+					}else if($.trim(this.pwd.change_pwd)==$.trim(this.pwd.now_pwd)){
+						this.validAlert('change','현재 비밀번호와 같습니다!')
+					}else{
+						pwdCheck=this.chkPW()
 					}
-					this.chkPW()
+					if(!pwdCheck)
+						return;
 					if(this.pwd.change_pwd===this.pwd.confirm_pwd){
 						axios.post("http://localhost:8080/web/mypage/mypage_pwd_update.do",JSON.stringify(this.pwd)
 						).then(res=>{
 							if(res.data=='NO'){
-								alert("현재 비밀번호가 틀렸습니다!");
-								$('#now_pwd').val("");
-								$('#now_pwd').focus();
+								this.validAlert('now','비밀번호가 틀렸습니다!')
 							}else{
 								alert("비밀번호가 변경되었습니다.!");
 								location.href="../main/main.do"
@@ -257,11 +260,16 @@ function postFindBtn(){
 							}
 						})
 					}else{
-						$('#confirm_pwd').focus();
-						html+='비밀번호가 다릅니다! </span>'
-						$('#confirm_pwd').after(html)
+						this.validAlert('confirm','비밀번호가 다릅니다!')
 						return;
 					}
+				},
+				validAlert:function(sel,msg){
+					html="<span id='validation' style='color:red'>"+msg+"</span>"
+					let s = '#'+sel+'_pwd'
+					$(s).val("")
+					$(s).focus();
+					$(s).after(html)
 				}
 			}
 		})
