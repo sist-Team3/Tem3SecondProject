@@ -18,4 +18,7 @@ public class UserDAO {
 		userMapper.save(user);
 		log.info("User DAO 회원 전달 = {}", user.toString());
 	}
+	public UserVO findUserByEmail(String email) {
+		return userMapper.findByEmail(email);
+	}
 }

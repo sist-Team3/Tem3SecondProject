@@ -27,5 +27,6 @@ public class UserVO {
 	private String dbday;
 	private int phone;
 	private int postcode;
+
 	private Date birth,registed_at;
 }
