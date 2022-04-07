@@ -22,4 +22,7 @@ public class UserService {
 		userDAO.save(user);
 		log.info("User Service 회원 전달 = {}", user.toString());
 	}
+	
+	
+	
 }

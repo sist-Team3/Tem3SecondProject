@@ -26,4 +26,7 @@ public class MyPageDAO {
 	public void updatePwd(Map map) {
 		mapper.updatePwd(map);
 	}
+	public void deleteUser(String id) {
+		mapper.deleteUser(id);
+	}
 }

@@ -30,9 +30,6 @@ div.wrapper div.container {
     text-align: center;
     line-height: 40px;
     border-radius: 5px;
-}
-
-#account-delete a {
     color: #999;
 }
 
@@ -266,4 +263,45 @@ span.right-half-box {
 	height: 30px;
     width: 400px;
 	margin: 10px 0 0 15px;
+}
+/* 회원탈퇴 모달 창 */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal__background {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.modal__content {
+  position: relative;
+  background-color: white;
+  border-radius: 10px;
+  top: 0;
+  padding: 10px 25px;
+  width: 350px;
+  height: 250px;
+}
+.modal__content input[type=password]{
+	margin-top: 10px;
+}
+.hidden {
+  display: none;
+}
+#modal_btn{
+	text-align: center;
+	margin-top: 20px;
+}
+#modal_btn #btn_modal_close{
+	margin-left:6px;
 }

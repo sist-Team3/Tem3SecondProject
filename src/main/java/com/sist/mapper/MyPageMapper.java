@@ -1,9 +1,11 @@
 package com.sist.mapper;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.sist.vo.UserVO;
-import java.util.*;
 public interface MyPageMapper {
 	// 정보 가져오기
 	@Select("SELECT email,phone,name,TO_CHAR(birth,'YYYY-MM-DD') as dbday,postcode,address1,address2 "
@@ -20,5 +22,7 @@ public interface MyPageMapper {
 	// 비밀번호 변경하기
 	@Update("UPDATE users_3 SET password=#{pwd} WHERE id=#{id}")
 	public void updatePwd(Map map);
-	
+	// 정보 삭제
+	@Delete("DELETE FROM users_3 WHERE id=#{id}")
+	public void deleteUser(String id);
 }
