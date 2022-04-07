@@ -1,6 +1,7 @@
 package com.sist.dao;
 import java.util.*;
 
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,16 +16,52 @@ public class ProductlistDAO {
 	@Autowired
 	private ProductlistMapper mapper;
 	
-	public ApartmentVO apartmentListData(int no)
+	/*
+	public ApartmentVO apartmentListData(String address,String road_name)
 	{
-		return mapper.apartmentListData(no);
+		return mapper.apartmentListData(address,road_name);
 	}
-	public OfficetelVO officetelListData(int no)
+	public OfficetelVO officetelListData(String address,String road_name)
 	{
-		return mapper.officetelListData(no);
+		return mapper.officetelListData(address, road_name);
 	}
-	public VillaVO villaListData(int no)
+	public VillaVO villaListData(String address, String road_name)
 	{
-		return mapper.villaListData(no);
+		return mapper.villaListData(address, road_name);
 	}
+	*/
+	public List<ApartmentVO> apartmentListData(Map map)
+	{
+		return mapper.apartmentListData(map);
+	}
+	public List<OfficetelVO> officetelListData(Map map)
+	{
+		return mapper.officetelListData(map);
+	}
+	public List<VillaVO> villaListData(Map map)
+	{
+		return mapper.villaListData(map);
+	}
+
+	  public int apartmentTotalPage()
+	  {
+		  return mapper.apartmentTotalPage();
+	  }
+
+	  public int officetelTotalPage()
+	  {
+		  return mapper.officetelTotalPage();
+	  }
+
+	  public int villaTotalPage()
+	  {
+		  return mapper.villaTotalPage();
+	  }
+		/*
+		 * public int apartmentCount() { return mapper.apartmentCount(); }
+		 * 
+		 * public int officetelCount() { return mapper.officetelCount(); }
+		 * 
+		 * public int villaCount() { return mapper.villaCount(); }
+		 */
 }
