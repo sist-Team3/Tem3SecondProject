@@ -13,6 +13,9 @@
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	<context:component-scan base-package="com.sist">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	<aop:aspectj-autoproxy/>
     <util:properties id="db" location="/WEB-INF/config/db.properties"/>
     <!-- 오라클 정보 모아둔다  -->
