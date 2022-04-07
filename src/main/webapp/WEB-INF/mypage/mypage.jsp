@@ -110,7 +110,12 @@ function postFindBtn(){
 	                    <tr>
 	                        <th>이메일 주소</th>
 	                        <td colspan="3">
-	                            <p class="fixedValue">{{user.email}}</p>
+	                        	<input type="email" id="email" v-model="user.email"  class="form-control email">
+	                            <a @click="emailSend()" class="btn btn-sm btn-success" id="email_send">이메일 인증</a>
+	                            <div>
+	                            	<input type="number" id="confirm_email" class="form-control email" oninput="telMax(this,6)" style="margin-top: 5px"> 
+	                            	<a @click="emailCheck()" class="btn btn-sm btn-warning" id="emailCk_btn">인증</a>
+	                            </div>
 	                        </td>
 	                    </tr>
 	                    <tr class="available-time-block">
@@ -170,6 +175,9 @@ function postFindBtn(){
 				user:{},
 				tel:[],
 				pwd:{},
+				now_email:'',
+				email_ck:0,
+				email_confirm:'OK'
 			},
 			mounted:function(){
 				this.getData();
@@ -180,10 +188,19 @@ function postFindBtn(){
 					}).then(res=>{
 						console.log(res.data)
 						this.user=res.data
+						this.now_email=res.data.email
 						let tmp = String(res.data.phone)
-						this.tel[0] = 0+tmp.substring(0,2)
-						this.tel[1] = tmp.substring(2,6)
-						this.tel[2] = tmp.substring(6,11)
+						console.log(tmp)
+						if(tmp.length>9){
+							this.tel[0] = 0+tmp.substring(0,2)
+							this.tel[1] = tmp.substring(2,6)
+							this.tel[2] = tmp.substring(6,10)
+						}else{
+							this.tel[0] = 0+tmp.substring(0,2)
+							this.tel[1] = tmp.substring(2,5)
+							this.tel[2] = tmp.substring(5,9)
+						}
+						
 					})
 				},
 				updateMy:function(){
@@ -201,11 +218,11 @@ function postFindBtn(){
 					}
 					if($.trim(this.tel[1])=="" ||$.trim(this.tel[1]).length<3)
 					{
-						this.validAlert('mobile1','3~4자리 번호를 입력하시오!');
+						this.validAlert('mobile1','&emsp;3~4자리 번호를 입력하시오!');
 						return;
 					}
 					if($.trim(this.tel[2])=="" ||$.trim(this.tel[2]).length<4){
-						this.validAlert('mobile2','4자리 번호를 입력하시오!');
+						this.validAlert('mobile2','&emsp;4자리 번호를 입력하시오!');
 						return;
 					}
 					if($.trim(this.user.postcode)=="")
@@ -214,14 +231,22 @@ function postFindBtn(){
 						return;
 					}
 					this.user.phone=this.tel[0]+this.tel[1]+this.tel[2]
-					axios.post("http://localhost:8080/web/mypage/mypage_update.do",JSON.stringify(this.user),
-						).then(res=>{
-							if(res.data==="OK"){
-								alert("정보가 수정되었습니다!")
-								this.getData();
-							}
+					if(this.email_confirm!='OK'){
+						this.validAlert('emailCk_btn','&emsp;인증코드를 입력하시오!')
+						$('#confirm_email').focus()
+						return;
+					}
+					axios.post("http://localhost:8080/web/mypage/mypage_update.do",this.user,{
+							headers: {
+			                    "Content-Type": "application/json;charset=utf-8"
+			                },
+					}).then(res=>{
+							console.log(res.data)
+							alert("정보가 수정되었습니다!")
+							location.href='../mypage/main.do'
 					})
 				},chkPW:function(){
+					 $('span#validation').remove()
 					 let pw = this.pwd.change_pwd
 					 let eng = pw.search(/[0-9]+[a-z]+/ig);
 					 if(pw.length < 8 || pw.length > 16){
@@ -239,8 +264,8 @@ function postFindBtn(){
 					 }
 				},
 				updatePwd:function(){
-					let pwdCheck=false;
 					$('span#validation').remove()
+					let pwdCheck=false;
 					if($.trim(this.pwd.now_pwd)==""){
 						this.validAlert('now_pwd','비밀번호를 입력하시오!')
 						return;
@@ -278,7 +303,8 @@ function postFindBtn(){
 						$('#confirm_pwd').val("")
 						return;
 					}
-				},deleteUser:function(){
+				},
+				deleteUser:function(){
 					$('span#validation').remove()
 					if($.trim(this.pwd.delete_pwd)==""){
 						this.validAlert('modal_del','&emsp;&emsp;&emsp;&emsp;비밀번호를 입력하시오!')
@@ -287,7 +313,7 @@ function postFindBtn(){
 					axios.post("http://localhost:8080/web/mypage/mypage_delete.do",this.pwd.delete_pwd
 						).then(res=>{
 						if(res.data=='NO'){
-							this.validAlert('modal_del','비밀번호가 틀렸습니다!')
+							this.validAlert('modal_del','&emsp;&emsp;&emsp;&emsp;비밀번호가 틀렸습니다!')
 							$('#modal_del').val("")
 						}else{
 							alert("회원탈퇴가 완료되었습니다!");
@@ -295,9 +321,56 @@ function postFindBtn(){
 							this.$session.clear()
 						}
 					})		
+				}, 
+				emailSend:function(){
+					$('span#validation').remove()
+					let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+					if(this.user.email==this.now_email){
+						this.validAlert('email_send','&emsp;기존 email과 같습니다!')
+						return;
+					}
+					if (regEmail.test(this.user.email) === false){
+				          alert('이메일 형식으로 입력하시오.');
+				          return;
+				      }
+					alert("인증번호를 발송했습니다.")
+					$('#confirm_email').attr('readonly',false)
+					this.email_ck=1
+					$('#email').attr('readonly',true)
+					$('#confirm_email').focus()
+					axios.post("http://localhost:8080/web/mypage/sendMail.do",this.user.email
+							).then(res=>{
+								this.email_confirm=res.data.code
+							})
+							
+				},
+				emailCheck:function(){
+					$('span#validation').remove()
+					let code=$('#confirm_email').val()
+					if(this.email_ck==0){
+						alert('이메일 인증 버튼을 눌러주세요!')
+						return;
+					}
+					if(code==""){
+						this.validAlert('emailCk_btn','&emsp;인증코드를 입력하시오!')
+						$('#confirm_email').focus()
+						return;
+					}
+					if(code.length<6){
+						this.validAlert('emailCk_btn','&emsp;6자리 인증코드를 입력하시오!')
+						$('#confirm_email').focus()
+						return;
+					}
+					if($('#confirm_email').val()==this.email_confirm){
+						alert("이메일이 인증 되었습니다!")
+						$('#confirm_email').attr('readonly',true)
+						this.email_confirm='OK'
+						console.log(this.email_confirm)
+					}
+					
 				},
 				validAlert:function(sel,msg){
-					html="<span id='validation' style='color:red'>"+msg+"</span>"
+					html="<span id='validation' style='color:red;white-space: nowrap;'>"+msg+"</span>"
 					let s = '#'+sel
 					$(s).focus();
 					$(s).after(html)

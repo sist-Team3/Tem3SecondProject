@@ -88,10 +88,16 @@ div.wrapper div.container {
 
 .wrapper #profile-table .name {
     border-color: #ddd;
-    height: 45px;
-    width: 425px;
+    height: 30px;
+    width: 75px;
 }
-
+.wrapper #profile-table .email {
+	border-color: #ddd;
+    height: 30px;
+    width: 150px;
+    display: inline-block;
+	
+}
 .wrapper #profile-table select {
     border-radius: 0;
     height: 45px;
