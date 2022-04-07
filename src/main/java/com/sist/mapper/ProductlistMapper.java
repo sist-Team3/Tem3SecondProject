@@ -26,11 +26,16 @@ public interface ProductlistMapper {
 			+ "WHERE no=#{no}")
 	public VillaVO villaListData(String address,String road_name);
 	*/
-	@Select("SELECT no,area_size,price,floor"
-			+ "address,name,road_name,construct_date"
-			+ "FROM apartment_3"
-			+ "WHERE no=#{no}")
+	@Select("SELECT no,area_size,price,floor,address,name,road_name,contruction_date,num "
+			+ "FROM (SELECT no,area_size,price,floor,address,name,road_name,contruction_date,rownum as num "
+			+ "FROM (SELECT /*+INDEX_ASC(apartment_3 apt_no_pk_3)*/no,area_size,price,floor,address,name,road_name "
+			+ "FROM apartment_3))"
+			+ "WHERE num BETWEEN #{start} AND #{end}")
 	public List<ApartmentVO> apartmentListData(Map map);
+	
+	
+	
+	
 	@Select("SELECT no,area_size,price,floor"
 			+ "address,name,road_name,construct_date"
 			+ "FROM officetel_3"
