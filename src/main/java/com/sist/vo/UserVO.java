@@ -10,7 +10,7 @@ public class UserVO {
 	private String id;
 	private String email;
 	private String password;
-	private String name, user_role,address1,address2,dbday;
-	private int phone,postcode;
+	private String name, userRole,address1,address2,dbday;
+	private Integer phone,postcode;
 	private Date birth,registed_at;
 }

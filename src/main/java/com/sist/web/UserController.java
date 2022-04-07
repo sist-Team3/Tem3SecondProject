@@ -3,6 +3,7 @@ package com.sist.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,11 +27,15 @@ import com.sist.vo.UserVO;
 public class UserController {
 	private UserService userService;
 	private UserValidator userValidator;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public UserController(UserService userService, UserValidator userValidator) {
+	public UserController(UserService userService, 
+						UserValidator userValidator,
+						BCryptPasswordEncoder passwordEncoder) {
 		this.userService = userService;
 		this.userValidator = userValidator;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@InitBinder
@@ -50,7 +55,7 @@ public class UserController {
             return "user/signUp";
         }
         // 검증 성공 시 회원 저장 (비밀번호 인코딩 포함)
-//        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.addUser(user);
         return "user/userOk";
     }
@@ -58,5 +63,9 @@ public class UserController {
 	@ResponseBody
 	public String getAdmin() {
 		return "Admin";
+	}
+	@GetMapping("/signIn.do")
+	public String getSignIn() {
+		return "user/signIn";
 	}
 }
