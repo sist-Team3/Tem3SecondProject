@@ -5,7 +5,7 @@
 }
 
 div.wrapper div.container {
-    width: 1020px;
+    width: 1200px;
     padding-bottom: 80px;
 }
 
@@ -14,10 +14,68 @@ div.wrapper div.container {
     border-top: double;
 }
 
-wrapper2 .pagination {
+.wrapper2 .pagination {
 	
 
 }
-wrapper2 .pagination ul li{
+/* #apartpaging{
+	text-align : center;
+	color : black;
+}
+.wrapper2 .pagination ul li{
+	
+	margin : 13px;
 	display : inline-block;
+	font-size : 17px;
+	color : #fff;
+} */
+#tableup th{
+ color: rgb(101, 101, 101);
+ font-size: 14px;
+ font-weight: 400;
+ height: 52px;
+ line-height: 52px;
+ text-align: center;
+ background-color: rgb(248, 248, 248);
+}
+#tabledown th{
+	color: rgb(101, 101, 101);
+    font-size: 14px;
+    font-weight: 400;
+    vertical-align: middle;
+    height: 50px;
+    text-align: center;
+}
+#apartpaging{
+	text-align : center;
+}
+#apratpaging ul {
+	list-style:none;
+	float:left;
+	display:inline;
+}
+#apartpaging ul li {
+	list-style:none;
+	float:left;
+}
+
+#apartpaging .pagination a {
+	color : black;
+	border: 1px solid #ddd;
+	float : left;
+	padding : 8px 16px ;
+	text-decoration: none;
+	transition : background-color .3s;
+	color : black;
+	
+}
+
+.top-bar{
+	background-color : rgb(31, 45 , 60);
+}
+.navbar-default top-bar affix .navbar-nav li a{
+	color:white;
+}
+.navbar-default a.navbar-brand.dark{
+	color:white;
 }
