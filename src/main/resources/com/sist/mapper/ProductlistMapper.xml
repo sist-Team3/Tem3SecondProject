@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.ProductlistMapper">
+	<!-- 검색 조건 -->
+	<sql id="criteria">
+		<if test="keyword ! = null">
+		 	apartName like '%' || #{keyword} || '%' and
+		 </if>
+	</sql>
+	<!-- 검색 -->
+	<select id="getApartmentlist" resultType="com.sist.vo.ApartmentVO">
+		<![CDATA[
+		    select * from(
+		        select /*+INDEX_DESC(apartment_3 apt_no_pk_3)*/ rownum as rn, no,area_size,price,floor,address,name,road_name,construction_date
+		        from apartment_3
+		        where 
+	    ]]>
+	    
+	    <include refid="criteria"></include>
+	    
+	    <![CDATA[
+	    		        
+		        rownum <= #{pageNum} * #{amount} 
+	        	)
+	        where rn > (#{pageNum} -1) * #{amount}
+		]]>	  		
+	
+	</select>
+	<!-- 상품 총 개수 -->
+	<select id="ApartmentTotal" resultType="int">
+	
+		select count(*) from apartment_3
+		where
+		<include refid="criteria"></include> 
+		no >0
+		
+	</select>
+
+</mapper>

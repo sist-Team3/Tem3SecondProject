@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<link rel="stylesheet" type="text/css" href="../resources/css/content.css">
 </head>
 <body>
 	<section class="banner-sec" id="home">
@@ -15,11 +17,13 @@
 				<h2>
 					<!-- 찾고자하는 조건? -->
 				</h2>
-				<div class="input-group">
-					<input type="text" placeholder="search for" class="form-control"><span
-						class="input-group-btn">
+				<div class="input-group" style="display:inline">
+				 <form id="searchForm" action="/search" method="get">
+					<span class="input-group-btn">
+					<input type="text" placeholder="search for" class="form-control">
 						<button type="button" class="btn btn-search">Search</button>
 					</span>
+					</form>
 				</div>
 			</div>
 		</div>

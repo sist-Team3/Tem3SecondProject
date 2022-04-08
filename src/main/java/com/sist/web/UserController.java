@@ -1,5 +1,6 @@
 package com.sist.web;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sist.security.NaverLoginBO;
 import com.sist.service.UserService;
 import com.sist.validation.UserValidator;
 import com.sist.vo.UserVO;
@@ -28,14 +30,17 @@ public class UserController {
 	private UserService userService;
 	private UserValidator userValidator;
 	private BCryptPasswordEncoder passwordEncoder;
+	private NaverLoginBO naverLoginBO;
 	
 	@Autowired
 	public UserController(UserService userService, 
 						UserValidator userValidator,
-						BCryptPasswordEncoder passwordEncoder) {
+						BCryptPasswordEncoder passwordEncoder,
+						NaverLoginBO naverLoginBO) {
 		this.userService = userService;
 		this.userValidator = userValidator;
 		this.passwordEncoder = passwordEncoder;
+		this.naverLoginBO = naverLoginBO;
 	}
 	
 	@InitBinder
@@ -65,7 +70,12 @@ public class UserController {
 		return "Admin";
 	}
 	@GetMapping("/signIn.do")
-	public String getSignIn() {
+	public String getSignIn(HttpSession session, Model model) {
+        /* 네아로 인증 URL을 생성하기 위하여 getAuthorizationUrl을 호출 */
+        String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+        /* 생성한 인증 URL을 View로 전달 */
+        model.addAttribute("url", naverAuthUrl);
+        
 		return "user/signIn";
 	}
 }
