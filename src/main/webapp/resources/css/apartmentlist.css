@@ -1,0 +1,15 @@
+@charset "UTF-8";
+.wrapper {
+    background-color: #11ffee00;
+    margin-top: 150px;
+}
+
+div.wrapper div.container {
+    width: 1020px;
+    padding-bottom: 80px;
+}
+
+.wrapper .container table {
+    width: 100%;
+    border-top: double;
+}

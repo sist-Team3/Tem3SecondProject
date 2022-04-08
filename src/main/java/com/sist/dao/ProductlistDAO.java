@@ -57,11 +57,5 @@ public class ProductlistDAO {
 	  {
 		  return mapper.villaTotalPage();
 	  }
-		/*
-		 * public int apartmentCount() { return mapper.apartmentCount(); }
-		 * 
-		 * public int officetelCount() { return mapper.officetelCount(); }
-		 * 
-		 * public int villaCount() { return mapper.villaCount(); }
-		 */
+	  
 }
