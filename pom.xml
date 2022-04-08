@@ -553,19 +553,17 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>5.6.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-oauth2-client</artifactId>
-			<version>5.6.0</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>5.6.1</version>
 		</dependency>
+		<dependency>
+		 	<groupId>com.github.scribejava</groupId>
+		 	<artifactId>scribejava-core</artifactId>
+		 	<version>8.3.1</version>
+		 </dependency>
 
 	</dependencies>
 

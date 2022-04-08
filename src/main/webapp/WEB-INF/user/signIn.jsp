@@ -22,5 +22,6 @@
 <%--	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
 	<input type="submit" value="로그인">
 </form>
+<a href="${url}">네이버 로그인</a>
 </body>
 </html>
