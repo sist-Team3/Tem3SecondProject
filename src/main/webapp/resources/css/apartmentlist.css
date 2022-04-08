@@ -13,3 +13,11 @@ div.wrapper div.container {
     width: 100%;
     border-top: double;
 }
+
+wrapper2 .pagination {
+	
+
+}
+wrapper2 .pagination ul li{
+	display : inline-block;
+}
