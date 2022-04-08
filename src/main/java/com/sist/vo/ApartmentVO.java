@@ -10,5 +10,5 @@ import lombok.Setter;
 public class ApartmentVO {
 	private int no,area_size,price,floor,construction_date;
 	private String address,bunji,name,road_name,deal_type,agent_seat;
-	private Date construct_date;
+	private Date construct_date,contract_date;
 }

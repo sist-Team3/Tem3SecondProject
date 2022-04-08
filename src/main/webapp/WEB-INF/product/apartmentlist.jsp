@@ -18,23 +18,28 @@
 				<table class="table">
 					<tr id = "tableup">
 						<th width=5% class="text-center">번호</th>
-						<th width=25% class="text-center">지역</th>
+						<th width=20% class="text-center">지역</th>
 						<th width=15% class="text-center">도로명 주소</th>
 						<th width=20% class="text-center">매물명</th>
-						<th width=10% class="text-center">가격 (단위:만원)</th>
+						<th width=10% class="text-center">가격<br/>(단위:만원)</th>
 						<th width=10% class="text-center">건축년도</th>
-						<th width=10% class="text-center">전용 면적(㎡))</th>
+						<th width=10% class="text-center">전용면적(㎡)</th>
+						<th width=15% class="text-center">거래 일자</th>
+						
 					</tr>
 					<c:forEach var="vo" items="${alist }">
 						<tr id="tabledown">
 							<td width=5% class="text-center">${vo.no }</td>
-							<th width=25% class="text-center">${vo.address }</th>
+							<th width=20% class="text-center">${vo.address }</th>
 							<th width=15% class="text-center">${vo.road_name }</th>
 							<th width=20% class="text-center">${vo.name }</th>							
 							<th width=10% class="text-center"><fmt:formatNumber
 									value="${vo.price }" pattern="#,###" /></th>
 							<th width=10% class="text-center">${vo.construction_date}년</th>
 							<th width=10% class="text-center">${vo.area_size } ㎡</th>
+							<th width=15% class="text-center">
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${vo.contract_date }"/></th>
+							
 						</tr>
 					</c:forEach>
 				</table>
