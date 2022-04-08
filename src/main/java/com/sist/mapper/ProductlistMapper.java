@@ -52,5 +52,14 @@ public interface ProductlistMapper {
 	
 	@Select("SELECT COUNT(*) FROM villa_3") 
 	public int villaCount();
+	
+	// 상품 검색
+	public List<ApartmentVO> getApartmentlist(Criteria cri);
+	
+	//상품 갯수
+	public int ApartmentTotal(Criteria cri);
+	
+	
+	
 	 
 }

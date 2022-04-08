@@ -3,7 +3,10 @@ package com.sist.web;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,15 +14,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sist.dao.ProductlistDAO;
+import com.sist.service.ProductlistService;
 import com.sist.vo.ApartmentVO;
+import com.sist.vo.Criteria;
 import com.sist.vo.OfficetelVO;
 import com.sist.vo.VillaVO;
 
+import lombok.extern.log4j.Log4j;
 
 @Controller
 public class ProductlistController {
 	@Autowired
 	private ProductlistDAO dao; 
+	@Autowired
+	private ProductlistService productlistService;
 	@GetMapping("product/apartmentlist.do")
 	public String apartment_list(String page,Model model)
 	{
@@ -115,5 +123,21 @@ public class ProductlistController {
 		  model.addAttribute("endPage", endPage);
 		  return "product/villalist";
 		 }
-
+	/* 상품 검색 */
+	@GetMapping("search")
+	public String searchApartment(Criteria cri, Model model)
+	{
+		System.out.println("cri : " + cri);
+		List<ApartmentVO> list= productlistService.getApartmentlist(cri);
+		System.out.println("pre list: "+ list);
+		if(!list.isEmpty()) {
+			model.addAttribute("list", list);
+			System.out.println("list : "+ list);
+		}else {
+			model.addAttribute("listcheck", "empty");
+			return "search";
+		}
+		
+		return "search";
+	}
 }
