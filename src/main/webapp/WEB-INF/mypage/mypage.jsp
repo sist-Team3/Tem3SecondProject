@@ -113,8 +113,9 @@ function postFindBtn(){
 	                        	<input type="email" id="email" v-model="user.email"  class="form-control email">
 	                            <a @click="emailSend()" class="btn btn-sm btn-success" id="email_send">이메일 인증</a>
 	                            <div>
-	                            	<input type="number" id="confirm_email" class="form-control email" oninput="telMax(this,6)" style="margin-top: 5px"> 
-	                            	<a @click="emailCheck()" class="btn btn-sm btn-warning" id="emailCk_btn">인증</a>
+	                            	<input type="number" id="confirm_email" class="form-control email" oninput="telMax(this,6)" style="margin-top: 5px" readonly> 
+	                            	<a @click="emailCheck()" class="btn btn-sm btn-warning" id="emailCk_btn" >인증</a>
+	                            	<span id="timer"></span>
 	                            </div>
 	                        </td>
 	                    </tr>
@@ -177,7 +178,7 @@ function postFindBtn(){
 				pwd:{},
 				now_email:'',
 				email_ck:0,
-				email_confirm:'OK'
+				email_confirm:'OK',
 			},
 			mounted:function(){
 				this.getData();
@@ -202,10 +203,12 @@ function postFindBtn(){
 						}
 						
 					})
+						
 				},
 				updateMy:function(){
 					$('span#validation').remove()
 					window.scrollTo(0,200);
+					console.log(this.now_email)
 					if($.trim(this.user.name)=="")
 					{
 						this.validAlert('name','이름을 입력하시오!');
@@ -230,12 +233,20 @@ function postFindBtn(){
 						this.validAlert('postcode','주소를 입력하시오!');
 						return;
 					}
-					this.user.phone=this.tel[0]+this.tel[1]+this.tel[2]
-					if(this.email_confirm!='OK'){
-						this.validAlert('emailCk_btn','&emsp;인증코드를 입력하시오!')
-						$('#confirm_email').focus()
-						return;
+					if(this.now_email!=this.user.email){
+						if(this.email_confirm=='NO'){
+							$('#timer').remove()
+							this.validAlert('email_send','&emsp;이메일 인증을 다시 하시오!')
+							$('#confirm_email').focus()
+							return;
+						}
+						if(this.email_confirm!='OK'){
+							this.validAlert('timer','&emsp;인증코드를 입력하시오!')
+							$('#confirm_email').focus()
+							return;
+						}
 					}
+					this.user.phone=this.tel[0]+this.tel[1]+this.tel[2]
 					axios.post("http://localhost:8080/web/mypage/mypage_update.do",this.user,{
 							headers: {
 			                    "Content-Type": "application/json;charset=utf-8"
@@ -243,7 +254,7 @@ function postFindBtn(){
 					}).then(res=>{
 							console.log(res.data)
 							alert("정보가 수정되었습니다!")
-							location.href='../mypage/main.do'
+							location.href="../mypage/main.do"
 					})
 				},chkPW:function(){
 					 $('span#validation').remove()
@@ -281,10 +292,7 @@ function postFindBtn(){
 						this.validAlert('confirm_pwd','비밀번호를 입력하시오!')
 						return;
 					}
-					if($.trim(this.pwd.change_pwd)==$.trim(this.pwd.now_pwd)){
-						this.validAlert('change_pwd','현재 비밀번호와 같습니다!')
-						return;
-					}
+					
 					if(this.pwd.change_pwd===this.pwd.confirm_pwd){
 						axios.post("http://localhost:8080/web/mypage/mypage_pwd_update.do",JSON.stringify(this.pwd)
 						).then(res=>{
@@ -292,6 +300,10 @@ function postFindBtn(){
 								this.validAlert('now_pwd','비밀번호가 틀렸습니다!')
 								$('#now_pwd').val("")
 							}else{
+								if($.trim(this.pwd.change_pwd)==$.trim(this.pwd.now_pwd)){
+									this.validAlert('change_pwd','현재 비밀번호와 같습니다!')
+									return;
+								}
 								alert("비밀번호가 변경되었습니다.!");
 								location.href="../main/main.do"
 								// 로그아웃생기면 변경
@@ -333,6 +345,7 @@ function postFindBtn(){
 				          alert('이메일 형식으로 입력하시오.');
 				          return;
 				      }
+					this.sendAuthNum();
 					alert("인증번호를 발송했습니다.")
 					$('#confirm_email').attr('readonly',false)
 					this.email_ck=1
@@ -347,27 +360,69 @@ function postFindBtn(){
 				emailCheck:function(){
 					$('span#validation').remove()
 					let code=$('#confirm_email').val()
+					console.log(this.email_ck)
 					if(this.email_ck==0){
 						alert('이메일 인증 버튼을 눌러주세요!')
 						return;
 					}
+					if($('#timer').text()==''){
+						this.validAlert('timer','&emsp;인증시간이 만료되었습니다!')
+						this.email_confirm='NO'
+						return;
+					}
 					if(code==""){
-						this.validAlert('emailCk_btn','&emsp;인증코드를 입력하시오!')
+						this.validAlert('timer','&emsp;인증코드를 입력하시오!')
 						$('#confirm_email').focus()
 						return;
 					}
 					if(code.length<6){
-						this.validAlert('emailCk_btn','&emsp;6자리 인증코드를 입력하시오!')
+						this.validAlert('timer','&emsp;6자리 인증코드를 입력하시오!')
 						$('#confirm_email').focus()
 						return;
 					}
 					if($('#confirm_email').val()==this.email_confirm){
+						clearInterval(timer);
+						$('#timer').text("OK")
 						alert("이메일이 인증 되었습니다!")
 						$('#confirm_email').attr('readonly',true)
 						this.email_confirm='OK'
 						console.log(this.email_confirm)
+					}else{
+						this.validAlert('timer','&emsp;인증번호가 다릅니다!')
+						this.email_confirm='NO'
+						$('#confirm_email').focus()
 					}
 					
+				},
+				sendAuthNum:function(){
+					// 남은 시간
+					var leftSec = 5,
+					display = document.querySelector('#timer');
+					// 이미 타이머가 작동중이면 중지
+					this.startTimer(leftSec, display);
+				},
+				startTimer:function (count, display) {
+					var minutes, seconds;
+					_this = this
+					let _email_confirm=this.email_confirm
+					timer = setInterval(function () {
+						minutes = parseInt(count / 60, 10);
+						seconds = parseInt(count % 60, 10);
+						minutes = minutes < 10 ? "0" + minutes : minutes;
+						seconds = seconds < 10 ? "0" + seconds : seconds;
+						display.textContent = minutes + ":" + seconds;
+						// 타이머 끝
+						if (--count < 0) {
+							console.log('count')
+							$('#confirm_email').attr('readonly',true)
+							$('#email').attr('readonly',false)
+							$('span#validation').remove()
+							display.textContent = '인증시간이 만료되었습니다.'
+							_this.email_ck=0
+							_this.email_confirm='NO'
+							clearInterval(timer)
+						}
+					}, 1000);
 				},
 				validAlert:function(sel,msg){
 					html="<span id='validation' style='color:red;white-space: nowrap;'>"+msg+"</span>"

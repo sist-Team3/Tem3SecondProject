@@ -42,10 +42,10 @@ public class MyPageRestController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@InitBinder
-	public void init(WebDataBinder webDataBinder) {
-		webDataBinder.addValidators(myPageValidator);
-	}
+//	@InitBinder
+//	public void init(WebDataBinder webDataBinder) {
+//		webDataBinder.addValidators(myPageValidator);
+//	}
 	
 	@GetMapping(value ="mypage_vue.do",produces="text/plain;charset=utf-8")
 	public String myPage_main_vue(Model model,HttpSession session) {
@@ -60,7 +60,7 @@ public class MyPageRestController {
 		return result;
 	}
 	@PostMapping(value="mypage_update.do",produces = "text/plain;charset=utf-8")
-	public String myPage_update(@RequestBody @Valid UserVO vo,BindingResult br) {
+	public String myPage_update(@RequestBody  UserVO vo,BindingResult br) {
 			Gson gson = new Gson();
 			if(br.hasErrors()) {
 				List<ObjectError> list = br.getAllErrors();
