@@ -5,6 +5,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript">
+function searchToggle(obj, evt){
+    var container = $(obj).closest('.search-wrapper');
+        if(!container.hasClass('active')){
+            container.addClass('active');
+            evt.preventDefault();
+        }
+        else if(container.hasClass('active') && $(obj).closest('.input-holder').length == 0){
+            container.removeClass('active');
+            // clear input
+            container.find('.search-input').val('');
+        }
+}
+
+</script>
+
 </head>
 <body>
 	<nav class="navbar navbar-default top-bar affix" data-spy="affix"

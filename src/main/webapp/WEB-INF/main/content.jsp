@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" type="text/css" href="../resources/css/content.css">
+<link rel="stylesheet" type="text/css"
+	href="../resources/css/content.css">
 </head>
 <body>
 	<section class="banner-sec" id="home">
@@ -17,14 +18,42 @@
 				<h2>
 					<!-- 찾고자하는 조건? -->
 				</h2>
-				<div class="input-group" style="display:inline">
-				 <form id="searchForm" action="/search" method="get">
-					<span class="input-group-btn">
-					<input type="text" placeholder="search for" class="form-control">
-						<button type="button" class="btn btn-search">Search</button>
-					</span>
-					</form>
+				<div class="search-wrapper">
+					<div class="search-category">
+						<select class="form-control search-category" name="searchCategory"
+							id="search_main_cate_sel">
+							<option ${category ==4?'selected': '' } value="4">통합검색</option>
+							<option ${category ==1?'selected': '' } value="1">아파트</option>
+							<option ${category ==2?'selected': '' } value="2">연립/다세대</option>
+							<option ${category ==3?'selected': '' } value="3">오피스텔</option>
+						</select>
+					</div>
+					<div class="input-holder">
+						<input type="text" class="search-input"
+							placeholder="Type to search" />
+						<button class="search-icon" onclick="searchToggle(this, event);">
+							<span></span>
+						</button>
+					</div>
+					<span class="close" onclick="searchToggle(this, event);"></span>
 				</div>
+				<%-- 			<form id="searchForm" action="/search" method="get">
+				<div class="form-group search-group">
+					<select class="form-control search-category" name="searchCategory" id="search_main_cate_sel">
+						<option ${category ==4?'selected': '' } value="4">통합검색</option>
+						<option ${category ==1?'selected': '' } value="1">아파트</option>
+						<option ${category ==2?'selected': '' } value="2">연립/다세대</option>
+						<option ${category ==3?'selected': '' } value="3">오피스텔</option>
+					</select>
+					 <div class="input-group" id="search_opt_list">
+						<input type="text" class="form-control search-input" id="keyword" name="keyword" placeholder="검색어를 입력해주세요.." value="${keyword }">
+					 </div>
+						<button type="button" class="btn btn-default search-button"
+							id="search-button" onclick="searchMain()">
+							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+						</button>
+					</div>
+			</form> --%>
 			</div>
 		</div>
 	</section>
@@ -73,6 +102,6 @@
 				<p class="lead"></p>
 			</div>
 		</div>
-	</section>	
+	</section>
 </body>
 </html>
