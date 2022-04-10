@@ -30,13 +30,13 @@
 					</tr>
 						<tr id="tabledown" v-for="vo in apartment_list">
 							<td width=5% class="text-center">{{vo.no }}</td>
-							<th width=20% class="text-center">{{vo.address }}</th>
-							<th width=15% class="text-center">{{vo.road_name }}</th>
-							<th width=20% class="text-center">{{vo.name }}</th>							
-							<th width=10% class="text-center">{{vo.price}}</th>
-							<!-- <th width=10% class="text-center">{{vo.construction_date}}년</th> -->
-							<th width=10% class="text-center">{{vo.area_size }} ㎡</th>
-							<th width=15% class="text-center">{{vo.contract_date }}</th>
+							<td width=20% class="text-center">{{vo.address }}</td>
+							<td width=15% class="text-center">{{vo.road_name }}</td>
+							<td width=20% class="text-center">{{vo.name }}</td>							
+							<td width=10% class="text-center">{{vo.price | currency}}</td>
+							 <td width=10% class="text-center">{{vo.construction_date}}년</td>
+							<td width=10% class="text-center">{{vo.area_size }} ㎡</td>
+							<td width=15% class="text-center">{{vo.contract_date | yyyyMMdd}}</td>
 						</tr> 
 				</table>
 				<div class = "wrapper2" id= "apartpaging">
@@ -71,6 +71,31 @@
     		pageList:[],
     		fd:''
     	},
+	    filters: {  
+	        
+
+    filters: {
+	       currency: function(value) {
+	       var num = new Number(value);
+	       return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+	        }
+	    },
+		yyyyMMdd : function(value){ 
+	         
+	          if(value == '') return '';
+	          var js_date = new Date(value);
+	          var year = js_date.getFullYear();
+	          var month = js_date.getMonth() + 1;
+	          var day = js_date.getDate();
+	          if(month < 10){
+	          	month = '0' + month;
+	          }
+	          if(day < 10){
+	          	day = '0' + day;
+	          }
+	          return year + '-' + month + '-' + day;
+		}
+	},
     	mounted:function(){
     		this.apartmentlistData(this.curpage);
     	},
@@ -114,7 +139,6 @@
 				}
     			return list
     		},
-    		
     	}
     })
   </script>
