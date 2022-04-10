@@ -57,5 +57,13 @@ public class ProductlistDAO {
 	  {
 		  return mapper.villaTotalPage();
 	  }
+	  public List<ApartmentVO> apartmentFindData(Map map)
+	  {
+		  return mapper.apartmentFindData(map);
+	  }
+	  public int apartmentFindTotalpage(String fd)
+	  {
+		 return mapper.apartmentFindTotalpage(fd);
+	  }
 	  
 }

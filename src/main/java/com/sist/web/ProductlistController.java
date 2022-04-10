@@ -123,21 +123,5 @@ public class ProductlistController {
 		  model.addAttribute("endPage", endPage);
 		  return "product/villalist";
 		 }
-	/* 상품 검색 */
-	@GetMapping("search")
-	public String searchApartment(Criteria cri, Model model)
-	{
-		System.out.println("cri : " + cri);
-		List<ApartmentVO> list= productlistService.getApartmentlist(cri);
-		System.out.println("pre list: "+ list);
-		if(!list.isEmpty()) {
-			model.addAttribute("list", list);
-			System.out.println("list : "+ list);
-		}else {
-			model.addAttribute("listcheck", "empty");
-			return "search";
-		}
-		
-		return "search";
-	}
+
 }

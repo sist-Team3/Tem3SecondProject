@@ -8,11 +8,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../resources/css/apartmentlist.css">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="http://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
 
+	
+       
 	<div class="wrapper">
+		<main class="container clear">
 		<div class="container" id="apartmentlist">
 			<div class="row">
 				<table class="table">
@@ -67,9 +72,58 @@
 					</ul>
 				</nav>				
 			</div>
+					<div class="heading">
+						<input type=text size=20 class="input-sm" style="float: left" v-model="fd" :value="fd">
+						 <input type=button value="검색"	class="btn btn-sm btn-danger" v-on:click="find()">
+					</div>
+				</div>
 			</div>
 		<div class="clear"></div>
+		</main>
 		</div>
-	</div>
+	
+		<script>
+    new Vue({
+    	el:'.container',
+    	data:{
+    		apartment_list:[],
+    		curpage:1,
+    		totalpage:0,
+    		fd:''
+    	},
+    	mounted:function(){
+    		this.apartmentlistData();
+    	},
+    	methods:{
+    		apartmentlistData:function(){
+    			let _this=this;
+    			axios.get("http://localhost:8080/web/product/apartmentlist_vue.do",{
+    				params:{
+    					page:_this.curpage,
+    					fd:_this.fd
+    				}
+    			// then(res=>{})
+    			}).then(function(res){
+    				console.log(res.data)
+    				_this.apartment_list=res.data;
+    				_this.curpage=res.data[0].curpage;
+    				_this.totalpage=res.data[0].totalpage;
+    			})
+    		},
+    		prev:function(){
+    			this.curpage=this.curpage>1?this.curpage-1:this.curpage;
+    			this.apartmentlistData();
+    		},
+    		next:function(){
+    			this.curpage=this.curpage<this.totalpage?this.curpage+1:this.curpage;
+    			this.apartmentlistData();
+    		},
+    		find:function(){
+    			this.curpage=1;
+    			this.apartmentlistData();
+    		}
+    	}
+    })
+  </script>
 </body>
 </html>
