@@ -6,14 +6,27 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-<script>
-	
+<script type="text/javascript">
+function searchToggle(){
+    let form = $('#searchForm')
+    let category= $('select[name=searchCategory] option:selected').val()
+    let fd=$('#searchFd').val()
+    if(category=='1'){
+    	$('#searchForm').attr('action','../product/apartmentlist.do')
+    }else if(category=='2'){
+    	actionURL = ''
+    }else if(category=='3'){
+    	actionURL = ''
+    }else{
+    	$('#searchForm').attr('action','../product/apartmentlist.do')
+    }
+    form.submit();
+}
 </script>
-<link rel="stylesheet" type="text/css"
-	href="../resources/css/content.css">
+<link rel="stylesheet" type="text/css" href="../resources/css/content.css">
 </head>
 <body>
-	<section class="banner-sec" id="home">
+	<section class="banner-sec" id="home" >
 		<div class="container">
 			<div class="jumbotron">
 				<h1>어떤 집을 찾고 계세요?</h1>
@@ -21,24 +34,24 @@
 				<h2>
 					<!-- 찾고자하는 조건? -->
 				</h2>
-				<div class="search-wrapper">
-					<div class="search-category">
-						<select class="form-control search-category" name="searchCategory"
-							id="search_main_cate_sel">
-							<option ${category ==4?'selected': '' } value="4">통합검색</option>
-							<option ${category ==1?'selected': '' } value="1">아파트</option>
-							<option ${category ==2?'selected': '' } value="2">연립/다세대</option>
-							<option ${category ==3?'selected': '' } value="3">오피스텔</option>
-						</select>
-					</div>
-					<div class="input-holder">
-						<input type="text" class="search-input"
-							placeholder="Type to search" />
-						<button class="search-icon" onclick="searchToggle(this, event);">
-							<span></span>
-						</button>
-					</div>
-					<span class="close" onclick="searchToggle(this, event);"></span>
+				<div class="search-wrapper active">
+					<form id ="searchForm" method="GET" action="" >
+						<div class="search-category">
+							<select class="form-control search-category" name="searchCategory"
+								id="search_main_cate_sel" >
+								<option ${category ==4?'selected': '' } value="4">통합검색</option>
+								<option ${category ==1?'selected': '' } value="1">아파트</option>
+								<option ${category ==2?'selected': '' } value="2">연립/다세대</option>
+								<option ${category ==3?'selected': '' } value="3">오피스텔</option>
+							</select>
+						</div>
+						<div class="input-holder">
+							<input type="text" class="search-input" name="fd" placeholder="Type to search" id="searchFd"/>
+							<button class="search-icon" onclick="searchToggle();">
+								<span></span>
+							</button>
+						</div>
+					</form>
 				</div>
 				<%-- 			<form id="searchForm" action="/search" method="get">
 				<div class="form-group search-group">

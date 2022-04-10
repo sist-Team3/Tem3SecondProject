@@ -61,6 +61,7 @@ public class MyPageRestController {
 	}
 	@PostMapping(value="mypage_update.do",produces = "text/plain;charset=utf-8")
 	public String myPage_update(@RequestBody  UserVO vo,BindingResult br) {
+			System.out.println(vo);
 			Gson gson = new Gson();
 			if(br.hasErrors()) {
 				List<ObjectError> list = br.getAllErrors();
@@ -142,9 +143,9 @@ public class MyPageRestController {
             // true는 html을 사용하겠다는 의미입니다.
             
             // application-context - <property name="password" value=""/>  value에 비밀번호 넣어야 전송됨
-//            mailSender.send(mail); 
+            mailSender.send(mail); 
             
-            obj.put("code",123456);
+            obj.put("code",checkNum);
             
         } catch(Exception e) {
             e.printStackTrace();

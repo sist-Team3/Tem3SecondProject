@@ -2,6 +2,7 @@
 .wrapper {
     background-color: #11ffee00;
     margin-top: 150px;
+    min-height: 850px;
 }
 
 div.wrapper div.container {
@@ -79,4 +80,10 @@ div.wrapper div.container {
 }
 .navbar-default a.navbar-brand.dark{
 	color:white;
+}
+#apartpaging ul li.currentRed{
+	background-color: #dedede;
+}
+#apartpaging ul li.currentRed a{
+	color:red;
 }

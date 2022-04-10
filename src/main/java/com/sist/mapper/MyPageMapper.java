@@ -13,7 +13,7 @@ public interface MyPageMapper {
 			+ "WHERE id=#{id}")
 	public UserVO getUserData(String id);
 	// 정보 수정
-	@Update("UPDATE users_3 SET name=#{name},birth=TO_DATE(#{dbday},'YYYY-MM-DD'),phone=#{phone},postcode=#{postcode},address1=#{address1},address2=#{address2} "
+	@Update("UPDATE users_3 SET name=#{name},birth=TO_DATE(#{dbday},'YYYY-MM-DD'),phone=#{phone},email=#{email},postcode=#{postcode},address1=#{address1},address2=#{address2} "
 			+ "WHERE id=#{id}")
 	public void updateUserData(UserVO vo);
 	// 비밀번호 가져오기

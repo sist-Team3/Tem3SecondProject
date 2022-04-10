@@ -396,7 +396,7 @@ function postFindBtn(){
 				},
 				sendAuthNum:function(){
 					// 남은 시간
-					var leftSec = 5,
+					var leftSec = 180,
 					display = document.querySelector('#timer');
 					// 이미 타이머가 작동중이면 중지
 					this.startTimer(leftSec, display);

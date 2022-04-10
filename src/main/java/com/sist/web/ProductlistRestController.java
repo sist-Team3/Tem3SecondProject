@@ -27,11 +27,10 @@ public class ProductlistRestController {
   	  {
 
   		 int curpage=page;
- 		System.out.println(curpage);
   		 int rowSize=20;
   		 int start=(rowSize*curpage)-(rowSize-1);
   		 int end=rowSize*curpage;
-  		 System.out.println("fd= "+fd);
+  		 System.out.println("Restfd= "+fd);
   		 Map map=new HashMap();
   		 map.put("start", start);
   		 map.put("end", end);
@@ -44,6 +43,8 @@ public class ProductlistRestController {
   		final int BLOCK=10;
  		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
  		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+ 		if(endPage>totalpage)
+ 			endPage=totalpage;
   		 JSONArray arr=new JSONArray();
   		 int i=0;
   		 for(ApartmentVO vo:list)
@@ -68,8 +69,6 @@ public class ProductlistRestController {
   			 i++;
   		 }
   		 result=gson.toJson(arr);
-  		 System.out.println(startPage);
-  		 System.out.println(endPage);
   	  }catch(Exception ex){
   		  ex.printStackTrace();
   	  }

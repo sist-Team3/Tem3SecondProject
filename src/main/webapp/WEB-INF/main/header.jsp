@@ -5,23 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<script type="text/javascript">
-function searchToggle(obj, evt){
-    var container = $(obj).closest('.search-wrapper');
-        if(!container.hasClass('active')){
-            container.addClass('active');
-            evt.preventDefault();
-        }
-        else if(container.hasClass('active') && $(obj).closest('.input-holder').length == 0){
-            container.removeClass('active');
-            // clear input
-            container.find('.search-input').val('');
-        }
-}
-
-</script>
-
 </head>
 <body>
 	<nav class="navbar navbar-default top-bar affix" data-spy="affix"
@@ -34,7 +17,7 @@ function searchToggle(obj, evt){
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a href="#home" class="navbar-brand">LRoom</a>
+				<a href="../main/main.do" class="navbar-brand">LRoom</a>
 			</div>
 			<div id="bs-example-navbar-collapse-1"
 				class="collapse navbar-collapse">

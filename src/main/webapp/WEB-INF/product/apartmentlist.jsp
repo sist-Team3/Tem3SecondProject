@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="../resources/css/apartmentlist.css">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -43,13 +44,13 @@
 				<nav class="pagination">
 					<ul>
 						<li v-if="startPage!=1"><a @click="prev()">&laquo;</a></li>
-							<li v-for="i in pageList"><a @click="apartmentlistData(i)">{{i }}</a></li>
+							<li v-for="i in pageList" :class="i==curpage?{currentRed: isActive}:{currentRed:false}" ><a @click="apartmentlistData(i)">{{i }}</a></li>
 						<li v-if="endPage<totalpage"><a @click="next()">&raquo;</a></li> 
 					</ul> 
 				</nav>				
 			</div>
 					<div class="heading">
-						<input type=text size=20 class="input-sm" style="float: left" v-model="fd" :value="fd">
+						<input type=text size=20 class="input-sm" id="searchfd" style="float: left" v-model="fd" value="${fd }">
 						 <input type=button value="검색"	class="btn btn-sm btn-danger" @click="findApart()">
 					</div>
 				</div>
@@ -57,7 +58,6 @@
 		<div class="clear"></div>
 		</main>
 		</div>
-	
 		<script>
 		axios.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8"
     new Vue({
@@ -69,19 +69,15 @@
     		startPage:1,
     		endPage:10,
     		pageList:[],
-    		fd:''
+    		fd:$('#searchfd').val(),
+    		isActive:true
     	},
-	    filters: {  
-	        
-
-    filters: {
+    	filters: {
 	       currency: function(value) {
 	       var num = new Number(value);
 	       return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
-	        }
-	    },
-		yyyyMMdd : function(value){ 
-	         
+	        },
+			yyyyMMdd : function(value){ 
 	          if(value == '') return '';
 	          var js_date = new Date(value);
 	          var year = js_date.getFullYear();
@@ -94,8 +90,8 @@
 	          	day = '0' + day;
 	          }
 	          return year + '-' + month + '-' + day;
-		}
-	},
+			}
+		},
     	mounted:function(){
     		this.apartmentlistData(this.curpage);
     	},
@@ -103,6 +99,7 @@
     		apartmentlistData:function(page){
     			console.log('apart')
     			let _this=this;
+    			console.log($('#searchfd').val())
     			axios.get("http://localhost:8080/web/product/apartmentlist_vue.do",{
     				params:{
     					page: page,
@@ -117,6 +114,7 @@
     				_this.startPage=res.data[0].startPage
     				_this.endPage=res.data[0].endPage;
     				_this.pageList=_this.pagingSet()
+    				
     			})
     		},
     		prev:function(){

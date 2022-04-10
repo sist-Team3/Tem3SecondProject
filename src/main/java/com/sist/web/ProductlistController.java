@@ -29,8 +29,11 @@ public class ProductlistController {
 	@Autowired
 	private ProductlistService productlistService;
 	@GetMapping("product/apartmentlist.do")
-	public String apartment_list(String page,Model model)
+	public String apartment_list(String page,String fd,Model model)
 	{
+		System.out.println("contFd= "+fd);
+		if(fd==null)
+			fd="";
 		if(page==null)
 			  page="1"; //default page 
 		  int curpage=Integer.parseInt(page);
@@ -53,6 +56,7 @@ public class ProductlistController {
 			  endPage=totalpage;
 		  
 		  // JSP 전송 
+		  model.addAttribute("fd", fd);
 		  model.addAttribute("curpage", curpage);
 		  model.addAttribute("totalpage", totalpage);
 		  model.addAttribute("alist", alist);
