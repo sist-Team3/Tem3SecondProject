@@ -14,10 +14,19 @@ div.wrapper div.container {
     border-top: double;
 }
 
-wrapper2 .pagination {
+.wrapper2 .pagination {
 	
 
 }
-wrapper2 .pagination ul li{
+.wrapper2 .pagination ul li{
 	display : inline-block;
+}
+.top-bar{
+	background-color: rgb(31, 45, 60);
+}
+.navbar-default.affix .navbar-nav li a{
+	color:white;
+}
+.navbar-default a.navbar-brand.dark{
+	color:white;
 }

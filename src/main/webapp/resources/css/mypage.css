@@ -270,6 +270,9 @@ span.right-half-box {
     width: 400px;
 	margin: 10px 0 0 15px;
 }
+.navbar-default a.navbar-brand.dark{
+	color:white;
+}
 /* 회원탈퇴 모달 창 */
 .modal {
   display: flex;

@@ -9,9 +9,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../resources/css/apartmentlist.css">
 </head>
-
 <body>
-
 	<div class="wrapper">
 		<div class="container" id="apartmentlist">
 			<div class="row">
