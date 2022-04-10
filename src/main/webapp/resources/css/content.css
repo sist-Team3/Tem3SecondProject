@@ -66,6 +66,7 @@ body {
 .search-wrapper.active .input-holder .search-input {
     opacity: 1;
     transform: translate(0, 10px);
+    color: black;
 }
 .search-wrapper .input-holder .search-icon {
     width:70px;

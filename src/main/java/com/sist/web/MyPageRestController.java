@@ -56,7 +56,7 @@ public class MyPageRestController {
 		vo.setId("kim1");
 		Gson gson = new Gson();
 		result=gson.toJson(vo);
-		
+		System.out.println(result);
 		return result;
 	}
 	@PostMapping(value="mypage_update.do",produces = "text/plain;charset=utf-8")

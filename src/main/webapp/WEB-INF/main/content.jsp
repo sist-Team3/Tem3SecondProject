@@ -5,7 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script>
+	
+</script>
 <link rel="stylesheet" type="text/css"
 	href="../resources/css/content.css">
 </head>

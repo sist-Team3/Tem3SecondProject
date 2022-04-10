@@ -64,15 +64,15 @@ public interface ProductlistMapper {
 	public int ApartmentTotal(Criteria cri);
 	
     @Select("SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,num "
-				  +"FROM (SELECT no,area_size,price,floor,address,name,road_name,construction_year,contract_date,rownum as num  "
+				  +"FROM (SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,rownum as num  "
 				  +"FROM (SELECT /*+INDEX_ASC(apartment_3 apt_no_pk_3)*/no,area_size,price,floor,address,name,construction_date,contract_date,road_name  "
 				  +"FROM apartment_3 "
 				  +"WHERE address LIKE '%'||#{fd}||'%')) "
 				  +"WHERE num BETWEEN #{start} AND #{end}")
     // #{address} => map.get("address")
     public List<ApartmentVO> apartmentFindData(Map map);
-	@Select("SELECT CEIL(COUNT(*)/20.0"
-			+ "FROM apartment_3"
+	@Select("SELECT CEIL(COUNT(*)/20.0) "
+			+ "FROM apartment_3 "
 			+ "WHERE address LIKE '%'||#{fd}||'%'")
 	public int apartmentFindTotalpage(String fd);
 	

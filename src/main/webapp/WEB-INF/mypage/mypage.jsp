@@ -187,7 +187,7 @@ function postFindBtn(){
 				getData:function(){
 					axios.get("http://localhost:8080/web/mypage/mypage_vue.do",{
 					}).then(res=>{
-						console.log(res.data)
+						console.log(res)
 						this.user=res.data
 						this.now_email=res.data.email
 						let tmp = String(res.data.phone)

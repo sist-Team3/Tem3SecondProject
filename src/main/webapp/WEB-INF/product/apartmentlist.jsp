@@ -28,49 +28,29 @@
 						<th width=15% class="text-center">거래 일자</th>
 						
 					</tr>
-					<c:forEach var="vo" items="${alist }">
-						<tr id="tabledown">
-							<td width=5% class="text-center">${vo.no }</td>
-							<th width=20% class="text-center">${vo.address }</th>
-							<th width=15% class="text-center">${vo.road_name }</th>
-							<th width=20% class="text-center">${vo.name }</th>							
-							<th width=10% class="text-center"><fmt:formatNumber
-									value="${vo.price }" pattern="#,###" /></th>
-							<th width=10% class="text-center">${vo.construction_date}년</th>
-							<th width=10% class="text-center">${vo.area_size } ㎡</th>
-							<th width=15% class="text-center">
-							<fmt:formatDate pattern="yyyy-MM-dd" value="${vo.contract_date }"/></th>
-							
-						</tr>
-					</c:forEach>
+						<tr id="tabledown" v-for="vo in apartment_list">
+							<td width=5% class="text-center">{{vo.no }}</td>
+							<th width=20% class="text-center">{{vo.address }}</th>
+							<th width=15% class="text-center">{{vo.road_name }}</th>
+							<th width=20% class="text-center">{{vo.name }}</th>							
+							<th width=10% class="text-center">{{vo.price}}</th>
+							<!-- <th width=10% class="text-center">{{vo.construction_date}}년</th> -->
+							<th width=10% class="text-center">{{vo.area_size }} ㎡</th>
+							<th width=15% class="text-center">{{vo.contract_date }}</th>
+						</tr> 
 				</table>
 				<div class = "wrapper2" id= "apartpaging">
 				<nav class="pagination">
 					<ul>
-						<c:if test="${startPage>1 }">
-							<li><a href="../product/apartmentlist.do?page=${startPage-1 }">&laquo;
-									</a></li>
-						</c:if>
-						<c:forEach var="i" begin="${startPage }" end="${endPage }">
-							<c:if test="${i==curpage }">
-								<c:set var="style" value="class=current" />
-							</c:if>
-							<c:if test="${i!=curpage }">
-								<c:set var="style" value="" />
-							</c:if>
-							<li ${style }><a href="../product/apartmentlist.do?page=${i }">${i }</a></li>
-						</c:forEach>
-
-						<c:if test="${endPage<totalpage }">
-							<li><a href="../product/apartmentlist.do?page=${endPage+1 }">
-									&raquo;</a></li>
-						</c:if>
-					</ul>
+						<li v-if="startPage!=1"><a @click="prev()">&laquo;</a></li>
+							<li v-for="i in pageList"><a @click="apartmentlistData(i)">{{i }}</a></li>
+						<li v-if="endPage<totalpage"><a @click="next()">&raquo;</a></li> 
+					</ul> 
 				</nav>				
 			</div>
 					<div class="heading">
 						<input type=text size=20 class="input-sm" style="float: left" v-model="fd" :value="fd">
-						 <input type=button value="검색"	class="btn btn-sm btn-danger" v-on:click="find()">
+						 <input type=button value="검색"	class="btn btn-sm btn-danger" @click="findApart()">
 					</div>
 				</div>
 			</div>
@@ -79,45 +59,62 @@
 		</div>
 	
 		<script>
+		axios.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8"
     new Vue({
-    	el:'.container',
+    	el:'.wrapper',
     	data:{
     		apartment_list:[],
     		curpage:1,
     		totalpage:0,
+    		startPage:1,
+    		endPage:10,
+    		pageList:[],
     		fd:''
     	},
     	mounted:function(){
-    		this.apartmentlistData();
+    		this.apartmentlistData(this.curpage);
     	},
     	methods:{
-    		apartmentlistData:function(){
+    		apartmentlistData:function(page){
+    			console.log('apart')
     			let _this=this;
     			axios.get("http://localhost:8080/web/product/apartmentlist_vue.do",{
     				params:{
-    					page:_this.curpage,
+    					page: page,
     					fd:_this.fd
     				}
     			// then(res=>{})
     			}).then(function(res){
-    				console.log(res.data)
+    				console.log(res)
     				_this.apartment_list=res.data;
     				_this.curpage=res.data[0].curpage;
     				_this.totalpage=res.data[0].totalpage;
+    				_this.startPage=res.data[0].startPage
+    				_this.endPage=res.data[0].endPage;
+    				_this.pageList=_this.pagingSet()
     			})
     		},
     		prev:function(){
-    			this.curpage=this.curpage>1?this.curpage-1:this.curpage;
-    			this.apartmentlistData();
+    			this.curpage=this.curpage>1?this.startPage-1:this.curpage;
+    			this.apartmentlistData(this.curpage);
     		},
     		next:function(){
-    			this.curpage=this.curpage<this.totalpage?this.curpage+1:this.curpage;
-    			this.apartmentlistData();
+    			
+    			this.curpage=this.curpage<this.totalpage?this.endPage+1:this.curpage;
+    			this.apartmentlistData(this.curpage);
     		},
-    		find:function(){
+    		findApart:function(){
     			this.curpage=1;
-    			this.apartmentlistData();
-    		}
+    			this.apartmentlistData(this.curpage);
+    		},
+    		pagingSet:function(){
+    			let list=[]
+    			for(let i=this.startPage; i<=this.endPage;i++){
+					list.push(i)
+				}
+    			return list
+    		},
+    		
     	}
     })
   </script>
