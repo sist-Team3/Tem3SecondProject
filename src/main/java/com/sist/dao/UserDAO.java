@@ -21,4 +21,7 @@ public class UserDAO {
 	public UserVO findUserByEmail(String email) {
 		return userMapper.findByEmail(email);
 	}
+	public boolean isUserByEmail(String email) {
+		return userMapper.findByEmail(email) != null ? true : false;
+	}
 }
