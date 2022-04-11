@@ -314,3 +314,6 @@ span.right-half-box {
 #modal_btn #btn_modal_close{
 	margin-left:6px;
 }
+
+.modal-address { display: none; position: fixed; z-index: 20000; left: 25%; width: 50%; padding: 20px; border: 1px solid #333; background-color: white; border-radius: 20px; } .popup-wrap { border: 1px solid #333; }
+

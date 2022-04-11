@@ -38,6 +38,12 @@ function telMax(el, maxlength) {
       = el.value.substr(0, maxlength);
   }
 }
+let element_wrap=$('#wrap')
+function foldDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element_wrap.css('display', 'none');
+}
+
 function postFindBtn(){
 	$('#address2').val('')
 	new daum.Postcode({
@@ -134,6 +140,9 @@ function postFindBtn(){
 	                            </div>
 	                            <div class="row">
 	                                <input type=text v-model="user.address2" class="form-control address2">
+	                            </div>
+	                            <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+	                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
 	                            </div>
 	                        </td>
 	                    </tr>
