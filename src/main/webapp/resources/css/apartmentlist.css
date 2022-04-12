@@ -91,15 +91,57 @@ div.wrapper div.container {
 {
 	vertical-align: middle;
 }
+ .search-option
+ {
+  height : 50px  ;
+ }
 .search-option1
 {
-	border-style : groove;
-	width : 24%;
+	position: relative;
+	left : 0px;
+	top : -320px;
+    border : 2pt solid #D3D3D3; 
+	border-radius : 5px;
+	width : 26%;
+    padding : 2px;
+    background-color : #FFFAFA; 
 }
 .search-option2
 {
-	border-style : groove;
- 	width : 24%; 
+	position: relative;
+	left : 0px;
+	top : -320px;
+    border : 2pt solid #D3D3D3; 
+	border-radius : 5px;
+	width : 26%;
+    padding : 2px;
+    background-color : #FFFAFA; 
+}
+.search-sort
+{
+    position: relative;
+	left : 0px;
+	top : -320px;
+    border : 2pt solid #D3D3D3; 
+	border-radius : 5px;
+	width : 26%;
+    padding : 2px;
+    background-color : #FFFAFA; 
+}
+.search-option3
+{
+	position: relative;
+	right : 100 px;
+	top : -20px;
+ 
+ 
+}
+#search-text
+{
+	position : relative;
+    right : 150px;
+    top : 30px;
+    
 }
 #searchfd
 {
@@ -118,11 +160,6 @@ line-height : 25px;
 list-style-type : none;
 
 }
-.search-sort
-{
-	border-style : groove;
-	width : 24%;
-}
 #search-sort1
 {
 
@@ -134,7 +171,7 @@ list-style-type : none;
 	line-height : 25px;
  	padding : 0px 0px 0px 30px;
 }
-b
+#sc
 {
 	margin : 15px 0px 15px 0px;
 }

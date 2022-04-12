@@ -4,6 +4,7 @@ import java.util.*;
 import com.sist.vo.*;
 
 import org.apache.ibatis.annotations.Select;
+import org.junit.platform.suite.api.SelectClasses;
 
 public interface ProductlistMapper {
 	/*
@@ -75,6 +76,12 @@ public interface ProductlistMapper {
 			+ "FROM apartment_3 "
 			+ "WHERE address LIKE '%'||#{fd}||'%'")
 	public int apartmentFindTotalpage(String fd);
-	
+	// 지도로 찾기
+	@Select("SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,num "
+			+ "FROM (SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date "
+			+ "FROM apartment3"
+			+ "WHERE address LIKE '%'||#{address}||'%' "
+			+ "WHERE rownum<=20")
+	public List<ApartmentVO> apartmentMapFindData(String address);
 	 
 }
