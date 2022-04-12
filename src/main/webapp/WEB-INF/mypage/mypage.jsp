@@ -31,6 +31,19 @@ $(function(){
 	openButton.addEventListener("click", displayModal);
 	closeButton.addEventListener("click", displayModal)
 	modalBackground.addEventListener("click", displayModal);
+	
+	$( "#slider-range" ).slider({
+	      range: true,
+	      min: 0,
+	      max: 500,
+	      values: [ 75, 300 ],
+	      slide: function( event, ui ) {
+	        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+	      }
+	    });
+	    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+	      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+	  
 })
 function telMax(el, maxlength) {
   if(el.value.length > maxlength)  {
@@ -86,6 +99,12 @@ function postFindBtn(){
 	                    <tr>
 	                        <th>* 이름</th>
 	                        <td colspan="3">
+	                        <p>
+							  <label for="amount">Price range:</label>
+							  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+							</p>
+							 
+							<div id="slider-range"></div>
 	                            <input type="text" id="name" class="form-control name" v-model="user.name"  maxlength="20">
 	                        </td>
 	                    </tr>
