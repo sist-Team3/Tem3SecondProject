@@ -34,7 +34,7 @@ public class MyPageRestController {
 	private JavaMailSender mailSender;
 	
 	@GetMapping(value ="mypage_vue.do",produces="text/plain;charset=utf-8")
-	public String myPage_main_vue(Model model,HttpSession session) {
+	public String myPage_main_vue() {
 		String result="";
 		String email = uService.getLoggedUserName();
 		UserVO vo = dao.getUserData(email);
@@ -48,8 +48,9 @@ public class MyPageRestController {
 			vo.setPhone("01000000000");
 			vo.setAddress1("서울시");
 		}
-		vo.setAddress1("서울시");
-		vo.setPostcode(12345);
+		if(vo.getAddress2()==null) {
+			vo.setAddress2("");
+		}
 		Gson gson = new Gson();
 		result=gson.toJson(vo);
 		return result;
@@ -57,24 +58,30 @@ public class MyPageRestController {
 	@PostMapping(value="mypage_update.do",produces = "text/plain;charset=utf-8")
 	public String myPage_update(@RequestBody  UserVO vo) {
 		Gson gson = new Gson();
+		String email = uService.getLoggedUserName();
 		try {
 			System.out.println(vo);
 			if(vo.getAddress2()==null)
 				vo.setAddress2("");
 			dao.updateUserData(vo);
+			String db_pwd=dao.getPwd(email);
+			// 새로운 email로 update가 필요
+//			uService.updateLoggedUserName(vo.getEmail(), db_pwd);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return gson.toJson(vo);
 	}
 	@PostMapping(value="mypage_pwd_update.do",produces = "text/plain;charset=utf-8")
-	public String myPage_pwd_update(@RequestBody String pwd,HttpSession session) {
+	public String myPage_pwd_update(@RequestBody String pwd) {
+		String email = uService.getLoggedUserName();
 		String result="";
-		String id = (String)session.getAttribute("id");
 		Gson gson = new Gson();
 		Map<String,Object> map = gson.fromJson(pwd, Map.class);
-		String db_pwd=dao.getPwd("kim1");
-		if(db_pwd.equals(map.get("now_pwd"))) {
+		// db에서 password 바꿔서 가져오기
+		String db_pwd=dao.getPwd(email);
+		System.out.println(map.get("now_pwd"));
+		if(db_pwd.equals(map.get("now_pwd").toString())) {
 			Map<String, Object> cMap = new HashMap<String, Object>();
 			cMap.put("pwd",map.get("change_pwd"));
 			cMap.put("id","kim1");
@@ -88,10 +95,10 @@ public class MyPageRestController {
 	@PostMapping(value="mypage_delete.do",produces = "text/plain;charset=utf-8")
 	public String mypage_delete(@RequestBody String pwd,HttpSession session) {
 		String result="";
-		String id = (String)session.getAttribute("id");
-		String db_pwd=dao.getPwd("kim1");
+		String email = uService.getLoggedUserName();
+		String db_pwd=dao.getPwd(email);
 		if(db_pwd.equals(pwd)) {
-			dao.deleteUser("kim1");
+			dao.deleteUser(email);
 			result="YES";
 		}else {
 			result="NO";
@@ -134,9 +141,9 @@ public class MyPageRestController {
             // true는 html을 사용하겠다는 의미입니다.
             
             // application-context - <property name="password" value=""/>  value에 비밀번호 넣어야 전송됨
-            mailSender.send(mail); 
+            //mailSender.send(mail); 
             
-            obj.put("code",checkNum);
+            obj.put("code",123456);
             
         } catch(Exception e) {
             e.printStackTrace();

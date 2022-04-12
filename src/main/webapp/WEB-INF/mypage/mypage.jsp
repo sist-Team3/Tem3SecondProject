@@ -23,11 +23,9 @@ $(function(){
 	const modal = document.querySelector(".modal");
 	const closeButton = modal.querySelector("#btn_modal_close");
 	const modalBackground = modal.querySelector(".modal__background");
-
 	function displayModal(){
 	    modal.classList.toggle("hidden");
 	}
-
 	openButton.addEventListener("click", displayModal);
 	closeButton.addEventListener("click", displayModal)
 	modalBackground.addEventListener("click", displayModal);
@@ -39,16 +37,6 @@ function telMax(el, maxlength) {
   }
 }
 
-function postFindBtn(){
-	$('#address2').val('')
-	new daum.Postcode({
-		oncomplete:function(data)
-		{
-			$('#post').val(data.zonecode)
-			$('#address1').val(data.address)
-		}
-	}).open()
-}
 </script>
 </head>
 <body>
@@ -81,13 +69,13 @@ function postFindBtn(){
 	                    <tr>
 	                        <th>* 이름</th>
 	                        <td colspan="3">
-	                            <input type="text" id="name" class="form-control name" v-model="user.name"  maxlength="20">
+	                            <input type="text" id="name" class="form-control name" v-model="user.name"  maxlength="10" @keyup="checkup()">
 	                        </td>
 	                    </tr>
 	                    <tr>
 	                        <th>* 생년월일</th>
 	                        <td colspan="3">
-	                            <input type="date" id="birth" class="form-control" style="width: 150px" v-modle="user.dbday" :value="user.dbday" >
+	                            <input type="date" id="birth" class="form-control" style="width: 150px" v-model="user.dbday" @keyup="checkup()">
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -100,10 +88,10 @@ function postFindBtn(){
 	                                    </select>
 	                                </div>
 	                                <div class="col-xs-3">
-	                                    <input type="number" id="mobile1" oninput="telMax(this,4)" v-model="tel[1]"  class="form-control input-tel">
+	                                    <input type="number" id="mobile1" oninput="telMax(this,4)" v-model="tel[1]"  class="form-control input-tel" @keyup="checkup()">
 	                                </div>
 	                                <div class="col-xs-3">
-	                                    <input type="number" id="mobile2" oninput="telMax(this,4)" v-model="tel[2]"  class="form-control input-tel">
+	                                    <input type="number" id="mobile2" oninput="telMax(this,4)" v-model="tel[2]"  class="form-control input-tel" @keyup="checkup()">
 	                                </div>
 	                            </div>    
 	                        </td>
@@ -122,19 +110,19 @@ function postFindBtn(){
 	                    </tr>
 	                    <tr class="available-time-block">
 	                        <th>* 주소</th>
-	                        <td colspan="3" style="position: relative;">
+	                        <td colspan="3">
 	                            <div class="row">
-	                               <input type=text name=post id=post class="form-control" size=10 v-model="user.postcode"  >
-						         	<a id="upostBtn" href="javascript:postFindBtn()"
+	                               <input type=text id="post" class="form-control" size="10" v-model="user.postcode"  readonly @keyup="checkup()">
+						         	<a id="upostBtn" @click="postFindBtn()"
 						          	class="btn btn-sm btn-success">
 						          	우편번호찾기
 						          	</a>
 	                            </div>
 	                            <div class="row">
-	                            	<input type=text v-model="user.address1" class="form-control address1" id="address1" size=40>
+	                            	<input type="text" v-model="user.address1" class="form-control address1" id="address1" readonly size="40" @keyup="checkup()">
 	                            </div>
 	                            <div class="row">
-	                                <input type=text v-model="user.address2" class="form-control address2">
+	                                <input type="text" v-model="user.address2" class="form-control address2">
 	                            </div>
 	                        </td>
 	                    </tr>
@@ -153,7 +141,7 @@ function postFindBtn(){
 	                    <tr>
 	                        <th>비밀번호</th>
 	                        <td>
-	                            <input type="password" v-model="pwd.change_pwd" id="change_pwd" class="form-control" placeholder="숫자/영문 조합 8자 이상만 가능합니다.">
+	                            <input type="password" v-model="pwd.change_pwd" id="change_pwd" class="form-control" placeholder="숫자/영문 조합 8자 이상만 가능합니다." @keyup="chkPW()" >
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -170,14 +158,13 @@ function postFindBtn(){
 	    </div>
 	</div>
 	<script>
-		axios.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8"
+	axios.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8"
 		new Vue({
-			el:'.wrapper',
+			el:'#myPage',
 			data:{
 				user:{},
 				tel:[],
 				pwd:{},
-				now_email:'',
 				email_ck:0,
 				email_confirm:'OK',
 			},
@@ -186,94 +173,97 @@ function postFindBtn(){
 			},
 			methods:{
 				getData:function(){
-					console.log('getDate Function')
 					axios.get("http://localhost:8080/web/mypage/mypage_vue.do",{
 					}).then(res=>{
-						this.user=res.data
 						console.log(res.data)
-						this.now_email=res.data.email
+						this.user=res.data
+						this.user.prevEmail=res.data.email
+						console.log('postcode= '+this.user.postcode)
+						console.log('address1= '+this.user.address1)
 						let tmp = String(res.data.phone)
 						if(tmp.length>10){
 							this.tel[0] = tmp.substring(0,3)
 							this.tel[1] = tmp.substring(3,7)
 							this.tel[2] = tmp.substring(7,11)
 						}else{
-							this.tel[0] = 0+tmp.substring(0,3)
+							this.tel[0] = tmp.substring(0,3)
 							this.tel[1] = tmp.substring(3,6)
 							this.tel[2] = tmp.substring(6,10)
 						}
-						
 					})
-						
 				},
-				updateMy:function(){
-					console.log('upadteMy Function')
+				checkup:function(){
+					console.log('checkup')
 					$('span#validation').remove()
-					window.scrollTo(0,200);
-					console.log(this.now_email)
-					console.log('postcode= '+this.user.postcode)
-					console.log('address1= '+this.user.address1)
-					if($.trim(this.user.name)=="")
-					{
+					if($.trim(this.user.name)==""){
 						this.validAlert('name','이름을 입력하시오!');
-						return;
+						return false;
 					}
-					 if(this.user.dbday=="")
-					{
-						console.log('dbday= '+this.user.dbday)
+					else if($.trim(this.user.dbday)==""){
 						this.validAlert('birth','생년월일을 입력하시오!');
-						return;
-					} 
-					if($.trim(this.tel[1])=="" ||$.trim(this.tel[1]).length<3)
-					{
+						return false;
+					}
+					else if($.trim(this.tel[1])=="" ||$.trim(this.tel[1]).length<3){
 						this.validAlert('mobile1','&emsp;3~4자리 번호를 입력하시오!');
-						return;
+						return false;
 					}
-					if($.trim(this.tel[2])=="" ||$.trim(this.tel[2]).length<4){
+					else if($.trim(this.tel[2])=="" ||$.trim(this.tel[2]).length<4){
 						this.validAlert('mobile2','&emsp;4자리 번호를 입력하시오!');
-						return;
+						return false;
 					}
-					if($.trim(this.user.postcode)=="")
-					{
+					else if($.trim(this.user.postcode)==""){
 						this.validAlert('postcode','주소를 입력하시오!');
-						return;
+						return false;
+					}else{
+						return true;
 					}
-					if(this.now_email!=this.user.email){
-						if(this.email_confirm=='NO'){
-							$('#timer').remove()
-							this.validAlert('email_send','&emsp;이메일 인증을 다시 하시오!')
-							$('#confirm_email').focus()
-							return;
+					
+				},updateMy:function(){
+					window.scrollTo(0,200);
+					if(this.checkup()){
+						if(this.user.prevEmail!=this.user.email){
+							if(this.email_confirm=='NO'){
+								$('#timer').remove()
+								this.validAlert('email_send','&emsp;이메일 인증을 다시 하시오!')
+								$('#confirm_email').focus()
+								return false;
+							}
+							if(this.email_confirm!='OK'){
+								this.validAlert('timer','&emsp;인증코드를 입력하시오!')
+								$('#confirm_email').focus()
+								return false;
+							}
 						}
-						if(this.email_confirm!='OK'){
-							this.validAlert('timer','&emsp;인증코드를 입력하시오!')
-							$('#confirm_email').focus()
-							return;
-						}
+						this.user.phone=this.tel[0]+this.tel[1]+this.tel[2]
+						axios.post("http://localhost:8080/web/mypage/mypage_update.do",this.user,{
+								headers: {
+				                    "Content-Type": "application/json;charset=utf-8"
+				                },
+						}).then(res=>{
+								console.log(res.data)
+								alert("정보가 수정되었습니다!")
+								location.href="../mypage/main.do"
+						})
+					}else{
+						return
 					}
-					this.user.phone=this.tel[0]+this.tel[1]+this.tel[2]
-					axios.post("http://localhost:8080/web/mypage/mypage_update.do",this.user,{
-							headers: {
-			                    "Content-Type": "application/json;charset=utf-8"
-			                },
-					}).then(res=>{
-							console.log(res.data)
-							alert("정보가 수정되었습니다!")
-							location.href="../mypage/main.do"
-					})
-				},chkPW:function(){
+				}
+				,chkPW:function(){
 					 $('span#validation').remove()
 					 let pw = this.pwd.change_pwd
-					 let eng = pw.search(/[0-9]+[a-z]+/ig);
-					 if(pw.length < 8 || pw.length > 16){
-						this.validAlert('change_pwd','비밀번호는 8 ~ 16자리 사이로 입력하시오!')
+					 let eng = pw.search(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ig);
+					 if(pw.search(/\s/) != -1){
+						this.validAlert('change_pwd','비밀번호는 공백 없이 입력하시오.')
 					  	return false;
-					 }else if(pw.search(/\s/) != -1){
-						 this.validAlert('change_pwd','비밀번호는 공백 없이 입력하시오.');
+					 }else if(pw.length < 8 || pw.length > 16){
+						 this.validAlert('change_pwd','비밀번호는 8 ~ 16자리 사이로 입력하시오!');
 					  	return false;
 					 }else if(eng < 0 ){
 						 this.validAlert('change_pwd','영문,숫자를 혼합하여 입력하시오.');
 					  	return false;
+					 }else if(pw==this.pwd.now_pwd){
+						 this.validAlert('change_pwd','현재 비밀번호와 같습니다!')
+						return false;
 					 }else {
 						console.log("통과"); 
 					    return true;
@@ -304,16 +294,13 @@ function postFindBtn(){
 							if(res.data=='NO'){
 								this.validAlert('now_pwd','비밀번호가 틀렸습니다!')
 								$('#now_pwd').val("")
-							}else{
-								if($.trim(this.pwd.change_pwd)==$.trim(this.pwd.now_pwd)){
-									this.validAlert('change_pwd','현재 비밀번호와 같습니다!')
-									return;
-								}
-								alert("비밀번호가 변경되었습니다.!");
-								location.href="../main/main.do"
-								// 로그아웃생기면 변경
-								this.$session.clear()
+								return;
 							}
+							alert("비밀번호가 변경되었습니다.!");
+							location.href="../main/main.do"
+							// 로그아웃생기면 변경
+							this.$session.clear()
+							
 						})
 					}else{
 						this.validAlert('confirm_pwd','비밀번호가 다릅니다!')
@@ -342,7 +329,7 @@ function postFindBtn(){
 				emailSend:function(){
 					$('span#validation').remove()
 					let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-					if(this.user.email==this.now_email){
+					if(this.user.email==this.user.prevEmail){
 						this.validAlert('email_send','&emsp;기존 email과 같습니다!')
 						return;
 					}
@@ -434,6 +421,17 @@ function postFindBtn(){
 					let s = '#'+sel
 					$(s).focus();
 					$(s).after(html)
+				},
+				postFindBtn:function(){
+					_this=this
+					_this.user.address2='';
+					new daum.Postcode({
+						oncomplete:function(data)
+						{
+							_this.user.postcode=data.zonecode
+							_this.user.address1=data.address
+						}
+					}).open()
 				}
 			}
 		})

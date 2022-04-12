@@ -21,4 +21,5 @@ public class UserVO {
 	private String userRole,phone;
 	private Integer postcode;
 	private Date birth,registed_at;
+	private String prevEmail;
 }

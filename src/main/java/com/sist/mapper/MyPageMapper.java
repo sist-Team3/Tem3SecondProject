@@ -14,15 +14,15 @@ public interface MyPageMapper {
 	public UserVO getUserData(String id);
 	// 정보 수정
 	@Update("UPDATE users_3 SET name=#{name},birth=TO_DATE(#{dbday},'YYYY-MM-DD'),phone=#{phone},email=#{email},postcode=#{postcode},address1=#{address1},address2=#{address2} "
-			+ "WHERE email=#{email}")
+			+ "WHERE email=#{prevEmail}")
 	public void updateUserData(UserVO vo);
 	// 비밀번호 가져오기
-	@Select("SELECT password FROM users_3 WHERE id=#{id}")
+	@Select("SELECT password FROM users_3 WHERE email=#{email}")
 	public String getPwd(String id);
 	// 비밀번호 변경하기
-	@Update("UPDATE users_3 SET password=#{pwd} WHERE id=#{id}")
+	@Update("UPDATE users_3 SET password=#{pwd} WHERE email=#{email}")
 	public void updatePwd(Map map);
 	// 정보 삭제
-	@Delete("DELETE FROM users_3 WHERE id=#{id}")
+	@Delete("DELETE FROM users_3 WHERE email=#{email}")
 	public void deleteUser(String id);
 }
