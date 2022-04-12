@@ -25,4 +25,17 @@ public class ProductDAO {
 	{
 		return mapper.villaDetailData(no);
 	}
+	
+	public int apartment_ACount(String name)
+	{
+		return mapper.apartment_ACount(name);
+	}
+	public int apartment_BCount(String name)
+	{
+		return mapper.apartment_BCount(name);
+	}
+	public int apartment_CCount(String name)
+	{
+		return mapper.apartment_CCount(name);
+	}
 }
