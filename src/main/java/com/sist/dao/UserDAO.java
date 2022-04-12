@@ -1,6 +1,7 @@
 package com.sist.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.sist.mapper.UserMapper;
@@ -14,7 +15,11 @@ public class UserDAO {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	public void save(UserVO user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userMapper.save(user);
 		log.info("User DAO 회원 전달 = {}", user.toString());
 	}

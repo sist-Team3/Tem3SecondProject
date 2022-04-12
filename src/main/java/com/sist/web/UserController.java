@@ -28,19 +28,16 @@ import com.sist.vo.UserVO;
 public class UserController {
 	private UserService userService;
 	private UserValidator userValidator;
-	private BCryptPasswordEncoder passwordEncoder;
 	private NaverLoginBO naverLoginBO;
 	private UserParser userParser;
 	
 	@Autowired
 	public UserController(UserService userService, 
 						UserValidator userValidator,
-						BCryptPasswordEncoder passwordEncoder,
 						NaverLoginBO naverLoginBO,
 						UserParser userParser) {
 		this.userService = userService;
 		this.userValidator = userValidator;
-		this.passwordEncoder = passwordEncoder;
 		this.naverLoginBO = naverLoginBO;
 		this.userParser = userParser;
 	}
@@ -62,16 +59,15 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/signUp";
         }
-        // 검증 성공 시 회원 저장 (비밀번호 인코딩 포함)
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // 검증 성공 시 회원 저장
         userService.addUser(user);
         return "user/userOk";
     }
 	
-	@GetMapping("/admin.do")
+	@GetMapping("/username.do")
 	@ResponseBody
 	public String getAdmin() {
-		return "Admin";
+		return userService.getLoggedUserName();
 	}
 	
 	@GetMapping("/signIn.do")
@@ -96,7 +92,6 @@ public class UserController {
 	
 	@PostMapping("/oauthSignUp.do")
 	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.addUser(user);
 		return "user/userOk";
 	}
