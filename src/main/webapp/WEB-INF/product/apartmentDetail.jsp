@@ -6,10 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="../resources/css/apartmentlist.css">
-<!-- Vue -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../resources/css/product.css">
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <!-- 구글 차트 -->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <!-- 카카오 지도 -->
@@ -22,14 +21,14 @@
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', '계약 건수'],
-          ['22.01',  2],
-          ['22.02',  3],
-          ['22.03',  1]
-        ]);					// finalProject/food/detail 참고
+          ['Year', '해당 아파트 계약 건수'],
+          ['22.01',  <c:out value="${ACount}"/>],
+          ['22.02',  <c:out value="${BCount}"/>],
+          ['22.03',  <c:out value="${CCount}"/>]
+        ]);					
 
         var options = {
-          title: '{name}',
+          title: '',
           curveType: 'function',
           legend: { position: 'bottom' }
         };
@@ -39,11 +38,9 @@
         chart.draw(data, options);
       }
     </script>
-
 <style>
-
 .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap {position:relative;width:100%;height:500px;}
+.map_wrap {position:relative;width:700px;height:500px;}
 #category {position:absolute;top:10px;left:10px;border-radius: 5px; border:1px solid #909090;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);background: #fff;overflow: hidden;z-index: 2;}
 #category li {float:left;list-style: none;width:100px;px;border-right:1px solid #acacac;padding:6px 0;text-align: center; cursor: pointer;}
 #category li.on {background: #eee;}
@@ -68,24 +65,6 @@
 .placeinfo .title {font-weight: bold; font-size:14px;border-radius: 6px 6px 0 0;margin: -1px -1px 0 -1px;padding:10px; color: #fff;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
 .placeinfo .tel {color:#0f7833;}
 .placeinfo .jibun {color:#999;font-size:11px;margin-top:0;}
-
-.button2 {
-  background-color: white; 
-  color: black; 
-  border: 2px solid red;
-}
-
-.button2:hover {
-  background-color: red;
-  color: white;
-}
-.table{
-	table-layout:fixed;
-	width:50%;
-	border-collapse: collapse;
-  	border: 3px solid purple;
-}
-
 </style>
 </head>
 <body>
@@ -93,9 +72,76 @@
 
 
 <div class="wrapper">
-	<div class="conatainer" id="apartmentDetail" v-for="vo in apart_list">
+  <div class="productContainer">
+	<div class="sidebar">
+		<h1><span>${vo.name}</span></h1>
+		<p></p>
+		<table class="table">
+			<tr>
+				 <th width=30%>거래 날짜</th>
+				 <td width=70%>
+				 ${c_date }
+				 <td>
+			</tr>
+			<tr>
+			  <th width=30%>주소</th>
+			  	<td width=70%>
+			  	 
+			  		<span id="address_first"> ${addr_B} </span>
+			  		<span id="address_second"> ${addr_R} </span>
+			  		<button class="button11" onclick="button_address()">⇆</button>
+			  	</td>
+			</tr>
+			<tr>
+			 <th width=30%>전용면적</th>
+			 	<td width=70%>
+			  		<span id="area_first">${area_size1}㎡</span>
+			  		<span id="area_second">${area_size2}평</span>
+			  		<button class="button22" onclick="button_area()">⇆</button>
+			  	</td>
+			</tr>
+			<tr>
+				 <th width=30%>가격</th>
+				 <td width=70%>
+				 	  <c:if test="${vo.price>9999 }">
+				 	  	 <c:if test="${p2!=0 }">
+					 			${p1 }억 ${p2 }만원
+				 	  	 </c:if>
+				 	  	 <c:if test="${p2==0 }">
+					 			${p1 }억원				 	  	 
+				 	  	 </c:if>
+				 	  </c:if>
+				 	  <c:if test="${vo.price<10000 }">
+				 	  		${vo.price}만원
+				 	  </c:if>
+				 <td>
+			</tr>
+			<tr>
+				 <th width=30%>층수</th>
+				 <td width=70%>${vo.floor }층<td>
+			</tr>
+			<tr>
+				 <th width=30%>건축년도</th>
+				 <td width=70%>${vo.construction_date}년<td>
+			</tr>
+			<tr>
+				 <th width=30%>거래유형</th>
+	 			 <td width=70%>${vo.deal_type}<td>
+			</tr>
+			<tr>
+				 <th width=30%>중개사 소재지</th>
+	 			 <td width=70%>${vo.agent_seat}<td>
+			</tr>
+		</table>
+		<a href="#" class="button2" onclick="button_inquire();">문의하기</a>
+		
+		<a href="javascript:history.back()" class="button3">목록</a>
+	</div>
+	
+	
+	
 		<div class="map_wrap">
-    	<div id="map" style="width:800px;height:100%;position:relative;overflow:hidden;"></div>
+    	<div id="map" style="width:700px;height:500px;position:relative;overflow:hidden;"></div>
 	
 		    <ul id="category">
 		        <li id="HP8" data-order="0"> 
@@ -123,126 +169,52 @@
 		            편의점
 		        </li>      
 		    </ul>
-		</div>
-		<h1><span>${vo.name}</span></h1>
-		<p></p>
-		<table class="table">
-			<tr>
-			  <th width=30%>주소</th>
-			  	<td width=70%>
-			  		<span v-if="counter_first%2==0">${vo.address} ${vo.bunji}</span>
-			  		<span v-else-if="counter_first%2!=0">${vo.address} ${vo.road_name}</span>
-			  		<button v-on:click="counter_first += 1">⇆</button>
-			  	</td>
-			</tr>
-			<tr>
-			 <th width=30%>전용면적</th>
-			 	<td width=70%>
-			  		<span v-if="counter_second%2==0">${vo.area_size}㎡</span>
-			  		<span v-else-if="counter_second%2!=0">${area_size2}평</span>
-			  		<button v-on:click="counter_second += 1">⇆</button>
-			  	</td>
-			</tr>
-			<tr>
-				 <th width=30%>가격</th>
-				 <td width=70%>
-				 	  <c:if test="${vo.price>9999 }">
-				 	  	 <c:if test="${p2!=0 }">
-<!-- 			 	  		<span>{{price}}</span>	-->
-					 			${p1 }억 ${p2 }만원
-				 	  	 </c:if>
-				 	  	 <c:if test="${p2==0 }">
-					 			${p1 }억원				 	  	 
-				 	  	 </c:if>
-				 	  </c:if>
-				 	  <c:if test="${vo.price<10000 }">
-<!-- 			 	  	<span>{{price}}(만원)</span>	-->
-				 	  		${vo.price}만원
-				 	  </c:if>
-				 <td>
-			</tr>
-			<tr>
-				 <th width=30%>층수</th>
-<!-- 		 	 <td width=70%><span>{{floor}}층</span><td>-->
-				 <td width=70%>${vo.floor }층<td>
-			</tr>
-			<tr>
-				 <th width=30%>건축년도</th>
-<!-- 			 <td width=70%><span>{{construction_date}}년</span><td>-->
-				 <td width=70%>${vo.construction_date}년<td>
-			</tr>
-			<tr>
-				 <th width=30%>거래유형</th>
-<!-- 			 <td width=70%><span>{{deal_type}}</span><td>-->
-	 			 <td width=70%>${vo.deal_type}<td>
-			</tr>
-			<tr>
-				 <th width=30%>중개사 소재지</th>
-<!-- 			 <td width=70%><span>{{agent_seat}}</span><td>-->
-	 			 <td width=70%>${vo.agent_seat}<td>
-			</tr>
-		</table>
-	
-		<a href="#" class="button2">문의하기</a>
-		<a href="javascript:history.back()" class="button2">목록</a>
 	</div>
-</div>
+	<ul>
+		<br>
+	</ul>
+<div id="curve_chart"></div>
+  </div>
 
-<div id="curve_chart" style="width: 900px; height: 500px"></div>
+</div>
 
 <script>
 
-	new Vue({
-		el:'#apartmentDetail',
-		data:{
-/*			vo:{},
-			no:${no},*/
-			counter_first:1,
-			counter_second:1,
-			name:'',
-			address:'',
-			bunji:'',
-			road_name:'',
-			area_size:,
-			area_size2:,
-			price:,
-			floor:5,
-			construction_date:,
-			deal_type:'',
-			agent_seat:''
-		}
-/*
-		mounted:function(){
-			axios.get('http://localhost:8080/web/product/apartmentDetail_vue.do',{
-				params:{
-					no=this.no
-				}
-			}).then(res=>{
-				console.log(res.data)
-				this.vo=res.data;
-			})
-		},
-		method:{
-			inquire:function(){
-				location.href="productlist.do"
-			},
-			list:function(){
-				this.curpage=this.curpage>1?this.curpage-1:this.curpage;
-				   axios.get('http://localhost:8080/web/hotel/list.do',{
-					   params:{
-						   page:this.curpage
-					   }
-				   }).then(result=>{
-					   console.log(result.data);
-					   this.hotel_list=result.data;
-					   this.curpage=result.data[0].curpage;
-					   this.totalpage=result.data[0].totalpage;
-				   })
-			   }
-			}
-		}*/
-	})
-	
+function button_inquire() {
+	  if(${not empty sessionScope.login}){
+		   alert("문의가 접수되었습니다.");   
+		  }else{
+		   alert("로그인후 사용이 가능합니다.");
+		   location.href="../user/signIn.do";
+		  }
+
+}
+
+$('#address_first').hide();	//toggle
+$(function button_address() {
+	$(".button11").click(function() {
+		$("#address_first").show();
+		$("#address_second").hide();
+	});
+	$(".button11").dblclick(function() {
+		$("#address_first").hide();
+		$("#address_second").show();
+	});
+});
+
+$('#area_first').hide();
+$(function button_area() {
+	$(".button22").click(function() {
+		$("#area_first").show();
+		$("#area_second").hide();
+	});
+	$(".button22").dblclick(function() {
+		$("#area_first").hide();
+		$("#area_second").show();
+	});
+});
+
+
 
 //////////////////////////////////카카오지도////////////////////////////////
 
@@ -265,7 +237,7 @@
 	var geocoder = new kakao.maps.services.Geocoder();
 
 	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch("장안로 211", function(result, status) {
+	geocoder.addressSearch("${addr_R}", function(result, status) {
 
 	    // 정상적으로 검색이 완료됐으면 
 	     if (status === kakao.maps.services.Status.OK) {

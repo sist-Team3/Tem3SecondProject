@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+.wrapper {
+    background-color: #f8f8f8;
+    margin-top: 70px;
+}
+.productContainer{
+	padding-top:100px;
+	margin-left:50px;
+	margin-right:50px;
+}
+
+div.wrapper div.container {
+    width: 1100px;
+    padding-bottom: 80px;
+}
+
+.wrapper .container table {
+    width: 100%;
+    border-top: double;
+}
+.top-bar{
+	background-color : rgb(31, 45 , 60);
+}
+
+
+/* 사이드 매물정보 css */
+.sidebar{
+	position:fixed;
+	top:130px;
+	right:100px;
+	bottom:0;
+	padding:0;
+	width:500px;
+	height:500px;
+}
+
+/* 버튼css */
+.button2 {
+  margin-left:170px;
+  text-decoration:none;
+  background-color: white; 
+  color: black; 
+  border: 2px solid red;
+  font-weight:bold;
+  font-size:x-large;
+}
+
+.button2:hover {
+  text-decoration:none;
+  background-color: red;
+  color: white;
+}
+.button3 {
+
+  text-decoration:none;
+  background-color: white; 
+  color: black; 
+  border: 2px solid red;
+  font-weight:bold;
+  font-size:x-large;
+}
+
+.button3:hover {
+  text-decoration:none;
+  background-color: blue;
+  color: white;
+}
+
+.table{
+
+	width:500px;
+	border-collapse: collapse;
+  	border: 2px solid;
+}
+
+#curve_chart{
+	width: 700px;
+	height: 500px;
+}

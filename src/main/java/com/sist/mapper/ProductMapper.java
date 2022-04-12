@@ -22,4 +22,37 @@ public interface ProductMapper {
 			+"FROM villa_3 "
 			+"WHERE no=#{no}")
 	public VillaVO villaDetailData(int no);
+	
+	// 아파트 거래일자 개수 _ 그래프 이용
+	@Select("SELECT COUNT(*) FROM apartment_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-01-01','yyyy-mm-dd') and TO_DATE('2022-01-31','yyyy-mm-dd')")
+	public int apartment_ACount(String name);
+	@Select("SELECT COUNT(*) FROM apartment_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-02-01','yyyy-mm-dd') and TO_DATE('2022-02-28','yyyy-mm-dd')")
+	public int apartment_BCount(String name);
+	@Select("SELECT COUNT(*) FROM apartment_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-03-01','yyyy-mm-dd') and TO_DATE('2022-03-31','yyyy-mm-dd')")
+	public int apartment_CCount(String name);
+	
+	// 오피스텔 거래일자 개수 _ 그래프 이용
+	@Select("SELECT COUNT(*) FROM officetel_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-01-01','yyyy-mm-dd') and TO_DATE('2022-01-31','yyyy-mm-dd')")
+	public int officetel_ACount(String name);
+	@Select("SELECT COUNT(*) FROM officetel_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-02-01','yyyy-mm-dd') and TO_DATE('2022-02-28','yyyy-mm-dd')")
+	public int officetel_BCount(String name);
+	@Select("SELECT COUNT(*) FROM officetel_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-03-01','yyyy-mm-dd') and TO_DATE('2022-03-31','yyyy-mm-dd')")
+	public int officetel_CCount(String name);
+	
+	// 빌라 거래일자 개수 _ 그래프 이용
+	@Select("SELECT COUNT(*) FROM villa_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-01-01','yyyy-mm-dd') and TO_DATE('2022-01-31','yyyy-mm-dd')")
+	public int villa_ACount(String name);
+	@Select("SELECT COUNT(*) FROM villa_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-02-01','yyyy-mm-dd') and TO_DATE('2022-02-28','yyyy-mm-dd')")
+	public int villa_BCount(String name);
+	@Select("SELECT COUNT(*) FROM villa_3 "
+			+"WHERE name=#{name} AND contract_date BETWEEN TO_DATE('2022-03-01','yyyy-mm-dd') and TO_DATE('2022-03-31','yyyy-mm-dd')")
+	public int villa_CCount(String name);
 }

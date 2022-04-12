@@ -91,13 +91,53 @@ div.wrapper div.container {
 {
 	vertical-align: middle;
 }
+.search-option1
+{
+	border-style : groove;
+	width : 24%;
+}
+.search-option2
+{
+	border-style : groove;
+ 	width : 24%; 
+}
+#searchfd
+{
+	width : 80%;
+}
+#searchbtn
+{
+	width : 20%;
+}
+#option{
+list-style-type: none; 
+margin-left : 20px;
+line-height : 25px;
+}
+#rsort{
+list-style-type : none;
 
+}
+.search-sort
+{
+	border-style : groove;
+	width : 24%;
+}
+#search-sort1
+{
 
-
-
-
-
-
+ 	padding : 0px 0px 0px 0px;
+}
+#search-sort1 li
+{
+	color : #00000;
+	line-height : 25px;
+ 	padding : 0px 0px 0px 30px;
+}
+b
+{
+	margin : 15px 0px 15px 0px;
+}
 
 
 
