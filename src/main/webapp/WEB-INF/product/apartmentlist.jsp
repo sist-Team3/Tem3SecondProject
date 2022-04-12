@@ -8,12 +8,74 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="../resources/css/apartmentlist.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+ <script>
+  $( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 500,
+      values: [ 75, 300 ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+      }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+  } );
+ </script>
+<style>
+li{
+list-style-type: none;
+float : left; 
+margin-left : 20px;
+}
+</style>
+
 </head>
 <body>
+
 	<div class="wrapper">
+	<div class="search-option">
+      <input type=text size=20 class="input-sm" id="searchfd" style="float: left" v-model="fd" value="${fd }">
+       <input type=button value="검색"   class="btn btn-sm btn-danger" @click="findApart()">
+     </div>
+	<div>
+	<span style="color : #5d5d5d; font-size: 13px;">
+       <b>검색 조건</b>
+     </div>
+ 	 <div>
+      <li>       
+       <input type="checkbox" id="searchadr" name="searchoption" value="지역" >
+         <label class="sc1">
+                   지역
+         </label>
+      </li>
+       <li>
+        <input type="checkbox" id="searchroadname" name="searchoption" value="도로명주소" >
+         <label class="sc2">
+                    도로명주소
+         </label>                                 
+      </li>
+      <li>
+       <input type="checkbox" id="searchname" name="searchoption" value="매물명" >
+        <label class="sc3">
+                  매물명
+        </label>                      
+ 	 </div>
+ 	 <p>
+  <label for="amount">Price range:</label>
+  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+</p>
+ 
+<div id="slider-range"></div>
+
+		
 		<main class="container clear">
 		<div class="container" id="apartmentlist">
 			<div class="row">
@@ -51,10 +113,6 @@
 					</ul> 
 				</nav>				
 			</div>
-					<div class="heading">
-						<input type=text size=20 class="input-sm" id="searchfd" style="float: left" v-model="fd" value="${fd }">
-						 <input type=button value="검색"	class="btn btn-sm btn-danger" @click="findApart()">
-					</div>
 				</div>
 			</div>
 		<div class="clear"></div>

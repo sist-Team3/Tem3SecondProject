@@ -31,30 +31,12 @@ $(function(){
 	openButton.addEventListener("click", displayModal);
 	closeButton.addEventListener("click", displayModal)
 	modalBackground.addEventListener("click", displayModal);
-	
-	$( "#slider-range" ).slider({
-	      range: true,
-	      min: 0,
-	      max: 500,
-	      values: [ 75, 300 ],
-	      slide: function( event, ui ) {
-	        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-	      }
-	    });
-	    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
-	      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-	  
 })
 function telMax(el, maxlength) {
   if(el.value.length > maxlength)  {
     el.value 
       = el.value.substr(0, maxlength);
   }
-}
-let element_wrap=$('#wrap')
-function foldDaumPostcode() {
-        // iframe을 넣은 element를 안보이게 한다.
-        element_wrap.css('display', 'none');
 }
 
 function postFindBtn(){
@@ -99,12 +81,6 @@ function postFindBtn(){
 	                    <tr>
 	                        <th>* 이름</th>
 	                        <td colspan="3">
-	                        <p>
-							  <label for="amount">Price range:</label>
-							  <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-							</p>
-							 
-							<div id="slider-range"></div>
 	                            <input type="text" id="name" class="form-control name" v-model="user.name"  maxlength="20">
 	                        </td>
 	                    </tr>
@@ -148,20 +124,17 @@ function postFindBtn(){
 	                        <th>* 주소</th>
 	                        <td colspan="3" style="position: relative;">
 	                            <div class="row">
-	                               <input type=text name=post id=post class="form-control" size=10 v-model="user.postcode"  readonly>
+	                               <input type=text name=post id=post class="form-control" size=10 v-model="user.postcode"  >
 						         	<a id="upostBtn" href="javascript:postFindBtn()"
 						          	class="btn btn-sm btn-success">
 						          	우편번호찾기
 						          	</a>
 	                            </div>
 	                            <div class="row">
-	                            	<input type=text v-model="user.address1" class="form-control address1" readonly size=40>
+	                            	<input type=text v-model="user.address1" class="form-control address1" id="address1" size=40>
 	                            </div>
 	                            <div class="row">
 	                                <input type=text v-model="user.address2" class="form-control address2">
-	                            </div>
-	                            <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
-	                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
 	                            </div>
 	                        </td>
 	                    </tr>
@@ -199,7 +172,7 @@ function postFindBtn(){
 	<script>
 		axios.defaults.headers.post["Content-Type"] = "application/json; charset=utf-8"
 		new Vue({
-			el:'#myPage',
+			el:'.wrapper',
 			data:{
 				user:{},
 				tel:[],
@@ -213,40 +186,44 @@ function postFindBtn(){
 			},
 			methods:{
 				getData:function(){
+					console.log('getDate Function')
 					axios.get("http://localhost:8080/web/mypage/mypage_vue.do",{
 					}).then(res=>{
-						console.log(res)
 						this.user=res.data
+						console.log(res.data)
 						this.now_email=res.data.email
 						let tmp = String(res.data.phone)
-						console.log(tmp)
-						if(tmp.length>9){
-							this.tel[0] = 0+tmp.substring(0,2)
-							this.tel[1] = tmp.substring(2,6)
-							this.tel[2] = tmp.substring(6,10)
+						if(tmp.length>10){
+							this.tel[0] = tmp.substring(0,3)
+							this.tel[1] = tmp.substring(3,7)
+							this.tel[2] = tmp.substring(7,11)
 						}else{
-							this.tel[0] = 0+tmp.substring(0,2)
-							this.tel[1] = tmp.substring(2,5)
-							this.tel[2] = tmp.substring(5,9)
+							this.tel[0] = 0+tmp.substring(0,3)
+							this.tel[1] = tmp.substring(3,6)
+							this.tel[2] = tmp.substring(6,10)
 						}
 						
 					})
 						
 				},
 				updateMy:function(){
+					console.log('upadteMy Function')
 					$('span#validation').remove()
 					window.scrollTo(0,200);
 					console.log(this.now_email)
+					console.log('postcode= '+this.user.postcode)
+					console.log('address1= '+this.user.address1)
 					if($.trim(this.user.name)=="")
 					{
 						this.validAlert('name','이름을 입력하시오!');
 						return;
 					}
-					if($.trim(this.user.dbday)=="")
+					 if(this.user.dbday=="")
 					{
+						console.log('dbday= '+this.user.dbday)
 						this.validAlert('birth','생년월일을 입력하시오!');
 						return;
-					}
+					} 
 					if($.trim(this.tel[1])=="" ||$.trim(this.tel[1]).length<3)
 					{
 						this.validAlert('mobile1','&emsp;3~4자리 번호를 입력하시오!');

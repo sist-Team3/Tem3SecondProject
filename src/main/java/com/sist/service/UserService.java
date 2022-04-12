@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.sist.dao.UserDAO;
@@ -39,4 +40,10 @@ public class UserService {
 	    SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 	    return "redirect:/";
 	}
+	public String getLoggedUserName() {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		return userDetails.getUsername();
+	}
+	
 }

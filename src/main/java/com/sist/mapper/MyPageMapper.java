@@ -10,11 +10,11 @@ public interface MyPageMapper {
 	// 정보 가져오기
 	@Select("SELECT email,phone,name,TO_CHAR(birth,'YYYY-MM-DD') as dbday,postcode,address1,address2 "
 			+ "FROM users_3 "
-			+ "WHERE id=#{id}")
+			+ "WHERE email=#{email}")
 	public UserVO getUserData(String id);
 	// 정보 수정
 	@Update("UPDATE users_3 SET name=#{name},birth=TO_DATE(#{dbday},'YYYY-MM-DD'),phone=#{phone},email=#{email},postcode=#{postcode},address1=#{address1},address2=#{address2} "
-			+ "WHERE id=#{id}")
+			+ "WHERE email=#{email}")
 	public void updateUserData(UserVO vo);
 	// 비밀번호 가져오기
 	@Select("SELECT password FROM users_3 WHERE id=#{id}")

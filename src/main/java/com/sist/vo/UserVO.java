@@ -18,7 +18,7 @@ public class UserVO {
 	private String password;
 	private String name,dbday,address1;
 	private String address2;
-	private String userRole;
-	private Integer phone,postcode;
+	private String userRole,phone;
+	private Integer postcode;
 	private Date birth,registed_at;
 }

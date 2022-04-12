@@ -1,24 +1,17 @@
 package com.sist.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.sist.dao.MyPageDAO;
-import com.sist.validation.MyPageValidator;
-import com.sist.validation.UserValidator;
+import com.sist.service.UserService;
 import com.sist.vo.UserVO;
 
 @RestController
@@ -37,43 +29,42 @@ public class MyPageRestController {
 	private MyPageDAO dao;
 	
 	@Autowired
-	MyPageValidator myPageValidator;
-	
+	private UserService uService;
 	@Autowired
 	private JavaMailSender mailSender;
-	
-//	@InitBinder
-//	public void init(WebDataBinder webDataBinder) {
-//		webDataBinder.addValidators(myPageValidator);
-//	}
 	
 	@GetMapping(value ="mypage_vue.do",produces="text/plain;charset=utf-8")
 	public String myPage_main_vue(Model model,HttpSession session) {
 		String result="";
-		String id = (String)session.getAttribute("id");
-		UserVO vo = dao.getUserData("kim1");
-		//vo.setId(id);
-		vo.setId("kim1");
+		String email = uService.getLoggedUserName();
+		UserVO vo = dao.getUserData(email);
+		if(vo.getDbday()==null) {
+			Date date=new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String day = sdf.format(date);
+			vo.setDbday(day);
+			vo.setAddress1(" ");
+			vo.setPostcode(12345);
+			vo.setPhone("01000000000");
+			vo.setAddress1("서울시");
+		}
+		vo.setAddress1("서울시");
+		vo.setPostcode(12345);
 		Gson gson = new Gson();
 		result=gson.toJson(vo);
-		System.out.println(result);
 		return result;
 	}
 	@PostMapping(value="mypage_update.do",produces = "text/plain;charset=utf-8")
-	public String myPage_update(@RequestBody  UserVO vo,BindingResult br) {
+	public String myPage_update(@RequestBody  UserVO vo) {
+		Gson gson = new Gson();
+		try {
 			System.out.println(vo);
-			Gson gson = new Gson();
-			if(br.hasErrors()) {
-				List<ObjectError> list = br.getAllErrors();
-				for( ObjectError error : list ) {
-					System.out.println("ERROR!!!!"+error);
-				}
-				return "NO";
-			}
-			
 			if(vo.getAddress2()==null)
 				vo.setAddress2("");
 			dao.updateUserData(vo);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return gson.toJson(vo);
 	}
 	@PostMapping(value="mypage_pwd_update.do",produces = "text/plain;charset=utf-8")
