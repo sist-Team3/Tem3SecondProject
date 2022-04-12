@@ -9,12 +9,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="../resources/css/apartmentlist.css">
+<link rel="stylesheet" href="../resources/img/apartmap.css">
   <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+let i=0;
+$(function(){
+	$('.images').hover(function(){
+		$(this).css("cursor","pointer");
+	},function(){
+		$(this).css("cursor","none")
+	})
+	
+	$('.images').click(function(){
+		let gu=$(this).attr("data-value");
+		for(let i=1;i<=25;i++)
+		{
+			$('#gu'+i).attr("src","../resources/img/map/gu_"+i+"_off.png")
+		}
+		$(this).attr("src","../resources/img/map/gu_"+gu+"_on.png")
+		
+		$.ajax({
+			type:'get',
+			url:'../product/apartmentlist_find_result.do',
+			data:{"gu":gu},
+			success:function(res) // then(function(res)) axios
+			{
+				$('.content').html(res);
+			}
+		})
+	})
+	
+})
+</script>
     <script> 
      $.noConflict();//이때부터 jQuery는 $ 식별자를 포기하고 jQuery() 를 사용함
      var _$ = jQuery
@@ -30,8 +62,18 @@
 		<main class="container clear">
 		<div class="container" id="apartmentlist">
 		<div class="wrapper">
+
+
 		<!-- 검색 옵션 -->
 		<div class="search-option">
+			<!-- 지도로 찾기  -->
+			<div class="search-option3">
+			 <b type=text id="search-text">지도에서 원하는 지역을 선택하세요!</b>
+			 <img id="seoul_1" src="../resources/img/map/1111.png">
+			  <c:forEach var="i" begin="1" end="25">
+			 <img id="gu${i }" src="../resources/img/map/gu_${i }_off.png" class="images" data-value="${i }">
+			  </c:forEach>
+			</div>		
 			<div class="search-option1">
 		      <input type=text size=20 class="input-sm" id="searchfd" style="float: left" v-model="fd" value="${fd }">
 		       <input type=button value="검색" id="searchbtn"  class="btn btn-sm btn-danger" @click="findApart()">
@@ -89,7 +131,7 @@
 					</c:otherwise>
 				</c:choose>
 				<span style="color : #5d5d5d; font-size: 13px;">
-			       <b>정렬하기</b>
+			       <b id="sc">정렬하기</b>
 					</li>
 					<li id="rsort">
 						<a class="search_sort ${sort1 }"  onclick="sortBtn('price')" sorted="price">가격순</a>
@@ -104,6 +146,7 @@
 						<a class="search_sort ${sort5 }" onclick="sortBtn('contract')" sorted="contract">거래일자순</a>
 					</li>
 				</ul>
+		 </div>
 		 </div>
 			<div class="row">
 				<table class="table">
@@ -141,7 +184,7 @@
 				</nav>				
 			</div>
 				</div>
-			</div>
+			
 		<div class="clear"></div>
 		</main>
 		</div>
