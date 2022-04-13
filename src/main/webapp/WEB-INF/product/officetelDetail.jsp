@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,16 +15,16 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=676eb5fa2637b234997b24dd7566e9ba&libraries=services"></script>
 
 <!-- 구글 차트 정보 -->
-  <script type="text/javascript">
+	<script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
-          ['Year', '해당 아파트 계약 건수'],
-          ['22.01',  <c:out value="${ACount}"/>],
-          ['22.02',  <c:out value="${BCount}"/>],
-          ['22.03',  <c:out value="${CCount}"/>]
+          ['Year', '해당 오피스텔 계약 건수'],
+          ['22.01',  ${ACount}],
+          ['22.02',  ${BCount}],
+          ['22.03',  ${CCount}]
         ]);					
 
         var options = {
@@ -74,58 +73,73 @@
 
 <div class="wrapper">
   <div class="productContainer">
- <!-- 사이드바 정보 -->
 	<div class="sidebar">
-		<div class="sidebarTitle">${vo.name}</div>		<!-- <P>로 제목&내용 나누기 -->
-		 <div class="sidebarContent1">
-		 	 <strong>거래 날짜</strong>&nbsp;  ${c_date }
-		 </div>
-		 <div class="sidebarContent2">
-		  		<strong>가격</strong>&nbsp;	
-		  			<c:if test="${vo.price>9999 }">
-					 	  	 <c:if test="${p2!=0 }">
-						 			${p1 }억 ${p2 }만원
-					 	  	 </c:if>
-					 	  	 <c:if test="${p2==0 }">
-						 			${p1 }억원				 	  	 
-					 	  	 </c:if>
+		<h1><span>${vo.name}</span></h1>
+		<p></p>
+		<table class="table">
+			<tr>
+				 <th width=30%>거래 날짜</th>
+				 <td width=70%>
+				 ${c_date }
+				 <td>
+			</tr>
+			<tr>
+			  <th width=30%>주소</th>
+			  	<td width=70%>
+			  	 
+			  		<span id="address_first"> ${addr_B} </span>
+			  		<span id="address_second"> ${addr_R} </span>
+			  		<button class="button11" onclick="button_address()">⇆</button>
+			  	</td>
+			</tr>
+			<tr>
+			 <th width=30%>전용면적</th>
+			 	<td width=70%>
+			  		<span id="area_first">${area_size1}㎡</span>
+			  		<span id="area_second">${area_size2}평</span>
+			  		<button class="button22" onclick="button_area()">⇆</button>
+			  	</td>
+			</tr>
+			<tr>
+				 <th width=30%>가격</th>
+				 <td width=70%>
+				 	  <c:if test="${vo.price>9999 }">
+				 	  	 <c:if test="${p2!=0 }">
+					 			${p1 }억 ${p2 }만원
+				 	  	 </c:if>
+				 	  	 <c:if test="${p2==0 }">
+					 			${p1 }억원				 	  	 
+				 	  	 </c:if>
 				 	  </c:if>
 				 	  <c:if test="${vo.price<10000 }">
 				 	  		${vo.price}만원
 				 	  </c:if>
-		 </div>
-		 <div class="sidebarAddress">
-		 	<strong>주소</strong>&nbsp;
-		 	 		<span id="address_first"> ${addr_B} </span>	<span id="address_second"> ${addr_R} </span>
-			  		<button class="buttonC1" onclick="button_address()">⇆</button>
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>전용 면적</strong> &nbsp;
-		 			<span id="area_first">${area_size1}㎡</span> <span id="area_second">${area_size2}평</span>
-		 			<button class="buttonC2" onclick="button_area()">⇆</button>
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>층수</strong>&nbsp; ${vo.floor }층
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>건축년도</strong>&nbsp; ${vo.construction_date}년
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>거래유형</strong>&nbsp; ${vo.deal_type}
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>중개사 소재지</strong>&nbsp; ${vo.agent_seat}
-		 </div>
-
-		<br>
-		<span>
-			<a href="#" class="button2" onclick="button_inquire();">문의하기</a>
-			<a href="../product/apartmentlist.do" class="button3">목록</a>
-		</span>
+				 <td>
+			</tr>
+			<tr>
+				 <th width=30%>층수</th>
+				 <td width=70%>${vo.floor }층<td>
+			</tr>
+			<tr>
+				 <th width=30%>건축년도</th>
+				 <td width=70%>${vo.construction_year}년<td>
+			</tr>
+			<tr>
+				 <th width=30%>거래유형</th>
+	 			 <td width=70%>${vo.deal_type}<td>
+			</tr>
+			<tr>
+				 <th width=30%>중개사 소재지</th>
+	 			 <td width=70%>${vo.agent_seat}<td>
+			</tr>
+		</table>
+		<a href="#" class="button2" onclick="button_inquire();">문의하기</a>
+		
+		<a href="javascript:history.back()" class="button3">목록</a>
 	</div>
 	
 	
-<!-- 카카오 맵 -->
+	
 		<div class="map_wrap">
     	<div id="map" style="width:700px;height:500px;position:relative;overflow:hidden;"></div>
 	
@@ -156,71 +170,12 @@
 		        </li>      
 		    </ul>
 	</div>
-	
 	<ul>
 		<br>
 	</ul>
-	
-<!-- 차트 -->
-	<div id="curve_chart"></div>
-  
-  	<ul>
-		<br>
-	</ul>
-	
-<!-- 이름 같은 매물 정보 -->
- 	<div>
-		<table class="table2">
-			<tr style="background-color:gray;color:white;">
-				<th width=25% class="text-center">매물명</th>
-				<th width=20% class="text-center">가격</th>
-				<th width=15% class="text-center">전용면적</th>
-				<th width=10% class="text-center">층수</th>
-				<th width=20% class="text-center">거래 날짜</th>
-				<th width=10% class="text-center">거래유형</th>
-					
-			</tr>
-			  <c:forEach var="asvo" items="${aSameList }">
-				<c:if test="${asvo.no ne vo.no }">
-				  <c:choose>
-					<c:when test="${not empty aSameList }">
-							<tr style="height:30px;">
-								<td width=25% class="text-center">
-										<a href="../product/apartmentDetail.do?no=${asvo.no}">${asvo.name }</a>
-								</td>
-								<td width=20% class="text-center">
-											${asvo.price/10000}억원
-											<c:if test="${asvo.price > vo.price }">(↑)</c:if>
-											<c:if test="${asvo.price == vo.price }">(동일)</c:if>
-											<c:if test="${asvo.price < vo.price }">(↓)</c:if>
-								</td>
-								<td width=15% class="text-center">
-											${asvo.area_size } ㎡
-											<c:if test="${asvo.area_size > vo.area_size }">(↑)</c:if>
-											<c:if test="${asvo.area_size == vo.area_size }">(동일)</c:if>
-											<c:if test="${asvo.area_size < vo.area_size }">(↓)</c:if>
-								</td>							
-								<td width=10% class="text-center">${asvo.floor }층</td>
-								<td width=20% class="text-center">
-											<fmt:formatDate value="${asvo.contract_date}" pattern="yyyy-MM-dd"/>
-								</td>
-								<td width=10% class="text-center">${asvo.deal_type }</td>
-							</tr>
-					</c:when>
-					<c:otherwise>
-							<tr style="height:30px;">
-								<td colspan="6" class="text-center">다른 계약 매물 없음</td>
-							</tr>
-					</c:otherwise>
-				  </c:choose>
-				</c:if>
-			  </c:forEach>
-		</table>
- 	</div>
-	   	<ul>
-			<br>
-		</ul>
+<div id="curve_chart"></div>
   </div>
+
 </div>
 
 <script>
@@ -237,11 +192,11 @@ function button_inquire() {
 
 $('#address_first').hide();	//toggle
 $(function button_address() {
-	$(".buttonC1").click(function() {
+	$(".button11").click(function() {
 		$("#address_first").show();
 		$("#address_second").hide();
 	});
-	$(".buttonC1").dblclick(function() {
+	$(".button11").dblclick(function() {
 		$("#address_first").hide();
 		$("#address_second").show();
 	});
@@ -249,11 +204,11 @@ $(function button_address() {
 
 $('#area_first').hide();
 $(function button_area() {
-	$(".buttonC2").click(function() {
+	$(".button22").click(function() {
 		$("#area_first").show();
 		$("#area_second").hide();
 	});
-	$(".buttonC2").dblclick(function() {
+	$(".button22").dblclick(function() {
 		$("#area_first").hide();
 		$("#area_second").show();
 	});

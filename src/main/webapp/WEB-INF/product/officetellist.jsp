@@ -32,7 +32,9 @@
 							<td width=5% class="text-center">${vo.no }</td>
 							<th width=20% class="text-center">${vo.address }</th>
 							<th width=15% class="text-center">${vo.road_name }</th>
-							<th width=20% class="text-center">${vo.name }</th>							
+							<th width=20% class="text-center">
+								<a href="officetelDetail.do?no="${vo.no}>${vo.name }</a>
+							</th>							
 							<th width=10% class="text-center"><fmt:formatNumber
 									value="${vo.price }" pattern="#,###" /></th>
 							<th width=10% class="text-center">${vo.construction_year}년</th>
