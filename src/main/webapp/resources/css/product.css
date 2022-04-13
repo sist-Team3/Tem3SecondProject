@@ -29,33 +29,36 @@ div.wrapper div.container {
 .sidebar{
 	background-color:gainsboro;
 	position:fixed;
-	top:130px;
+	top:160px;
 	right:100px;
 	bottom:0;
 	padding:0;
-	width:450px;
+	width:590px;
 	height:400px;
 	border-collapse: collapse;
 	border: .5px solid;
 	box-shadow: 0 5px 18px -7px rgba(0,0,0,1);
 }
-.sidebarTitle{
+.sidebarName{
 	padding:10px;
 	text-align:center;
 	font-size:XX-large;
 }
-.sidebarContent1{
-	padding:15px 0px 0px 50px;
-	font-size:large;
+.sidebarTitle{
+	padding:10px 0px 0px 0px;
+	margin-left:15px;
+	font-size: 20px;
+    width: 130px;
+    font-weight: bold;
+    float:left;
 }
-.sidebarContent2{
-	padding:5px 0px 0px 50px;
-	font-size:large;
+.sidebarContent{
+	padding:10px 0px 0px 0px;
+	font-size: 20px;
+    display: inline-block;
+    width: 430px;
 }
-.sidebarAddress{
-	padding:5px 0px 0px 50px;
-	font-size:mideum;
-}
+
 .table1{
 	margin-left:auto;
 	margin-right:auto;
@@ -80,8 +83,11 @@ div.wrapper div.container {
 	background-color:ghostwhite;
 	font-size:5px;
 }
+.buttonMenu{
+	width:180px;
+	margin:auto;
+}
 .button2 {
-  margin-left:150px;
   text-decoration:none;
   background-color: ghostwhite;
   color: black; 

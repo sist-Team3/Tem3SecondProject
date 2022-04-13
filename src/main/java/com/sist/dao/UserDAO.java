@@ -9,6 +9,7 @@ import com.sist.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Repository
 public class UserDAO {
@@ -26,7 +27,13 @@ public class UserDAO {
 	public UserVO findUserByEmail(String email) {
 		return userMapper.findByEmail(email);
 	}
+	public String isUserByName(String name) {
+		return userMapper.findByName(name) > 0 ? "true" : "false";
+	}
 	public boolean isUserByEmail(String email) {
 		return userMapper.findByEmail(email) != null ? true : false;
+	}
+	public String getEmailByPhone(String phone) {
+		return userMapper.findEmailByPhone(phone);
 	}
 }

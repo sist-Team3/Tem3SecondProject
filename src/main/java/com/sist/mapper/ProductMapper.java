@@ -63,10 +63,10 @@ public interface ProductMapper {
 	@Select("SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,deal_type "
 			+ "FROM apartment_3 WHERE road_name=#{road_name}")
 	public List<ApartmentVO> apartmentSameData(String road_name);
-	@Select("SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,deal_type "
+	@Select("SELECT no,area_size,price,floor,address,name,road_name,construction_year,contract_date,deal_type "
 			+ "FROM officetel_3 WHERE road_name=#{road_name}")
 	public List<OfficetelVO> officetelSameData(String road_name);
-	@Select("SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,deal_type "
+	@Select("SELECT no,area_size,landarea_size,price,floor,address,name,road_name,construction_year,contract_date,deal_type "
 			+ "FROM villa_3 WHERE road_name=#{road_name}")
 	public List<VillaVO> villaSameData(String road_name);
 
