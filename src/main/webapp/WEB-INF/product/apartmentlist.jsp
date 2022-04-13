@@ -154,8 +154,8 @@ $(function(){
 							<th width=15% class="text-center">거래 일자</th>
 							
 						</tr>
-							<tr id="tabledown" v-for="vo in apartment_list">
-								<td width=5% class="text-center">{{vo.no }}</td>
+							<tr id="tabledown" v-for="(vo,index) in apartment_list">
+								<td width=5% class="text-center">{{(curpage-1)*20+index+1 }}</td>
 								<td width=20% class="text-center">{{vo.address }}</td>
 								<td width=15% class="text-center">{{vo.road_name }}</td>
 								<td width=20% class="text-center">

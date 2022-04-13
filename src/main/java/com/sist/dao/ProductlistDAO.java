@@ -61,9 +61,9 @@ public class ProductlistDAO {
 	  {
 		  return mapper.apartmentFindData(map);
 	  }
-	  public int apartmentFindTotalpage(Map map)
+	  public int apartmentFindTotalcount(Map map)
 	  {
-		 return mapper.apartmentFindTotalpage(map);
+		 return mapper.apartmentFindTotalConut(map);
 	  }
 	  public List<ApartmentVO> apartmentMapFindData(String address)
 	  {

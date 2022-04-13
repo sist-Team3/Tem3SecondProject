@@ -55,9 +55,8 @@ public class ProductlistRestController {
   		 fmap.put("optArr",checkOption);
   		 fmap.put("sort",sort);
   		 List<ApartmentVO> list=dao.apartmentFindData(fmap);
-  		 int totalpage=dao.apartmentFindTotalpage(fmap);
-  		
-//  		 result=gson.toJson(list);
+  		 int totalCount = dao.apartmentFindTotalcount(fmap);
+  		 int totalpage= (int)(Math.ceil(totalCount/20.0));
   		 
   		final int BLOCK=10;
  		int startPage=((curpage-1)/BLOCK*BLOCK)+1;

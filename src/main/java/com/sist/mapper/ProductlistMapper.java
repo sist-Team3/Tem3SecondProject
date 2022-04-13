@@ -135,7 +135,7 @@ public interface ProductlistMapper {
 			  + "</trim>"
 			  + "</if>"
 			  + "</script>")
-	public int apartmentFindTotalpage(Map map);
+	public int apartmentFindTotalConut(Map map);
 	// 지도로 찾기
 	@Select("SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,num "
 			+ "FROM (SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date "

@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.sist.dao.UserDAO;
@@ -41,6 +42,18 @@ public class UserService {
 	}
 	public String isUserByName(String name) {
 		return userDAO.isUserByName(name);
+	}
+	// 마이페이지 비밀번호 변경 시 사용
+	public String updateLoggedUserPassword() {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		return userDetails.getPassword();
+	}
+	// 마이페이지 정보 변경 시 사용
+	public String getLoggedUserName() {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		return userDetails.getUsername();
 	}
 	
     // OAuth 로그인 메서드
