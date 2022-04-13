@@ -22,10 +22,10 @@
 #user-info-area{
 	margin-top: 20vh
 }
-#name-ok{
+#email-ok{
 	color: green;
 }
-#name-no{
+#email-no{
 	color: red;
 }
 #cert-ok{
@@ -39,11 +39,11 @@
 <body>
 	<div class="container">
 		<div class="row" id="user-info-area">
-		<div id="id-tab">아이디 찾기</div>
-		<div id="pw-tab"><a href="../user/findpw.do">비밀번호 찾기</a></div>
+			<div id="id-tab"><a href="../user/find.do">아이디 찾기</a></div>
+			<div id="pw-tab">비밀번호 찾기</div>
 			<div class="col-xs-12" id="user-find-form">
-				<input type="text" id="username" placeholder="이름">
-				<span class="name-msg">이름을 입력해주세요.</span><br>
+				<input type="email" id="email" placeholder="email@example.com">
+				<span class="email-msg">이메일(아이디)를 입력해주세요.</span><br>
 				<input type="text" id="phone-number" placeholder="전화번호">
 				<button id="cert-button">인증번호 전송</button>
 			</div>
@@ -57,19 +57,18 @@
 <script type="text/javascript">
 	let phone = '';
 	let certNum = '';
-	$('#username').change(function(){
-		console.log($('#username').val())
+	$('#email').change(function(){
 		$.ajax({
-			url: '/web/user/checkUsername.do',
-			data: { username: $('#username').val() },
+			url: '/web/user/checkemail.do',
+			data: { email: $('#email').val() },
 			method: 'POST',
 			dataType: 'text'
 		})
 		.done(function(data){
 			if(data == 'true') {
-				$('span.name-msg').replaceWith('<span class="name-msg" id="name-ok">이름이 확인되었습니다.</span>');
+				$('span.email-msg').replaceWith('<span class="email-msg" id="email-ok">이메일(아이디)이 확인되었습니다.</span>');
 			} else {
-				$('span.name-msg').replaceWith('<span class="name-msg" id="name-no">가입되지 않은 이름입니다.</span>');
+				$('span.email-msg').replaceWith('<span class="email-msg" id="email-no">가입되지 않은 이메일(아이디)입니다.</span>');
 			} 	
 		});
 	});
@@ -94,7 +93,7 @@
 	});
 	$(document).on("click", "#cert-ok-button" , function(){
 		$.ajax({
-			url: '/web/user/emailcert.do',
+			url: '/web/user/pwcert.do',
 			data: { certNum : $('#cert-num').val(),
 					phone: phone	
 			},
@@ -107,7 +106,7 @@
 				$('#cert-ok-form').append('<span id="cert-no">인증번호가 일치하지 않습니다. 다시 확인해주세요.</span>');
 			} else {
 				$('#user-find-form').remove();
-				$('#user-info-area').append('<span id="cert-ok">고객님의 아이디는 ' + data + ' 입니다.</span>');				
+				$('#user-info-area').append('<span id="cert-ok">임시비밀번호는 ' + data + ' 입니다.</span>');				
 			}
 		})
 		.fail(function(xhr, status, errorThrown){

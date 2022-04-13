@@ -1,7 +1,9 @@
 package com.sist.mapper;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.sist.vo.UserVO;
 
@@ -17,4 +19,8 @@ public interface UserMapper {
 	
 	@Select("SELECT EMAIL FROM USERS_3 WHERE PHONE = #{phone}")
     public String findEmailByPhone(String phone);
+	
+	@Update("UPDATE USERS_3 SET PASSWORD = #{password} WHERE PHONE = #{phone}")
+	public void updatePasswordByPhone(@Param("password")String password, @Param("phone")String phone);
 }
+

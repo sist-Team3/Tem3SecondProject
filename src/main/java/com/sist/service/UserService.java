@@ -12,8 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sist.dao.UserDAO;
@@ -30,8 +28,6 @@ public class UserService {
 	private UserDAO userDAO;
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
 	
 	public void addUser(UserVO user) {
 		user.setId(UUID.randomUUID().toString());		
@@ -39,12 +35,15 @@ public class UserService {
 		log.info("User Service 회원 전달 = {}", user.toString());
 	}
 	
+	// 회원 확인 메서드 (이메일 기반 & 이름 기반)
 	public boolean isUser(String email) {
 		return userDAO.isUserByEmail(email);
 	}
 	public String isUserByName(String name) {
 		return userDAO.isUserByName(name);
 	}
+	
+    // OAuth 로그인 메서드
 	public String oauthLogIn(String email, String password, HttpServletRequest request) {
 		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(email, password);
 	    Authentication authenticatedUser = authenticationManager.authenticate(loginToken);
@@ -54,22 +53,8 @@ public class UserService {
 	    
 	    return "redirect:/";
 	}
-	public String getLoggedUserName() {
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		return userDetails.getUsername();
-	}
-	public String updateLoggedUserPassword() {
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		return userDetails.getPassword();
-	}
-	public boolean checkPw() {
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		String oldPasswordString = userDetails.getPassword();
-		return passwordEncoder.matches("새로 받은 비밀번호", "UserDetails에서 받아온 비밀번호");
-	}
+	
+	// 휴대폰 인증번호 전송 메서드
 	public String getPhoneCertification(String phone, HttpServletRequest request) {
 		String api_key = "NCSLZJGA8HIBAJBT";
 	    String api_secret = "H3JWEZAYSRSIULBEO2OBFAJOHNAZOPP7";
@@ -95,11 +80,21 @@ public class UserService {
 	    }
 		return Integer.toString(certNum);
 	}
+	
+	// 휴대폰 인증 기반 정보 전송 메서드 (아이디 & 비밀번호)
 	public String getEmailByPhoneCertification(String certNum, String phone, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		if (certNum.equals(session.getAttribute("phoneCertNum").toString())) {
 			session.removeAttribute("phoneCertNum");
 			return userDAO.getEmailByPhone(phone);
+		}
+		return "false";
+	}
+	public String getPasswordByPhoneCertification(String certNum, String phone, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (certNum.equals(session.getAttribute("phoneCertNum").toString())) {
+			session.removeAttribute("phoneCertNum");
+			return userDAO.getNewPasswordByPhone(phone);
 		}
 		return "false";
 	}

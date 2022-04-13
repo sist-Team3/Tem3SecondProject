@@ -1,5 +1,7 @@
 package com.sist.dao;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -8,7 +10,6 @@ import com.sist.mapper.UserMapper;
 import com.sist.vo.UserVO;
 
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @Repository
@@ -35,5 +36,11 @@ public class UserDAO {
 	}
 	public String getEmailByPhone(String phone) {
 		return userMapper.findEmailByPhone(phone);
+	}
+	public String getNewPasswordByPhone(String phone) {
+		String newPW = UUID.randomUUID().toString().replaceAll("-", "");
+		String password = passwordEncoder.encode(newPW);
+		userMapper.updatePasswordByPhone(password, phone);
+		return newPW;
 	}
 }

@@ -4,9 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,14 +47,19 @@ public class UserController {
 		webDataBinder.addValidators(userValidator);
 	}
 	
+	/* 
+	 * 1. 회원가입 페이지 
+	 * 1-1. 회원가입 페이지 출력
+	 */
 	@GetMapping("/signup.do")
 	public String getSignUp(Model model) {
 		model.addAttribute("user", new UserVO());
 		return "user/signUp";
 	}
-	
+	// 1-2. 회원가입 처리 (일반)
 	@PostMapping("/signup.do")
-    public String postSignUp(@Validated @ModelAttribute("user") UserVO user, BindingResult bindingResult) {
+    public String postSignUp(@Validated @ModelAttribute("user") UserVO user, 
+    						  BindingResult bindingResult) {
 		// 검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
             return "user/signUp";
@@ -66,32 +68,31 @@ public class UserController {
         userService.addUser(user);
         return "user/userOk";
     }
-	
-	@GetMapping("/username.do")
-	@ResponseBody
-	public String getAdmin() {
-		return userService.getLoggedUserName();
+	// 1-3. 회원가입 처리 (OAuth)
+	@PostMapping("/oauthsignup.do")
+	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
+		userService.addUser(user);
+		return "user/userOk";
 	}
 	
-	@GetMapping("/pwcheck.do")
-	@ResponseBody
-	public String checkPw() {
-		return userService.checkPw() ? "TRUE" : "FALSE";
-	}
-	
+	/* 
+	 * 2. 로그인 페이지 
+	 * 2-1. 로그인 페이지 출력
+	 */
 	@RequestMapping("/signin.do")
 	public String getSignIn(HttpSession session, Model model) {
-        /* 네아로 인증 URL을 생성하기 위하여 getAuthorizationUrl을 호출 */
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
         model.addAttribute("url", naverAuthUrl);
         
 		return "user/signIn";
 	}
-	
+	// 2-2. OAuth 로그인 처리
 	@RequestMapping("callback.do")
-	public String getNaver(@RequestParam String code, Model model, HttpServletRequest request) throws Exception{
-		UserVO oauthUser = userParser.parseUser(naverLoginBO.getUserProfile(code));
+	public String getNaver(@RequestParam String code, 
+							Model model, 
+							HttpServletRequest request) throws Exception{
 		
+		UserVO oauthUser = userParser.parseUser(naverLoginBO.getUserProfile(code));
 		if (userService.isUser(oauthUser.getEmail())) {
 			return userService.oauthLogIn(oauthUser.getEmail(), oauthUser.getPassword(), request);
 		}
@@ -99,30 +100,60 @@ public class UserController {
 	    return "user/oauthSignUp";
 	}
 	
-	@PostMapping("/oauthsignup.do")
-	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
-        userService.addUser(user);
-		return "user/userOk";
-	}
+	/* 
+	 * 3. 아이디 찾기 페이지 
+	 * 3-1. 아이디 찾기 페이지 출력
+	 */
 	@GetMapping("/find.do")
-	public String findUsernameAndPassword() {
+	public String findUsername() {
 		return "user/findUser";
 	}
-	@PostMapping("/phonecert.do")
-	@ResponseBody
-	public String getPhoneCertification(@RequestParam String phone, HttpServletRequest request) {
-		return userService.getPhoneCertification(phone, request);
-	}
-	@PostMapping("/emailcert.do")
-	@ResponseBody
-	public String getEmailByCertification(@RequestParam("certNum") String certNum,
-										  @RequestParam("phone") String phone,
-										  HttpServletRequest request) {
-		return userService.getEmailByPhoneCertification(certNum, phone, request);
-	}
+	// 3-2. 이름으로 가입여부 확인
 	@PostMapping("/checkUsername.do")
 	@ResponseBody
 	public String checkUserByName(@RequestParam String username) {
 		return userService.isUserByName(username);
+	}
+	// 3-3. 본인인증 기반 이메일 전달
+	@PostMapping("/emailcert.do")
+	@ResponseBody
+	public String getEmailByCert(@RequestParam("certNum") String certNum,
+								 @RequestParam("phone") String phone,
+								  HttpServletRequest request) {
+		return userService.getEmailByPhoneCertification(certNum, phone, request);
+	}
+	
+	/* 
+	 * 4. 비밀번호 찾기 페이지 
+	 * 4-1. 비밀번호 찾기 페이지 출력
+	 */
+	@GetMapping("/findpw.do")
+	public String findPassword() {
+		return "user/findPassword";
+	}
+	// 4-2. 이메일로 가입여부 확인
+	@PostMapping("/checkemail.do")
+	@ResponseBody
+	public String checkUserByEmail(@RequestParam String email) {
+		return Boolean.toString(userService.isUser(email));
+	}
+	// 4-3. 본인인증 기반 임시 비밀번호 전달
+	@PostMapping("/pwcert.do")
+	@ResponseBody
+	public String getPasswordByCert(@RequestParam("certNum") String certNum,
+									@RequestParam("phone") String phone,
+									 HttpServletRequest request) {
+		return userService.getEmailByPhoneCertification(certNum, phone, request);
+	}
+	
+	/* 
+	 * 5. 아이디/비밀번호 찾기 공통
+	 *    본인 휴대폰 인증번호 전송
+	 */
+	@PostMapping("/phonecert.do")
+	@ResponseBody
+	public String getPhoneCertCode(@RequestParam String phone, 
+									HttpServletRequest request) {
+		return userService.getPhoneCertification(phone, request);
 	}
 }
