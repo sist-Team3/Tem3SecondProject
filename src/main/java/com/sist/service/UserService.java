@@ -3,6 +3,8 @@ package com.sist.service;
 import java.util.Collection;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,10 +37,13 @@ public class UserService {
 	public boolean isUser(String email) {
 		return userDAO.isUserByEmail(email);
 	}
-	public String oauthLogIn(String email, String password) {
+	public String oauthLogIn(String email, String password, HttpServletRequest request) {
 		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(email, password);
 	    Authentication authenticatedUser = authenticationManager.authenticate(loginToken);
 	    SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+	    
+	    request.getSession().setAttribute("username", email);
+	    
 	    return "redirect:/";
 	}
 	public String getLoggedUserName() {

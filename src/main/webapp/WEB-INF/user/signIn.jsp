@@ -71,7 +71,16 @@ div.login-picture>img{
 				</form>
 				<a href="${url}" id="login-naver">
 					<img alt="Naver Login Button" src="../resources/img/login-naver.png">
-				</a>	
+				</a>
+				<c:choose>
+					<c:when test="${param.error eq 'ni'}">
+						<p>아이디가 존재하지 않습니다.</p>
+					</c:when>
+					<c:when test="${param.error eq 'pe'}">
+						<p>비밀번호가 일치하지 않습니다.</p>
+					</c:when>
+					<c:otherwise></c:otherwise>
+				</c:choose>	
 			</div>
 		</div>		
 	</div>

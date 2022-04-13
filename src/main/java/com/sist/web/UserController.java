@@ -1,5 +1,6 @@
 package com.sist.web;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class UserController {
 		return userService.getLoggedUserName();
 	}
 	
-	@GetMapping("/signIn.do")
+	@RequestMapping("/signIn.do")
 	public String getSignIn(HttpSession session, Model model) {
         /* 네아로 인증 URL을 생성하기 위하여 getAuthorizationUrl을 호출 */
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -80,11 +81,11 @@ public class UserController {
 	}
 	
 	@RequestMapping("callback.do")
-	public String getNaver(@RequestParam String code, Model model) throws Exception{
+	public String getNaver(@RequestParam String code, Model model, HttpServletRequest request) throws Exception{
 		UserVO oauthUser = userParser.parseUser(naverLoginBO.getUserProfile(code));
 		
 		if (userService.isUser(oauthUser.getEmail())) {
-			return userService.oauthLogIn(oauthUser.getEmail(), oauthUser.getPassword());
+			return userService.oauthLogIn(oauthUser.getEmail(), oauthUser.getPassword(), request);
 		}
 		model.addAttribute("user", oauthUser);
 	    return "user/oauthSignUp";
