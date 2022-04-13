@@ -27,7 +27,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
             errormsg = "ni";
         }
         
-        response.sendRedirect("user/signIn.do?error="+errormsg);
+        response.sendRedirect("user/signin.do?error="+errormsg);
         
 	}
 	

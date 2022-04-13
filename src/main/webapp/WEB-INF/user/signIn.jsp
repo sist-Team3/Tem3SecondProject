@@ -67,6 +67,7 @@ div.login-picture>img{
 				<%--	<form:errors path="email"/><br>--%>
 					<label for="floatingPassword">Password</label>
 					<input type="password" class="form-control" id="floatingPassword" name="password" placeholder="비밀번호" />
+					<a href="../user/find.do">아이디/비밀번호 찾기</a>
 					<button type="submit" class="btn btn-info" id="btn-login-default">회원 로그인</button>
 				</form>
 				<a href="${url}" id="login-naver">

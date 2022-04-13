@@ -29,8 +29,8 @@
 					<li><a href="../board/board.do">게시판</a></li>
 					<li><a href="../news/main.do">부동산 뉴스</a></li>
 					<c:if test="${empty sessionScope.username}">
-						<li><a href="../user/signUp.do">회원가입</a></li>
-						<li><a href="../user/signIn.do">로그인</a></li>
+						<li><a href="../user/signup.do">회원가입</a></li>
+						<li><a href="../user/signin.do">로그인</a></li>
 					</c:if>
 					<c:if test="${not empty sessionScope.username}">
 						<li><a href="../mypage/main.do">마이페이지</a></li>

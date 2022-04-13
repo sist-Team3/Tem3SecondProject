@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,13 +50,13 @@ public class UserController {
 		webDataBinder.addValidators(userValidator);
 	}
 	
-	@GetMapping("/signUp.do")
+	@GetMapping("/signup.do")
 	public String getSignUp(Model model) {
 		model.addAttribute("user", new UserVO());
 		return "user/signUp";
 	}
 	
-	@PostMapping("/signUp.do")
+	@PostMapping("/signup.do")
     public String postSignUp(@Validated @ModelAttribute("user") UserVO user, BindingResult bindingResult) {
 		// 검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
@@ -71,7 +73,13 @@ public class UserController {
 		return userService.getLoggedUserName();
 	}
 	
-	@RequestMapping("/signIn.do")
+	@GetMapping("/pwcheck.do")
+	@ResponseBody
+	public String checkPw() {
+		return userService.checkPw() ? "TRUE" : "FALSE";
+	}
+	
+	@RequestMapping("/signin.do")
 	public String getSignIn(HttpSession session, Model model) {
         /* 네아로 인증 URL을 생성하기 위하여 getAuthorizationUrl을 호출 */
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -91,9 +99,18 @@ public class UserController {
 	    return "user/oauthSignUp";
 	}
 	
-	@PostMapping("/oauthSignUp.do")
+	@PostMapping("/oauthsignup.do")
 	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
         userService.addUser(user);
 		return "user/userOk";
+	}
+	@GetMapping("/find.do")
+	public String findUsernameAndPassword() {
+		return "user/findUser";
+	}
+	@PostMapping("/phonecert")
+	@ResponseBody
+	public String getPhoneCertification() {
+		return userService.getPhoneCertification();
 	}
 }
