@@ -3,11 +3,12 @@
 .wrapper {
     background-color: #f8f8f8;
     margin-top: 70px;
+    
 }
 .productContainer{
 	padding-top:100px;
-	margin-left:50px;
-	margin-right:50px;
+	margin-left:100px;
+	margin-right:100px;
 }
 
 div.wrapper div.container {
@@ -26,26 +27,68 @@ div.wrapper div.container {
 
 /* 사이드 매물정보 css */
 .sidebar{
+	background-color:gainsboro;
 	position:fixed;
 	top:130px;
 	right:100px;
 	bottom:0;
 	padding:0;
-	width:500px;
-	height:500px;
+	width:450px;
+	height:400px;
+	border-collapse: collapse;
+	border: .5px solid;
+	box-shadow: 0 5px 18px -7px rgba(0,0,0,1);
+}
+.sidebarTitle{
+	padding:10px;
+	text-align:center;
+	font-size:XX-large;
+}
+.sidebarContent1{
+	padding:15px 0px 0px 50px;
+	font-size:large;
+}
+.sidebarContent2{
+	padding:5px 0px 0px 50px;
+	font-size:large;
+}
+.sidebarAddress{
+	padding:5px 0px 0px 50px;
+	font-size:mideum;
+}
+.table1{
+	margin-left:auto;
+	margin-right:auto;
+	width:450px;
+	border-collapse: collapse;
+  	border: 2px solid;
+}
+.sidebar span{
+	margin-left:auto;
+	margin-right:auto;
 }
 
+
+
+
 /* 버튼css */
+.buttonC1{
+	background-color:ghostwhite;
+	font-size:5px;
+}
+.buttonC2{
+	background-color:ghostwhite;
+	font-size:5px;
+}
 .button2 {
-  margin-left:170px;
+  margin-left:150px;
   text-decoration:none;
-  background-color: white; 
+  background-color: ghostwhite;
   color: black; 
   border: 2px solid red;
   font-weight:bold;
   font-size:x-large;
 }
-
 .button2:hover {
   text-decoration:none;
   background-color: red;
@@ -54,7 +97,7 @@ div.wrapper div.container {
 .button3 {
 
   text-decoration:none;
-  background-color: white; 
+  background-color: ghostwhite;
   color: black; 
   border: 2px solid red;
   font-weight:bold;
@@ -67,12 +110,13 @@ div.wrapper div.container {
   color: white;
 }
 
-.table{
 
-	width:500px;
+.table2{
+	width:700px;
 	border-collapse: collapse;
   	border: 2px solid;
 }
+
 
 #curve_chart{
 	width: 700px;
