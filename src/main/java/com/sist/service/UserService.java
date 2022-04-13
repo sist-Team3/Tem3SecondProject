@@ -64,14 +64,14 @@ public class UserService {
 		return passwordEncoder.matches("새로 받은 비밀번호", "UserDetails에서 받아온 비밀번호");
 	}
 	public String getPhoneCertification() {
-		String api_key = "#ENTER_YOUR_OWN#";
-	    String api_secret = "#ENTER_YOUR_OWN#";
+		String api_key = "NCSLZJGA8HIBAJBT";
+	    String api_secret = "H3JWEZAYSRSIULBEO2OBFAJOHNAZOPP7";
 	    Message coolsms = new Message(api_key, api_secret);
 
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
-	    params.put("to", "01000000000");
-	    params.put("from", "01000000000");
+	    params.put("to", "01040962435");
+	    params.put("from", "07079544672");
 	    params.put("type", "SMS");
 	    params.put("text", "Coolsms Testing Message!");
 	    params.put("app_version", "test app 1.2"); // application name and version

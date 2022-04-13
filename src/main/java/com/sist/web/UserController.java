@@ -108,7 +108,7 @@ public class UserController {
 	public String findUsernameAndPassword() {
 		return "user/findUser";
 	}
-	@PostMapping("/phonecert")
+	@PostMapping("/phonecert.do")
 	@ResponseBody
 	public String getPhoneCertification() {
 		return userService.getPhoneCertification();

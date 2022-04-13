@@ -41,8 +41,21 @@
   crossorigin="anonymous"></script>
 <script type="text/javascript">
 	$('#cert-button').click(function(){
-		$('#user-find-form').append('<br><input type="text" placeholder="인증번호">'
-								  + '<button id="cert-button">확인</button>');
+		$.ajax({
+			url: '/web/user/phonecert.do',
+			data: { name: '홍길동' },
+			method: 'POST',
+			dataType: 'text'
+		})
+		.done(function(data){
+			$('#user-find-form').append('<br><input type="text" placeholder="인증번호">'
+					  + '<button id="cert-button">확인</button>');
+			console.log(data);
+		})
+		.fail(function(xhr, status, errorThrown){
+			console.log(status + ' ' + errorThrown);
+		})
 	});
+	
 </script>
 </html>
