@@ -14,7 +14,7 @@
 <body>
 <h1>간편 회원가입</h1>
 <p>${user.email}로 회원가입 하시겠습니까?</p>
-<form method="post" action="../user/oauthSignUp.do">
+<form method="post" action="../user/oauthsignup.do">
   	<input type="hidden" class="form-control" name="email" value="${user.email}"/>
 	<input type="hidden" class="form-control" name="password" value="${user.password}"/>
 	<input type="hidden" class="form-control" name="name" value="${user.name}"/>

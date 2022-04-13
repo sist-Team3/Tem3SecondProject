@@ -1,8 +1,11 @@
 package com.sist.web;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,13 +50,13 @@ public class UserController {
 		webDataBinder.addValidators(userValidator);
 	}
 	
-	@GetMapping("/signUp.do")
+	@GetMapping("/signup.do")
 	public String getSignUp(Model model) {
 		model.addAttribute("user", new UserVO());
 		return "user/signUp";
 	}
 	
-	@PostMapping("/signUp.do")
+	@PostMapping("/signup.do")
     public String postSignUp(@Validated @ModelAttribute("user") UserVO user, BindingResult bindingResult) {
 		// 검증 실패 시 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
@@ -70,7 +73,13 @@ public class UserController {
 		return userService.getLoggedUserName();
 	}
 	
-	@GetMapping("/signIn.do")
+	@GetMapping("/pwcheck.do")
+	@ResponseBody
+	public String checkPw() {
+		return userService.checkPw() ? "TRUE" : "FALSE";
+	}
+	
+	@RequestMapping("/signin.do")
 	public String getSignIn(HttpSession session, Model model) {
         /* 네아로 인증 URL을 생성하기 위하여 getAuthorizationUrl을 호출 */
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
@@ -80,19 +89,28 @@ public class UserController {
 	}
 	
 	@RequestMapping("callback.do")
-	public String getNaver(@RequestParam String code, Model model) throws Exception{
+	public String getNaver(@RequestParam String code, Model model, HttpServletRequest request) throws Exception{
 		UserVO oauthUser = userParser.parseUser(naverLoginBO.getUserProfile(code));
 		
 		if (userService.isUser(oauthUser.getEmail())) {
-			return userService.oauthLogIn(oauthUser.getEmail(), oauthUser.getPassword());
+			return userService.oauthLogIn(oauthUser.getEmail(), oauthUser.getPassword(), request);
 		}
 		model.addAttribute("user", oauthUser);
 	    return "user/oauthSignUp";
 	}
 	
-	@PostMapping("/oauthSignUp.do")
+	@PostMapping("/oauthsignup.do")
 	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
         userService.addUser(user);
 		return "user/userOk";
+	}
+	@GetMapping("/find.do")
+	public String findUsernameAndPassword() {
+		return "user/findUser";
+	}
+	@PostMapping("/phonecert.do")
+	@ResponseBody
+	public String getPhoneCertification() {
+		return userService.getPhoneCertification();
 	}
 }

@@ -67,11 +67,21 @@ div.login-picture>img{
 				<%--	<form:errors path="email"/><br>--%>
 					<label for="floatingPassword">Password</label>
 					<input type="password" class="form-control" id="floatingPassword" name="password" placeholder="비밀번호" />
+					<a href="../user/find.do">아이디/비밀번호 찾기</a>
 					<button type="submit" class="btn btn-info" id="btn-login-default">회원 로그인</button>
 				</form>
 				<a href="${url}" id="login-naver">
 					<img alt="Naver Login Button" src="../resources/img/login-naver.png">
-				</a>	
+				</a>
+				<c:choose>
+					<c:when test="${param.error eq 'ni'}">
+						<p>아이디가 존재하지 않습니다.</p>
+					</c:when>
+					<c:when test="${param.error eq 'pe'}">
+						<p>비밀번호가 일치하지 않습니다.</p>
+					</c:when>
+					<c:otherwise></c:otherwise>
+				</c:choose>	
 			</div>
 		</div>		
 	</div>
