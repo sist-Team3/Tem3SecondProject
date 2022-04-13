@@ -46,7 +46,9 @@ public class UserService {
 				.getAuthentication().getPrincipal();
 		return userDetails.getUsername();
 	}
-	public void updateLoggedUserName(String email) {
-		
+	public String updateLoggedUserPassword() {
+		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		return userDetails.getPassword();
 	}
 }

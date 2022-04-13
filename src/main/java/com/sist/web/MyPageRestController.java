@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,12 @@ import com.sist.vo.UserVO;
 public class MyPageRestController {
 	@Autowired
 	private MyPageDAO dao;
-	
 	@Autowired
 	private UserService uService;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@GetMapping(value ="mypage_vue.do",produces="text/plain;charset=utf-8")
 	public String myPage_main_vue() {
@@ -64,9 +66,6 @@ public class MyPageRestController {
 			if(vo.getAddress2()==null)
 				vo.setAddress2("");
 			dao.updateUserData(vo);
-			String db_pwd=dao.getPwd(email);
-			// 새로운 email로 update가 필요
-//			uService.updateLoggedUserName(vo.getEmail(), db_pwd);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,17 +73,19 @@ public class MyPageRestController {
 	}
 	@PostMapping(value="mypage_pwd_update.do",produces = "text/plain;charset=utf-8")
 	public String myPage_pwd_update(@RequestBody String pwd) {
-		String email = uService.getLoggedUserName();
 		String result="";
+		String email = uService.getLoggedUserName();
+		String u_pwd = uService.updateLoggedUserPassword();
+		
 		Gson gson = new Gson();
 		Map<String,Object> map = gson.fromJson(pwd, Map.class);
-		// db에서 password 바꿔서 가져오기
-		String db_pwd=dao.getPwd(email);
-		System.out.println(map.get("now_pwd"));
-		if(db_pwd.equals(map.get("now_pwd").toString())) {
-			Map<String, Object> cMap = new HashMap<String, Object>();
-			cMap.put("pwd",map.get("change_pwd"));
-			cMap.put("id","kim1");
+		String now_pwd = map.get("now_pwd").toString();
+		String change_pwd = map.get("change_pwd").toString();
+		
+		if(passwordEncoder.matches(now_pwd, u_pwd)) {
+			Map<String, String> cMap = new HashMap<String, String>();
+			cMap.put("pwd",passwordEncoder.encode(change_pwd));
+			cMap.put("email",email);
 			dao.updatePwd(cMap);
 			result="YES";
 		}else {
@@ -96,9 +97,10 @@ public class MyPageRestController {
 	public String mypage_delete(@RequestBody String pwd,HttpSession session) {
 		String result="";
 		String email = uService.getLoggedUserName();
-		String db_pwd=dao.getPwd(email);
-		if(db_pwd.equals(pwd)) {
-			dao.deleteUser(email);
+		String u_pwd = uService.updateLoggedUserPassword();
+		System.out.println(pwd);
+		if(passwordEncoder.matches(pwd, u_pwd)) {
+//			dao.deleteUser(email);
 			result="YES";
 		}else {
 			result="NO";
