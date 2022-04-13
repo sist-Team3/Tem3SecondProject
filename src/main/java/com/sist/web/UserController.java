@@ -110,7 +110,19 @@ public class UserController {
 	}
 	@PostMapping("/phonecert.do")
 	@ResponseBody
-	public String getPhoneCertification() {
-		return userService.getPhoneCertification();
+	public String getPhoneCertification(@RequestParam String phone, HttpServletRequest request) {
+		return userService.getPhoneCertification(phone, request);
+	}
+	@PostMapping("/emailcert.do")
+	@ResponseBody
+	public String getEmailByCertification(@RequestParam("certNum") String certNum,
+										  @RequestParam("phone") String phone,
+										  HttpServletRequest request) {
+		return userService.getEmailByPhoneCertification(certNum, phone, request);
+	}
+	@PostMapping("/checkUsername.do")
+	@ResponseBody
+	public String checkUserByName(@RequestParam String username) {
+		return userService.isUserByName(username);
 	}
 }

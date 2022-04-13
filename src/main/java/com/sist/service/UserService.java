@@ -1,10 +1,10 @@
 package com.sist.service;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,6 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-	
 	public void addUser(UserVO user) {
 		user.setId(UUID.randomUUID().toString());		
 		userDAO.save(user);
@@ -42,6 +41,9 @@ public class UserService {
 	
 	public boolean isUser(String email) {
 		return userDAO.isUserByEmail(email);
+	}
+	public String isUserByName(String name) {
+		return userDAO.isUserByName(name);
 	}
 	public String oauthLogIn(String email, String password, HttpServletRequest request) {
 		UsernamePasswordAuthenticationToken loginToken = new UsernamePasswordAuthenticationToken(email, password);
@@ -57,38 +59,43 @@ public class UserService {
 				.getAuthentication().getPrincipal();
 		return userDetails.getUsername();
 	}
-
-	public String updateLoggedUserPassword() {
-		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal();
-		return userDetails.getPassword();
-	}
 	public boolean checkPw() {
 		UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal();
 		String oldPasswordString = userDetails.getPassword();
 		return passwordEncoder.matches("새로 받은 비밀번호", "UserDetails에서 받아온 비밀번호");
 	}
-	public String getPhoneCertification() {
+	public String getPhoneCertification(String phone, HttpServletRequest request) {
 		String api_key = "NCSLZJGA8HIBAJBT";
 	    String api_secret = "H3JWEZAYSRSIULBEO2OBFAJOHNAZOPP7";
 	    Message coolsms = new Message(api_key, api_secret);
+	    // 인증번호 생성
+	    int certNum = (int)((Math.random()*9000)+1000);
 
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
-	    params.put("to", "01040962435");
+	    params.put("to", phone);
 	    params.put("from", "07079544672");
 	    params.put("type", "SMS");
-	    params.put("text", "Coolsms Testing Message!");
+	    params.put("text", "[LROOM]인증번호는 " + certNum + "입니다.");
 	    params.put("app_version", "test app 1.2"); // application name and version
 
 	    try {
 	      JSONObject obj = (JSONObject) coolsms.send(params);
-	      System.out.println(obj.toString());
+	      HttpSession session = request.getSession();
+	      session.setAttribute("phoneCertNum", certNum);
 	    } catch (CoolsmsException e) {
 	      System.out.println(e.getMessage());
 	      System.out.println(e.getCode());
 	    }
-		return "야호";
+		return Integer.toString(certNum);
+	}
+	public String getEmailByPhoneCertification(String certNum, String phone, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (certNum.equals(session.getAttribute("phoneCertNum").toString())) {
+			session.removeAttribute("phoneCertNum");
+			return userDAO.getEmailByPhone(phone);
+		}
+		return "false";
 	}
 }
