@@ -162,14 +162,28 @@ list-style-type : none;
 }
 #search-sort1
 {
-
  	padding : 0px 0px 0px 0px;
 }
 #search-sort1 li
 {
-	color : #00000;
 	line-height : 25px;
  	padding : 0px 0px 0px 30px;
+}
+#search-sort1 li:first-child
+{
+	line-height : 25px;
+ 	padding : 0;
+}
+#rsort>a{
+	color: rgb(93, 93, 93);
+	font-weight:500
+}
+#rsort>a.sorted{
+	color: red;
+}
+#rsort>a:hover{
+	text-decoration: none;
+	cursor: pointer;
 }
 #sc
 {

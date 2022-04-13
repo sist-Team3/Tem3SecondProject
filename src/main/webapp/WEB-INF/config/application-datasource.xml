@@ -34,12 +34,7 @@
       class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
       p:dataSource-ref="ds"
     />
-    
     <tx:annotation-driven/>
-    <!-- mybatis에 전송 : SqlSessionFactoryBean,SqlSessionTemplate(sql문장 XML) -->
-    <bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean"
-       p:dataSource-ref="ds"
-    />
     
     <!-- log파일로 전송 : sql문장 실행과정 확인  -->
     <!-- <bean id="dataSource" 
@@ -52,6 +47,11 @@
         </bean> 
       </property> 
     </bean> -->
+    
+    <!-- mybatis에 전송 : SqlSessionFactoryBean,SqlSessionTemplate(sql문장 XML) -->
+    <bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean"
+       p:dataSource-ref="ds"
+    />
     <!-- interface 구현  -->
     <mybatis-spring:scan base-package="com.sist.mapper"/>
 

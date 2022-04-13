@@ -1,5 +1,6 @@
 package com.sist.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,8 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
@@ -19,25 +21,42 @@ public class ProductlistRestController {
 	@Autowired
 	private ProductlistDAO dao;
 	
-	@RequestMapping(value="product/apartmentlist_vue.do",produces="text/plain;charset=utf-8")
-	public String apartment_find(String fd,int page)
+	@PostMapping(value="product/apartmentlist_vue.do",produces="text/plain;charset=utf-8")
+	public String apartment_find(@RequestBody String data)
 	{
+		String[] guList_1 = { "전체", "강서구", "양천구", "구로구", "마포구", "영등포구", "금천구",
+			    "은평구", "서대문구", "동작구", "관악구", "종로구", "중구", "용산구", "서초구", "강북구",
+			    "성북구", "도봉구", "동대문구", "성동구", "강남구", "노원구", "중랑구", "광진구", "송파구",
+			    "강동구" };
 		String result="";
-		try
-  	  {
-
-  		 int curpage=page;
+		Gson gson = new Gson();
+		Map<String,Object> map = gson.fromJson(data, Map.class);
+		try{
+		 double page = (double) map.get("page"); 
+		 String fd = "";
+		 String sort = (String)map.get("sort");
+		 List checkOption = new ArrayList();
+		 checkOption = (List)map.get("checkOption");
+		 String gu = (String)map.get("gu");
+		 
+		 if(gu.startsWith("searchMap")) {
+			 fd=guList_1[Integer.parseInt(gu.substring(gu.lastIndexOf("p")+1))];
+		 }else {
+			 fd=(String)map.get("fd");
+		 }
+  		 int curpage=(int)page;
   		 int rowSize=20;
   		 int start=(rowSize*curpage)-(rowSize-1);
   		 int end=rowSize*curpage;
-  		 System.out.println("Restfd= "+fd);
-  		 Map map=new HashMap();
-  		 map.put("start", start);
-  		 map.put("end", end);
-  		 map.put("fd", fd);
-  		 List<ApartmentVO> list=dao.apartmentFindData(map);
-  		 int totalpage=dao.apartmentFindTotalpage(fd);
-  		 Gson gson = new Gson();
+  		 Map fmap=new HashMap();
+  		 fmap.put("start", start);
+  		 fmap.put("end", end);
+  		 fmap.put("fd", fd);
+  		 fmap.put("optArr",checkOption);
+  		 fmap.put("sort",sort);
+  		 List<ApartmentVO> list=dao.apartmentFindData(fmap);
+  		 int totalpage=dao.apartmentFindTotalpage(fmap);
+  		
 //  		 result=gson.toJson(list);
   		 
   		final int BLOCK=10;
@@ -64,10 +83,11 @@ public class ProductlistRestController {
   				 obj.put("totalpage", totalpage);
   				 obj.put("startPage",startPage);
   				 obj.put("endPage",endPage);
+  				 obj.put("sort",sort);
   			 }
   			 arr.add(obj);
   			 i++;
-  		 }
+ 		 }
   		 result=gson.toJson(arr);
   	  }catch(Exception ex){
   		  ex.printStackTrace();

@@ -31,7 +31,6 @@ public class ProductlistController {
 	@GetMapping("product/apartmentlist.do")
 	public String apartment_list(String page,String fd,Model model)
 	{
-		System.out.println("contFd= "+fd);
 		if(fd==null)
 			fd="";
 		if(page==null)
