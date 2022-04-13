@@ -100,9 +100,12 @@ public class ProductController {
 		String addr_R=vo.getAddress()+vo.getRoad_name();
 		
 		// 월별 계약건수
-		int ACount=dao.apartment_ACount(vo.getName());
-		int BCount=dao.apartment_BCount(vo.getName());
-		int CCount=dao.apartment_CCount(vo.getName());
+		int ACount=dao.officetel_ACount(vo.getRoad_name());
+		int BCount=dao.officetel_BCount(vo.getRoad_name());
+		int CCount=dao.officetel_CCount(vo.getRoad_name());
+		
+		// 해당 매물 다른 계약 건수
+		List<OfficetelVO> oSameList=dao.officetelSameData(vo.getRoad_name());
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("p1", p1);
@@ -115,6 +118,7 @@ public class ProductController {
 		model.addAttribute("ACount", ACount);
 		model.addAttribute("BCount", BCount);
 		model.addAttribute("CCount", CCount);
+		model.addAttribute("oSameList", oSameList);
 		return "product/officetelDetail";
 	}
 }

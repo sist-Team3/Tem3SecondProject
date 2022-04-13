@@ -76,53 +76,52 @@
   <div class="productContainer">
  <!-- 사이드바 정보 -->
 	<div class="sidebar">
-		<div class="sidebarTitle">${vo.name}</div>		<!-- <P>로 제목&내용 나누기 -->
-		 <div class="sidebarContent1">
-		 	 <strong>거래 날짜</strong>&nbsp;  ${c_date }
+	<div class="sidebarName">${vo.name}</div>
+		<div style="padding:0px 0px 10px 0px;">
+			<div class="sidebarTitle">
+				<div>거래 날짜</div>
+				<div>가격</div>
+				<div>주소</div>
+				<div>전용 면적</div>
+				<div>층수</div>
+				<div>건축년도</div>
+				<div>거래유형</div>
+				<div>중개사 소재지</div>
+			</div>
+			<div class="sidebarContent">
+		 		<div>${c_date }</div>
+			  	<div>
+			  		<c:choose>
+					  		<c:when test="${vo.price>9999 && p2!=0}">
+								 	${p1 }억 ${p2 }만원
+							</c:when>
+							<c:when test="${vo.price>9999 && p2==0 }">
+								 	${p1 }억원
+						 	</c:when>
+						 	<c:when test="${vo.price<10000 }">
+						 	  		${vo.price}만원
+						 	</c:when>
+				 	</c:choose>
+				</div>
+				<div>
+					 	 		<span id="address_first"> ${addr_B} </span>	<span id="address_second"> ${addr_R} </span>
+						  		<button class="buttonC1" onclick="button_address()">⇆</button>
+				</div>
+			 	<div>
+			 			<span id="area_first">${area_size1}㎡</span> <span id="area_second">${area_size2}평</span>
+			 			<button class="buttonC2" onclick="button_area()">⇆</button>
+				</div>
+				<div>${vo.floor }층</div>
+				<div>${vo.construction_date}년</div>
+				<div>${vo.deal_type}</div>
+				<div>${vo.agent_seat}</div>
 		 </div>
-		 <div class="sidebarContent2">
-		  		<strong>가격</strong>&nbsp;	
-		  			<c:if test="${vo.price>9999 }">
-					 	  	 <c:if test="${p2!=0 }">
-						 			${p1 }억 ${p2 }만원
-					 	  	 </c:if>
-					 	  	 <c:if test="${p2==0 }">
-						 			${p1 }억원				 	  	 
-					 	  	 </c:if>
-				 	  </c:if>
-				 	  <c:if test="${vo.price<10000 }">
-				 	  		${vo.price}만원
-				 	  </c:if>
-		 </div>
-		 <div class="sidebarAddress">
-		 	<strong>주소</strong>&nbsp;
-		 	 		<span id="address_first"> ${addr_B} </span>	<span id="address_second"> ${addr_R} </span>
-			  		<button class="buttonC1" onclick="button_address()">⇆</button>
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>전용 면적</strong> &nbsp;
-		 			<span id="area_first">${area_size1}㎡</span> <span id="area_second">${area_size2}평</span>
-		 			<button class="buttonC2" onclick="button_area()">⇆</button>
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>층수</strong>&nbsp; ${vo.floor }층
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>건축년도</strong>&nbsp; ${vo.construction_date}년
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>거래유형</strong>&nbsp; ${vo.deal_type}
-		 </div>
-		 <div class="sidebarContent2">
-		 		<strong>중개사 소재지</strong>&nbsp; ${vo.agent_seat}
-		 </div>
-
-		<br>
-		<span>
-			<a href="#" class="button2" onclick="button_inquire();">문의하기</a>
-			<a href="../product/apartmentlist.do" class="button3">목록</a>
-		</span>
 	</div>
+	<div class="buttonMenu">
+			<button class="button2" onclick="button_inquire();">문의하기</button>
+			<button class="button3" onclick="button_back()">목록</button>
+	</div>
+  </div>
 	
 	
 <!-- 카카오 맵 -->
@@ -207,11 +206,11 @@
 								<td width=10% class="text-center">${asvo.deal_type }</td>
 							</tr>
 					</c:when>
-					<c:otherwise>
+					<c:when test="${empty aSameList }">
 							<tr style="height:30px;">
 								<td colspan="6" class="text-center">다른 계약 매물 없음</td>
 							</tr>
-					</c:otherwise>
+					</c:when>
 				  </c:choose>
 				</c:if>
 			  </c:forEach>
@@ -225,13 +224,24 @@
 
 <script>
 
+/* 문의하기 버튼 */
 function button_inquire() {
-	  if(${not empty sessionScope.login}){
-		   alert("문의가 접수되었습니다.");   
-		  }else{
-		   alert("로그인후 사용이 가능합니다.");
-		   location.href="../user/signIn.do";
-		  }
+	if(${not empty sessionScope.username}){
+		if(confirm("문의가 접수되었습니다. 마이페이지로 이동하시겠습니까?"))
+		{
+		location.href="../mypage/main.do";
+		}
+		else
+		{
+		}
+	}else{
+		alert("로그인후 사용이 가능합니다.");
+		location.href="../user/signin.do";
+	}
+}
+/* 목록으로 돌아가기 버튼 */
+function button_back() {
+		   location.href="../product/apartmentlist.do"
 
 }
 
