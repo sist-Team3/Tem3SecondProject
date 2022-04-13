@@ -80,6 +80,7 @@ public class NewsRestController {
 				obj.put("img", imgLink);
 				resultArr.add(obj);
 			}else {
+				obj.put("img","../resources/img/no-image.png");
 				resultArr.add(obj);
 			}
 		}

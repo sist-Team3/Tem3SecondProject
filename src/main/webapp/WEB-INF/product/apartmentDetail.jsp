@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -206,14 +207,14 @@
 								<td width=10% class="text-center">${asvo.deal_type }</td>
 							</tr>
 					</c:when>
-					<c:when test="${empty aSameList }">
-							<tr style="height:30px;">
-								<td colspan="6" class="text-center">다른 계약 매물 없음</td>
-							</tr>
-					</c:when>
 				  </c:choose>
 				</c:if>
 			  </c:forEach>
+			  <c:if test="${fn:length(aSameList)==1 }">
+					<tr style="height:30px;">
+						<td colspan="6" class="text-center">다른 계약 매물 없음</td>
+					</tr>
+			  </c:if>
 		</table>
  	</div>
 	   	<ul>
@@ -246,28 +247,32 @@ function button_back() {
 }
 
 $('#address_first').hide();	//toggle
-$(function button_address() {
-	$(".buttonC1").click(function() {
+let i = 0;
+function button_address() {
+	if(i==0){
 		$("#address_first").show();
 		$("#address_second").hide();
-	});
-	$(".buttonC1").dblclick(function() {
+		i=1
+	}else{
 		$("#address_first").hide();
 		$("#address_second").show();
-	});
-});
+		i=0;
+	}
+};
 
+let j =0;
 $('#area_first').hide();
-$(function button_area() {
-	$(".buttonC2").click(function() {
+function button_area() {
+	if(j==0){
 		$("#area_first").show();
 		$("#area_second").hide();
-	});
-	$(".buttonC2").dblclick(function() {
+		j=1
+	}else{
 		$("#area_first").hide();
 		$("#area_second").show();
-	});
-});
+		j=0;
+	}
+};
 
 
 

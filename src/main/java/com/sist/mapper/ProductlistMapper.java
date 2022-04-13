@@ -112,7 +112,7 @@ public interface ProductlistMapper {
     public List<ApartmentVO> apartmentFindData(Map map);
     
 	@Select("<script>"
-			+ "SELECT CEIL(COUNT(*)/20.0) "
+			+ "SELECT COUNT(*)"
 			+ "FROM apartment_3 "
 			+ "<if test=\"optArr.size > 0\">"
 			  + "WHERE "
