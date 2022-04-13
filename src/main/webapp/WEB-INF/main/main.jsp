@@ -36,7 +36,7 @@
 	<!-- footer 위치 -->
 	<tiles:insertAttribute name="footer"/>
 	<!-- JAVASCRIPTS --> 
-	<!-- <script src="../resources/js/jquery.min.js"></script> -->
+	<script src="../resources/js/jquery.min.js"></script> 
     <script src="../resources/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../resources/js/ie10-viewport-bug-workaround.js"></script>

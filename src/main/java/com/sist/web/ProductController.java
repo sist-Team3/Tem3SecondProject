@@ -1,15 +1,18 @@
 package com.sist.web;
 
-import org.hamcrest.core.SubstringMatcher;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-import com.sist.vo.*;
-import com.sist.dao.*;
+import com.sist.dao.ProductDAO;
+import com.sist.vo.ApartmentVO;
 
 @Controller
 public class ProductController {
@@ -17,8 +20,13 @@ public class ProductController {
 	private ProductDAO dao;
 	
 	@GetMapping("product/apartmentDetail.do")
-	public String apartmetDetail(int no,Model model)
+	public String apartmetDetail(int no,Model model,HttpServletResponse res)
 	{
+		Cookie cookie = new Cookie("a"+no, String.valueOf(no));
+		cookie.setMaxAge(60*60*24);
+		cookie.setPath("/");
+		res.addCookie(cookie);
+		
 		ApartmentVO vo=dao.apartmentDetailData(no);
 		
 		// 거래금액 억단위 변경

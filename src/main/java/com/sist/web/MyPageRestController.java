@@ -2,8 +2,9 @@ package com.sist.web;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.sist.dao.MyPageDAO;
+import com.sist.dao.ProductDAO;
 import com.sist.service.UserService;
+import com.sist.vo.ApartmentVO;
 import com.sist.vo.UserVO;
 
 @RestController
@@ -34,6 +36,8 @@ public class MyPageRestController {
 	private JavaMailSender mailSender;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private ProductDAO pDao;
 	
 	@GetMapping(value ="mypage_vue.do",produces="text/plain;charset=utf-8")
 	public String myPage_main_vue() {
@@ -57,12 +61,34 @@ public class MyPageRestController {
 		result=gson.toJson(vo);
 		return result;
 	}
+	@GetMapping(value="mypage_recent.do",produces="text/plain;charset=utf-8" )
+	public String mypage_recent(HttpServletRequest req) {
+		String result="";
+		List<ApartmentVO> list = new ArrayList<ApartmentVO>();
+		Cookie[] getCookie=req.getCookies();
+		if(getCookie != null) {
+			int k=0;
+			for(int i=getCookie.length-1;i>=0;i--) {
+				if(k>4)
+					break;
+				if(getCookie[i].getName().startsWith("a")) {
+					String value=getCookie[i].getValue();
+					ApartmentVO vo = pDao.apartmentDetailData(Integer.parseInt(value));
+					list.add(vo);
+					k++;
+				}
+			}
+		}
+		Gson gson = new Gson();
+		result = gson.toJson(list);
+		return result;
+	}
+	
 	@PostMapping(value="mypage_update.do",produces = "text/plain;charset=utf-8")
 	public String myPage_update(@RequestBody  UserVO vo) {
 		Gson gson = new Gson();
 		String email = uService.getLoggedUserName();
 		try {
-			System.out.println(vo);
 			if(vo.getAddress2()==null)
 				vo.setAddress2("");
 			dao.updateUserData(vo);
@@ -98,9 +124,8 @@ public class MyPageRestController {
 		String result="";
 		String email = uService.getLoggedUserName();
 		String u_pwd = uService.updateLoggedUserPassword();
-		System.out.println(pwd);
 		if(passwordEncoder.matches(pwd, u_pwd)) {
-//			dao.deleteUser(email);
+			dao.deleteUser(email);
 			result="YES";
 		}else {
 			result="NO";
@@ -110,7 +135,6 @@ public class MyPageRestController {
 	
 	@PostMapping(value="sendMail.do",produces = "text/plain;charset=utf-8")
 	public String sendMailTest(@RequestBody String email) throws Exception{
-		System.out.println("email= "+email);
 		/* 인증번호(난수) 생성 */
         Random random = new Random();
         int checkNum = random.nextInt(888888) + 111111;

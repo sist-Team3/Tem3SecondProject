@@ -64,6 +64,27 @@ function telMax(el, maxlength) {
 			  </div>
 			</div>
 	        <div id="profile-body">
+	        	<h2>최근 본 거래</h2>
+	        	<table id="recent-table">
+	        		<tr>
+						<th width=24% class="text-center">지역</th>
+						<th width=16% class="text-center">도로명 주소</th>
+						<th width=25% class="text-center">매물명</th>
+						<th width=10% class="text-center">가격<br/>(단위:만원)</th>
+						<th width=10% class="text-center">건축년도</th>
+						<th width=15% class="text-center">거래 일자</th>
+					</tr>
+					<tr v-for="vo in recent">
+						<td width=22% class="text-center">{{vo.address}}</td>
+						<td width=18% class="text-center">{{vo.road_name}}</td>
+						<td width=25% class="text-center">
+							<a :href="'../product/apartmentDetail.do?no='+vo.no"><b>{{vo.name}}</b></a>
+						</td>
+						<td width=10% class="text-center">{{vo.price | currency}}</td>
+						<td width=10% class="text-center">{{vo.construction_date}}년</td>
+						<td width=15% class="text-center">{{vo.contract_date | yyyyMMdd}}</td>
+					</tr>
+	        	</table>
 	            <h2>개인정보</h2>
 	                <table id="profile-table">
 	                    <tr>
@@ -96,18 +117,6 @@ function telMax(el, maxlength) {
 	                            </div>    
 	                        </td>
 	                    </tr>
-	                    <tr>
-	                        <th>이메일 주소</th>
-	                        <td colspan="3">
-	                        	<input type="email" id="email" v-model="user.email"  class="form-control email">
-	                            <a @click="emailSend()" class="btn btn-sm btn-success" id="email_send">이메일 인증</a>
-	                            <div>
-	                            	<input type="number" id="confirm_email" class="form-control email" oninput="telMax(this,6)" style="margin-top: 5px" readonly> 
-	                            	<a @click="emailCheck()" class="btn btn-sm btn-warning" id="emailCk_btn" >인증</a>
-	                            	<span id="timer"></span>
-	                            </div>
-	                        </td>
-	                    </tr>
 	                    <tr class="available-time-block">
 	                        <th>* 주소</th>
 	                        <td colspan="3">
@@ -131,7 +140,21 @@ function telMax(el, maxlength) {
 	                    <button v-on:click="updateMy()" class="btn btn-info btn-sm btn-block profile-update">수정하기</button>
 	                </div>
 	                <h2>비밀번호 변경</h2>
-	                <table id="password-table">
+	                <table id="email-table">
+	                	<tr>
+	                        <th>이메일 인증</th>
+	                        <td colspan="3">
+	                        	<input type="email" id="email" v-model="user.email"  class="form-control email" readonly>
+	                            <a @click="emailSend()" class="btn btn-sm btn-success" id="email_send">이메일 인증</a>
+	                            <div>
+	                            	<input type="number" id="confirm_email" class="form-control email" oninput="telMax(this,6)" style="margin-top: 5px" readonly> 
+	                            	<a @click="emailCheck()" class="btn btn-sm btn-warning" id="emailCk_btn" >인증</a>
+	                            	<span id="timer" style="color:red"></span>
+	                            </div>
+	                        </td>
+	                    </tr>
+	                </table>
+	                <table id="password-table" style="display: none">
 	                    <tr>
 	                        <th>현재 비밀번호</th>
 	                        <td>
@@ -141,7 +164,7 @@ function telMax(el, maxlength) {
 	                    <tr>
 	                        <th>비밀번호</th>
 	                        <td>
-	                            <input type="password" v-model="pwd.change_pwd" id="change_pwd" class="form-control" placeholder="숫자/영문 조합 8자 이상만 가능합니다." @keyup="chkPW()" >
+	                            <input type="password" v-model="pwd.change_pwd" id="change_pwd" class="form-control" placeholder="숫자/영문 조합 9자 이상만 가능합니다." @keyup="chkPW()" >
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -166,10 +189,12 @@ function telMax(el, maxlength) {
 				tel:[],
 				pwd:{},
 				email_ck:0,
-				email_confirm:'OK',
+				email_confirm:'NO',
+				recent:[]
 			},
 			mounted:function(){
 				this.getData();
+				this.getRecent();
 			},
 			methods:{
 				getData:function(){
@@ -190,6 +215,12 @@ function telMax(el, maxlength) {
 							this.tel[1] = tmp.substring(3,6)
 							this.tel[2] = tmp.substring(6,10)
 						}
+					})
+				},getRecent:function(){
+					axios.get("http://localhost:8080/web/mypage/mypage_recent.do",{
+					}).then(res=>{
+						console.log(res)
+						this.recent=res.data
 					})
 				},
 				checkup:function(){
@@ -221,7 +252,7 @@ function telMax(el, maxlength) {
 				},updateMy:function(){
 					window.scrollTo(0,200);
 					if(this.checkup()){
-						if(this.user.prevEmail!=this.user.email){
+						/* if(this.user.prevEmail!=this.user.email){
 							if(this.email_confirm=='NO'){
 								$('#timer').remove()
 								this.validAlert('email_send','&emsp;이메일 인증을 다시 하시오!')
@@ -232,8 +263,7 @@ function telMax(el, maxlength) {
 								this.validAlert('timer','&emsp;인증코드를 입력하시오!')
 								$('#confirm_email').focus()
 								return false;
-							}
-						}
+							} */
 						this.user.phone=this.tel[0]+this.tel[1]+this.tel[2]
 						axios.post("http://localhost:8080/web/mypage/mypage_update.do",this.user,{
 								headers: {
@@ -255,8 +285,8 @@ function telMax(el, maxlength) {
 					 if(pw.search(/\s/) != -1){
 						this.validAlert('change_pwd','비밀번호는 공백 없이 입력하시오.')
 					  	return false;
-					 }else if(pw.length < 8 || pw.length > 16){
-						 this.validAlert('change_pwd','비밀번호는 8 ~ 16자리 사이로 입력하시오!');
+					 }else if(pw.length < 9 || pw.length > 16){
+						 this.validAlert('change_pwd','비밀번호는 9 ~ 16자리 사이로 입력하시오!');
 					  	return false;
 					 }else if(eng < 0 ){
 						 this.validAlert('change_pwd','영문,숫자를 혼합하여 입력하시오.');
@@ -272,6 +302,10 @@ function telMax(el, maxlength) {
 				updatePwd:function(){
 					$('span#validation').remove()
 					let pwdCheck=false;
+					if(this.email_ck == 0){
+						alert('이메일 인증 후 비밀번호 변경이 가능합니다!')
+						return
+					}
 					if($.trim(this.pwd.now_pwd)==""){
 						this.validAlert('now_pwd','비밀번호를 입력하시오!')
 						return;
@@ -297,8 +331,7 @@ function telMax(el, maxlength) {
 								return;
 							}
 							alert("비밀번호가 변경되었습니다.!");
-							location.href="../main/main.do"
-							// 로그아웃생기면 변경
+							location.href="../logout"
 							this.$session.clear()
 							
 						})
@@ -321,45 +354,38 @@ function telMax(el, maxlength) {
 							$('#modal_del').val("")
 						}else{
 							alert("회원탈퇴가 완료되었습니다!");
-							location.href="../main/main.do"
+							location.href="../logout"
 							this.$session.clear()
 						}
 					})		
 				}, 
 				emailSend:function(){
 					$('span#validation').remove()
-					let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
-					if(this.user.email==this.user.prevEmail){
+					/*
+					 let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+					 if(this.user.email==this.user.prevEmail){
 						this.validAlert('email_send','&emsp;기존 email과 같습니다!')
 						return;
 					}
 					if (regEmail.test(this.user.email) === false){
 				          alert('이메일 형식으로 입력하시오.');
 				          return;
-				      }
+				      } */
 					this.sendAuthNum();
 					alert("인증번호를 발송했습니다.")
 					$('#confirm_email').attr('readonly',false)
 					this.email_ck=1
-					$('#email').attr('readonly',true)
 					$('#confirm_email').focus()
 					axios.post("http://localhost:8080/web/mypage/sendMail.do",this.user.email
 							).then(res=>{
 								this.email_confirm=res.data.code
 							})
-							
 				},
 				emailCheck:function(){
 					$('span#validation').remove()
 					let code=$('#confirm_email').val()
-					console.log(this.email_ck)
 					if(this.email_ck==0){
-						alert('이메일 인증 버튼을 눌러주세요!')
-						return;
-					}
-					if($('#timer').text()==''){
-						this.validAlert('timer','&emsp;인증시간이 만료되었습니다!')
-						this.email_confirm='NO'
+						alert('이메일 인증을 진행하시오!')
 						return;
 					}
 					if(code==""){
@@ -378,7 +404,7 @@ function telMax(el, maxlength) {
 						alert("이메일이 인증 되었습니다!")
 						$('#confirm_email').attr('readonly',true)
 						this.email_confirm='OK'
-						console.log(this.email_confirm)
+						$('#password-table').show()
 					}else{
 						this.validAlert('timer','&emsp;인증번호가 다릅니다!')
 						this.email_confirm='NO'
@@ -388,7 +414,7 @@ function telMax(el, maxlength) {
 				},
 				sendAuthNum:function(){
 					// 남은 시간
-					var leftSec = 180,
+					var leftSec = 5,
 					display = document.querySelector('#timer');
 					// 이미 타이머가 작동중이면 중지
 					this.startTimer(leftSec, display);
@@ -407,7 +433,6 @@ function telMax(el, maxlength) {
 						if (--count < 0) {
 							console.log('count')
 							$('#confirm_email').attr('readonly',true)
-							$('#email').attr('readonly',false)
 							$('span#validation').remove()
 							display.textContent = '인증시간이 만료되었습니다.'
 							_this.email_ck=0
@@ -432,6 +457,26 @@ function telMax(el, maxlength) {
 							_this.user.address1=data.address
 						}
 					}).open()
+				}
+			},
+			filters: {
+			    	currency: function(value) {
+				       var num = new Number(value);
+				       return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1,")
+				    },
+					yyyyMMdd : function(value){ 
+				        if(value == '') return '';
+				        let js_date = new Date(value);
+				        let year = js_date.getFullYear();
+				        let month = js_date.getMonth() + 1;
+				        let day = js_date.getDate();
+				        if(month < 10){
+				      	month = '0' + month;
+				    }
+				    if(day < 10){
+				        day = '0' + day;
+				    }
+				    return year + '-' + month + '-' + day;
 				}
 			}
 		})

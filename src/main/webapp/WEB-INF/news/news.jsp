@@ -30,11 +30,19 @@ $(function(){
 		<div class="newsMain">
 			<nav class="newsNav">
 				<span class="newsSearch">
-					<input v-model="fd" type="text" placeholder="검색어를 입력하시오" @keyup.enter="findNews()">
+					<input v-model="fd" type="text" placeholder="검색어를 입력하시오" @keyup.enter="findNews()" size=20 
+						style="height: 40px;font-size: 17px;">
 					<button @click="findNews()">
-						<span class="ir">검색하기</span>
+						<span class="ir">검색</span>
 					</button>
 				</span>
+				<ul class="pagination">
+					<li :class="page==1?'active':''"><a @click="findPage(1)">1</a></li>
+					<li :class="page==2?'active':''"><a @click="findPage(2)">2</a></li>
+					<li :class="page==3?'active':''"><a @click="findPage(3)">3</a></li>
+					<li :class="page==4?'active':''"><a @click="findPage(4)">4</a></li>
+					<li :class="page==5?'active':''"><a @click="findPage(5)">5</a></li>
+				</ul>
 			</nav>
 			<section class="newsResult">
 				<ul>
@@ -51,7 +59,7 @@ $(function(){
 							<tr class="noRow_two">
 								<td>
 									<p class="news_desc">{{vo.description}}</p>
-									<span>{{vo.pubDate.substring(0,vo.pubDate.indexOf("+"))}}</span>
+									<span style="font-size: 15px">{{vo.pubDate | yyyyMMdd}}</span>
 								</td>
 							</tr>
 						</table>
@@ -67,26 +75,29 @@ $(function(){
 			el:'#newsWrapper',
 			data:{
 				news:[],
-				fd:'부동산'
+				fd:'부동산',
+				page:1
 			},
 			mounted:function(){
-				this.getNews(this.fd)
+				this.getNews()
 			},
 			methods:{
-				getNews:function(fd){
-					if(fd==null){
+				getNews:function(){
+					if(this.fd==null){
 						alert('검색어를 입력하시오')
 						return;
 					}
 					this.loaderShow()
 					axios.get('http://localhost:8080/web/news/data.do',{
 						params:{
-							fd:fd
+							fd:this.fd,
+							page:this.page
 						}
 					}).then(res=>{
 						this.loader()
 						console.log(res.data)
 						this.news=res.data
+						this.page=res.data[0].page
 					})
 				},findNews:function(){
 					this.getNews(this.fd)
@@ -101,8 +112,36 @@ $(function(){
 					loader.css("display","block"); 
 					$('.newsResult').css("background-color","#f8f8f8")
 					$('.newsResult').css("opacity","0.5")
+				},findPage:function(pages){
+					this.page=pages
+					this.getNews()
 				}
+			},
+			filters: {
+				yyyyMMdd : function(value){ 
+			        if(value == '') 
+			        	return '';
+			        let js_date = new Date(value);
+			        let year = js_date.getFullYear();
+			        let month = js_date.getMonth() + 1;
+			        let day = js_date.getDate();
+			        let hour = js_date.getHours();
+			        let minutes = js_date.getMinutes();
+			        if(month < 10){
+			      	month = '0' + month;
+			    }
+			    if(day < 10){
+			        day = '0' + day;
+			    }
+			    if(hour< 10){
+			        hour = '0' + hour;
+			    }
+			    if(minutes< 10){
+			        minutes = '0' + minutes;
+			    }
+			    return year + '-' + month + '-' + day +'  '+hour+':'+minutes
 			}
+		}
 		})
 	</script>
 </body>

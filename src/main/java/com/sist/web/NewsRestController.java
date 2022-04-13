@@ -12,6 +12,7 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,11 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class NewsRestController {
 	
 	@GetMapping(value="news/data.do",produces = "text/plain;charset=utf-8")
-	public String getNewsData(String fd) throws Exception {
+	public String getNewsData(String fd,String page) throws Throwable {
 		String client_Id = "Nl8bSCNGtMche3Q6TLT1";
 		String client_Secret = "uVSF_3ROmh";
 		String text = URLEncoder.encode(fd, "UTF-8");
-		final String URL = "https://openapi.naver.com/v1/search/news?query="+text+"&display=20&start=1&sort=sim";
+		if(page==null) 
+			page="1";
+		int curpage=Integer.parseInt(page);
+		int rowSize=20;
+		int start = (curpage*rowSize)-(rowSize-1);
+		
+		final String URL = "https://openapi.naver.com/v1/search/news?query="+text+"&display="+rowSize+"&start="+start+"&sort=sim";
 		URL url = new URL(URL);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
@@ -56,11 +63,15 @@ public class NewsRestController {
 		jarr =(JSONArray) jobj.get("items");
 		
 		JSONArray resultArr= new JSONArray();
+		int k=0;
 		for(int i=0;i<jarr.size();i++) {
 			JSONObject obj= (JSONObject) jarr.get(i);
+			if(k==0) {
+				obj.put("page",curpage);
+			}
 			Map map = new HashMap();
 			String link= (String)obj.get("link");
-			Document news = Jsoup.connect(link).get();
+			Document news = Jsoup.connect(link).execute().bufferUp().parse();
 			Element newsImg= news.selectFirst(".end_photo_org img");
 			if(newsImg!=null) {
 				String imgLink= newsImg.attr("src");
