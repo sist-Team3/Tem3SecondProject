@@ -82,9 +82,13 @@ public class ProductController {
 	
 	//오피스텔
 	@GetMapping("product/officetelDetail.do")
-	public String officetelDetail(int no,Model model)
+	public String officetelDetail(int no,Model model,HttpServletResponse res)
 	{
 		OfficetelVO vo=dao.officetelDetailData(no);
+		Cookie cookie = new Cookie("o"+no, String.valueOf(no));
+		cookie.setMaxAge(60*60*24);
+		cookie.setPath("/");
+		res.addCookie(cookie);
 		
 		// 거래금액 억단위 변경
 		int price=vo.getPrice();
@@ -131,9 +135,13 @@ public class ProductController {
 	
 	//빌라
 		@GetMapping("product/villaDetail.do")
-		public String villaDetail(int no,Model model)
+		public String villaDetail(int no,Model model,HttpServletResponse res)
 		{
 			VillaVO vo=dao.villaDetailData(no);
+			Cookie cookie = new Cookie("v"+no, String.valueOf(no));
+			cookie.setMaxAge(60*60*24);
+			cookie.setPath("/");
+			res.addCookie(cookie);
 			
 			// 거래금액 억단위 변경
 			int price=vo.getPrice();

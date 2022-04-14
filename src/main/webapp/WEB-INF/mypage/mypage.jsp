@@ -78,10 +78,14 @@ function telMax(el, maxlength) {
 						<td width=22% class="text-center">{{vo.address}}</td>
 						<td width=18% class="text-center">{{vo.road_name}}</td>
 						<td width=25% class="text-center">
-							<a :href="'../product/apartmentDetail.do?no='+vo.no"><b>{{vo.name}}</b></a>
+							<a :href="vo.type==1?'../product/apartmentDetail.do?no='+vo.no:
+										vo.type==2?'../product/officetelDetail.do?no='+vo.no:
+													'../product/villaDetail.do?no='+vo.no">
+								<b>{{vo.name}}</b>
+							</a>
 						</td>
 						<td width=10% class="text-center">{{vo.price | currency}}</td>
-						<td width=10% class="text-center">{{vo.construction_date}}년</td>
+						<td width=10% class="text-center">{{vo.construction_date==null?vo.construction_year:vo.construction_date}}년</td>
 						<td width=15% class="text-center">{{vo.contract_date | yyyyMMdd}}</td>
 					</tr>
 	        	</table>
@@ -190,7 +194,8 @@ function telMax(el, maxlength) {
 				pwd:{},
 				email_ck:0,
 				email_confirm:'NO',
-				recent:[]
+				recent:[],
+				type:''
 			},
 			mounted:function(){
 				this.getData();
@@ -219,7 +224,7 @@ function telMax(el, maxlength) {
 				},getRecent:function(){
 					axios.get("http://localhost:8080/web/mypage/mypage_recent.do",{
 					}).then(res=>{
-						console.log(res)
+						console.log(res.data)
 						this.recent=res.data
 					})
 				},
