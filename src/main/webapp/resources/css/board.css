@@ -1,5 +1,9 @@
 @charset "UTF-8";
 <!-- #6699cc #72a4d9  #112444  #dfdfdf  #fda4ba -->
+.arw{
+	width:8px;
+	height:5px;
+}
 .color_sky{
 	color:#B8F8FB;
 	font-weight: bold;
