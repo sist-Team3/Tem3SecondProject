@@ -71,7 +71,7 @@ public class UserController {
 	// 1-3. 회원가입 처리 (OAuth)
 	@PostMapping("/oauthsignup.do")
 	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
-		userService.addUser(user);
+		userService.addOauthUser(user);
 		return "user/userOk";
 	}
 	
