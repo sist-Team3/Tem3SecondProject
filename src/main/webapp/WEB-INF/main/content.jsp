@@ -10,13 +10,13 @@
 function searchToggle(){
     let form = $('#searchForm')
     let category= $('select[name=searchCategory] option:selected').val()
-    let fd=$('#searchFd').val()
+    var searchFd = document.getElementById("searchFd").value;
     if(category=='1'){
     	$('#searchForm').attr('action','../product/apartmentlist.do')
     }else if(category=='2'){
-    	actionURL = ''
+    	$('#searchForm').attr('action','../product/villalist.do')
     }else if(category=='3'){
-    	actionURL = ''
+    	$('#searchForm').attr('action','../product/officetellist.do')
     }else{
     	$('#searchForm').attr('action','../product/apartmentlist.do')
     }
@@ -39,14 +39,13 @@ function searchToggle(){
 						<div class="search-category">
 							<select class="form-control search-category" name="searchCategory"
 								id="search_main_cate_sel" >
-								<option ${category ==4?'selected': '' } value="4">통합검색</option>
 								<option ${category ==1?'selected': '' } value="1">아파트</option>
 								<option ${category ==2?'selected': '' } value="2">연립/다세대</option>
 								<option ${category ==3?'selected': '' } value="3">오피스텔</option>
 							</select>
 						</div>
 						<div class="input-holder">
-							<input type="text" class="search-input" name="fd" placeholder="Type to search" id="searchFd"/>
+							<input type="text" class="search-input" name="fd" placeholder="search-for.." id="searchFd"/>
 							<button class="search-icon" onclick="searchToggle();">
 								<span></span>
 							</button>

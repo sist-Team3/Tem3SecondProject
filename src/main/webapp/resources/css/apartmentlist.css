@@ -132,15 +132,16 @@ div.wrapper div.container {
 {
 	position: relative;
 	right : 100 px;
-	top : -20px;
- 
+	top : 30px;
+   
  
 }
 #search-text
 {
 	position : relative;
-    right : 150px;
-    top : 30px;
+    right : -90px;
+    top : -30px;
+    font-size : 17px;
     
 }
 #searchfd
@@ -153,9 +154,16 @@ div.wrapper div.container {
 }
 #option{
 list-style-type: none; 
-margin-left : 20px;
+margin-left : 30px;
+margin-top : 5px;
 line-height : 25px;
 }
+.search-option4{
+ padding : 5px 0px 0px 0px;
+}  
+.search-option5{
+list-style-type : none;
+}  
 #rsort{
 list-style-type : none;
 
@@ -179,7 +187,7 @@ list-style-type : none;
 	font-weight:500
 }
 #rsort>a.sorted{
-	color: red;
+	color: cornflowerblue;
 }
 #rsort>a:hover{
 	text-decoration: none;
@@ -189,6 +197,10 @@ list-style-type : none;
 {
 	margin : 15px 0px 15px 0px;
 }
+.row
+ {
+  margin-top : 300px;
+ }
 
 
 

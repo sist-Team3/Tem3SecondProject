@@ -36,15 +36,6 @@ $(function(){
 	
 })
 </script>
-    <!-- <script> 
-     $.noConflict();//이때부터 jQuery는 $ 식별자를 포기하고 jQuery() 를 사용함
-     var _$ = jQuery
-    </script> 
-  <script>
-  _$( function() {
-    _$ ( "#datepicker" ).datepicker();
-  } );
-  </script> -->
 </head>
 <body>
 	<div class="container" id="apartmentlist">
@@ -62,11 +53,11 @@ $(function(){
 				</div>		
 				<div class="search-option1">
 			     	<input type=text size=20 class="input-sm" id="searchfd" style="float: left" v-model="fd" value="${fd }" @keyup.enter="findApart()">
-			        <input type=button value="검색" id="searchbtn"  class="btn btn-sm btn-danger" @click="findApart()">
+			        <input type=button value="검색" id="searchbtn"  class="btn btn-sm btn-danger" @click="findApart()"  >
 			    </div>
 				<div class="search-option2">
-					<ul>
-						<li>
+					<ul class="search-option4">
+						<li class="search-option5">
 							<span style="color : #5d5d5d; font-size: 13px;">
 			       				<b>검색 조건</b>
 			       			</span>
@@ -262,6 +253,10 @@ $(function(){
 	    		findApart:function(){
 	    			this.curpage=1;
 	    			this.apartmentlistData(this.curpage);
+					if(this.fd == 0){
+						alert('검색어를 입력해주세요!')
+						return
+					}
 	    		},
 	    		pagingSet:function(){
 	    			let list=[]

@@ -57,17 +57,44 @@ public class ProductlistDAO {
 	  {
 		  return mapper.villaTotalPage();
 	  }
+	  //아파트
 	  public List<ApartmentVO> apartmentFindData(Map map)
 	  {
 		  return mapper.apartmentFindData(map);
 	  }
 	  public int apartmentFindTotalcount(Map map)
 	  {
-		 return mapper.apartmentFindTotalConut(map);
+		 return mapper.apartmentFindTotalCount(map);
 	  }
 	  public List<ApartmentVO> apartmentMapFindData(String address)
 	  {
 		  return mapper.apartmentMapFindData(address);
+	  }
+	  //오피스텔
+	  public List<OfficetelVO> officetelFindData(Map map)
+	  {
+		  return mapper.officetelFindData(map);
+	  }
+	  public int officetelFindTotalcount(Map map)
+	  {
+		  return mapper.officetelFindTotalCount(map);
+	  }
+	  public List<OfficetelVO> officetelMapFindData(String address)
+	  {
+		  return mapper.officetelMapFindData(address);
+	  }
+	  // 빌라
+	  public List<VillaVO> villaFindData(Map map)
+	  {
+		  return mapper.villaFindData(map);
+	  }
+	  public int villaFindTotalcount(Map map)
+	  {
+		  return mapper.villaFindTotalCount(map);
+	  }
+	  public List<VillaVO> villaMapFindData(String address)
+	  {
+		  return mapper.villaMapFindData(address);
 	  }
 	  
 }
