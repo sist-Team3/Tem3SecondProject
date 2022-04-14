@@ -5,31 +5,18 @@
 <head>
 <meta charset="UTF-8">
 <title>userOK</title>
-<style type="text/css">
-.top-bar{
-	background-color : rgb(31, 45 , 60);
-}
-.navbar-default top-bar affix .navbar-nav li a{
-	color:white;
-}
-.navbar-default a.navbar-brand.dark{
-	color:white;
-}
-#welcome-area{
-	margin-top: 30vh;
-	margin-bottom: 30vh;
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../resources/css/signupok.css">
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<div class="col-xs-12" id="welcome-area">
-				<h1>회원가입 축하합니다!</h1>
-				<ul>
-					<li>${user.name}</li>
-					<li>${user.email}</li>
-				</ul>
+	<div id="welcome-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12" id="welcome-form">
+					<h1 id="welcome-main">Welcome,</h1>
+					<h1 id="welcome-sub"><strong>${user.name}</strong> 님 회원가입 축하합니다!</h1>
+					<button id="main-btn" class="btn" type="button" onclick="location.href='../';">메인으로 가기</button>
+				</div>
 			</div>
 		</div>
 	</div>

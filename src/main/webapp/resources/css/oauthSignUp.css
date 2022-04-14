@@ -20,7 +20,7 @@
 .oauth-sign-up-area{
 	width: 99vw;
 	height: 70vw;
-	background-image: url("../resources/img/oauthsignup.jpg");
+	background-image: url("../img/signupimg.jpg");
 	overflow: hidden;
 }
 #naver-logo{

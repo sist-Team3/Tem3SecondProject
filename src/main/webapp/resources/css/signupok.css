@@ -1,0 +1,42 @@
+@charset "UTF-8";
+.top-bar{
+	background-color : rgb(31, 45 , 60);
+}
+.navbar-default top-bar affix .navbar-nav li a{
+	color:white;
+}
+.navbar-default a.navbar-brand.dark{
+	color:white;
+}
+#welcome-area{
+	width: 99vw;
+	height: 1000px;
+	background-image: url("../img/sign-up-ok.jpg");
+}
+#welcome-form{
+	margin-top: 30vh;
+	margin-bottom: 30vh;
+}
+#welcome-main{
+	font-size: 200px;
+	font-family: 'Cookie', cursive;
+	color: white;
+}
+#welcome-sub{
+	margin-left: 30px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 50px;
+	font-weight: lighter;
+	color: white;
+}
+#main-btn{
+	margin-top: 50px;
+	margin-left: 30px;
+	width: 250px;
+	height: 100px;
+	border-radius: 20px;
+	color: #009fb8;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 30px;
+	font-weight: bolder;
+}
