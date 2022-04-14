@@ -140,7 +140,7 @@ chart.draw(data, options);
 		 </div>
 	</div>
 	<div class="buttonMenu">
-			<button class="button2" onclick="button_mark();">즐겨찾기</button>
+			<button class="button2" onclick="button_mark(${vo.no});">즐겨찾기</button>
 			<button class="button3" onclick="button_back()">목록</button>
 	</div>
   </div>
@@ -246,19 +246,22 @@ chart.draw(data, options);
 <script>
 
 /* 문의하기 버튼 */
-function button_mark() {
+function button_mark(no) {
 	if(${not empty sessionScope.username}){
-		if(confirm("즐겨찾기에 추가되었습니다. 마이페이지로 이동하시겠습니까?"))
-		{
-		location.href="../mypage/main.do";
+		if(confirm("즐겨찾기에 추가되었습니다. 마이페이지로 이동하시겠습니까?")){
+			insertJjim(no)
+			location.href="../mypage/main.do";
 		}
-		else
-		{
+		else{
+			insertJjim(no)
 		}
 	}else{
 		alert("로그인후 사용이 가능합니다.");
 		location.href="../user/signin.do";
 	}
+}
+function insertJjim(no){
+	location.href="../product/insertJjim.do?no="+no+"&type="+3
 }
 /* 목록으로 돌아가기 버튼 */
 function button_back() {

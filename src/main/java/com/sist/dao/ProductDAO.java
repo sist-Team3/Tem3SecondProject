@@ -84,7 +84,10 @@ public class ProductDAO {
 		return mapper.villaSameData(road_name);
 	}
 	
-
+	// 즐겨찾기
+	public void insertMarkApart(Map map) {
+		mapper.insertMarkApart(map);
+	}
 
 	
 }

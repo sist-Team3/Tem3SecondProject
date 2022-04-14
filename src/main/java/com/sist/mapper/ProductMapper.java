@@ -2,6 +2,8 @@ package com.sist.mapper;
 
 import java.util.*;
 import com.sist.vo.*;
+
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 public interface ProductMapper {
@@ -77,6 +79,8 @@ public interface ProductMapper {
 	@Select("SELECT no,area_size,landarea_size,price,floor,address,name,road_name,construction_year,contract_date,deal_type "
 			+ "FROM villa_3 WHERE road_name=#{road_name}")
 	public List<VillaVO> villaSameData(String road_name);
-
+	
+	@Insert("INSERT INTO mark_3 (no,${type},email) VALUES ((SELECT NVL(MAX(no)+1,1) FROM mark_3),#{no},#{email})")
+	public void insertMarkApart(Map map);
 	
 }

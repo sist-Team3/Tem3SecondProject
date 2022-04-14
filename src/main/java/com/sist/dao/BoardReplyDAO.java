@@ -61,14 +61,4 @@ public class BoardReplyDAO {
 		}
 		mapper.replyDepthDecrement(vo.getRoot());
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

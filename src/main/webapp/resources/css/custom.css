@@ -67,7 +67,11 @@ section{padding:75px 0 100px;}
 .banner-sec h1{font-weight:700; text-transform:uppercase; margin-bottom:0}
 .banner-sec h2{font-weight:300; text-transform:uppercase; margin-bottom:40px; margin-top:10px; font-size:22px; }
 .banner-sec .input-group {margin-top: 20px; padding: 0 111px;}
-.banner-sec .form-control {border-radius: 25px; height: 43px;}
+.banner-sec .form-control {border-radius: 25px;
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+    margin-top: 10px;}
 .banner-sec .btn-search {background: red none repeat scroll 0 0; border-radius: 25px; color: #fff; font-size: 19px; height: 43px; padding: 0 35px; text-shadow: 1px 1px rgba(0, 0, 0, 0.5);}
 
 
