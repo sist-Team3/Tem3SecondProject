@@ -1,118 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>LOGIN</title>
+<title>아이디 비밀번호 찾기</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
-<style type="text/css">
-.top-bar{
-	background-color : rgb(31, 45 , 60);
-}
-.navbar-default top-bar affix .navbar-nav li a{
-	color:white;
-}
-.navbar-default a.navbar-brand.dark{
-	color:white;
-}
-#user-info-area{
-	margin-top: 20vh
-}
-#name-ok{
-	color: green;
-}
-#name-no{
-	color: red;
-}
-#cert-ok{
-	color: blue;
-}
-#cert-no{
-	color: red;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="../resources/css/finduser.css">
 </head>
 <body>
-	<div class="container">
-		<div class="row" id="user-info-area">
-		<div id="id-tab">아이디 찾기</div>
-		<div id="pw-tab"><a href="../user/findpw.do">비밀번호 찾기</a></div>
-			<div class="col-xs-12" id="user-find-form">
-				<input type="text" id="username" placeholder="이름">
-				<span class="name-msg">이름을 입력해주세요.</span><br>
-				<input type="text" id="phone-number" placeholder="전화번호">
-				<button id="cert-button">인증번호 전송</button>
+	<div class="container user-find-area">
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3 tab-group">
+				<div class="row">
+					<div class="col-xs-3 find-tab" id="id-tab">
+						<span id="id-tab-con">이메일 찾기</span>
+					</div>
+					<div class="col-xs-3 find-tab" id="pw-tab">
+						<a href="../user/findpw.do" id="pw-tab-con">비밀번호 찾기</a>
+					</div>
+				</div>
 			</div>
-		</div>		
-	</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6 col-xs-offset-3" id="user-find-form">
+				<div id="user-find-input-group">
+					<h1 id="find-email-title">이메일 찾기</h1>
+					<div class="row">
+						<div class="col-xs-8" id="user-find-input-part">
+							<input type="text" class="form-control" id="username" placeholder="이름">
+							<input type="text" class="form-control" id="phone-number" placeholder="전화번호">
+						</div>
+						<div class="col-xs-4" id="user-find-submit-part">
+							<span class="name-msg">이름을 입력해주세요.</span><br>
+							<button class="btn" id="cert-button">인증번호 전송</button>			
+						</div>
+					</div>
+				</div>
+			</div>			
+		</div>
+	</div>	
 </body>
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
   integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
   crossorigin="anonymous"></script>
-<script type="text/javascript">
-	let phone = '';
-	let certNum = '';
-	$('#username').change(function(){
-		console.log($('#username').val())
-		$.ajax({
-			url: '/web/user/checkUsername.do',
-			data: { username: $('#username').val() },
-			method: 'POST',
-			dataType: 'text'
-		})
-		.done(function(data){
-			if(data == 'true') {
-				$('span.name-msg').replaceWith('<span class="name-msg" id="name-ok">이름이 확인되었습니다.</span>');
-			} else {
-				$('span.name-msg').replaceWith('<span class="name-msg" id="name-no">가입되지 않은 이름입니다.</span>');
-			} 	
-		});
-	});
-	$('#cert-button').click(function(){
-		phone = $('#phone-number').val();
-		console.log(phone);
-		$.ajax({
-			url: '/web/user/phonecert.do',
-			data: { phone: phone },
-			method: 'POST',
-			dataType: 'json'
-		})
-		.done(function(data){
-			if(!$('#cert-ok-form').length) {
-				$('#user-find-form').append('<br><div id="cert-ok-form"><input id="cert-num" type="text" placeholder="인증번호">'
-						  					  + '<button id="cert-ok-button">확인</button><br></div>');
-			}
-		})
-		.fail(function(xhr, status, errorThrown){
-			console.log(status + ' ' + errorThrown);
-		})
-	});
-	$(document).on("click", "#cert-ok-button" , function(){
-		$.ajax({
-			url: '/web/user/emailcert.do',
-			data: { certNum : $('#cert-num').val(),
-					phone: phone	
-			},
-			method: 'POST',
-			dataType: 'text'
-		})
-		.done(function(data){
-			if(data == 'false') {
-				$('span#cert-no').remove();
-				$('#cert-ok-form').append('<span id="cert-no">인증번호가 일치하지 않습니다. 다시 확인해주세요.</span>');
-			} else {
-				$('#user-find-form').remove();
-				$('#user-info-area').append('<span id="cert-ok">고객님의 아이디는 ' + data + ' 입니다.</span>');				
-			}
-		})
-		.fail(function(xhr, status, errorThrown){
-			console.log(status + ' ' + errorThrown);
-		});
-	});
-</script>
+<script type="text/javascript" src="../resources/js/finduser.js"></script>
 </html>
