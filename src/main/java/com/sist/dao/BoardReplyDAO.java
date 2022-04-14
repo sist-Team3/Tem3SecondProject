@@ -20,8 +20,8 @@ public class BoardReplyDAO {
 		return mapper.boardReplyListData(map);
 	}
 	//해당 게시물 댓글 총페이지 
-	public int boardReplyTotalPage() {
-		return mapper.boardReplyTotalPage();
+	public int boardReplyTotalPage(int board_no) {/////////매개변수추가///수정1
+		return mapper.boardReplyTotalPage(board_no);
 	}
 	//댓글등록
 	public void replyInsert(BoardReplyVO vo) {

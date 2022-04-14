@@ -132,7 +132,12 @@ public class BoardRestController {
 			List<BoardReplyVO> rList=service.boardReplyListData(map);
 			System.out.println("rList: "+rList.get(0));//
 			//해당게시물 댓글 총페이지
-			int totalpage=service.boardReplyTotalPage();
+//추가/////////////////////			
+			int totalpage=service.boardReplyTotalPage(no);///////no
+			System.out.println("totalpage:"+totalpage);
+			if(end<totalpage)
+				end=totalpage;
+///////////////////////			
 			System.out.println("totalpage: "+totalpage);
 			JSONArray arr=new JSONArray();
 			int i=0;

@@ -20,8 +20,8 @@ public interface BoardReplyMapper {
 			+"ORDER BY group_id DESC,group_step ASC)) "
 			+"WHERE num BETWEEN #{start} AND #{end}")
 	public List<BoardReplyVO> boardReplyListData(Map map);
-	@Select("SELECT CEIL(COUNT(*)/5.0) FROM board_reply_3")
-	public int boardReplyTotalPage();
+	@Select("SELECT CEIL(COUNT(*)/5.0) FROM board_reply_3 WHERE board_no=#{board_no}")///////////WHERE절 추가 //////////////////수정1
+	public int boardReplyTotalPage(int board_no);
 	//댓글 등록
 	@Insert("INSERT INTO board_reply_3(no,user_id,board_no,content,group_id) "
 			+"VALUES(br_no_seq_3.nextval,#{user_id},#{board_no},#{content},"

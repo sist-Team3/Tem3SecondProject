@@ -17,14 +17,19 @@ import com.sist.service.BoardService;
 import com.sist.vo.BoardVO;
 
 @Controller
-@RequestMapping("board/")
+/* @RequestMapping("board/") */
 public class BoardController {
 	@Autowired
 	private BoardService service;
 	
-	@GetMapping("board.do")
-	public String board_board(String page,Model model) {
+	@GetMapping("board/board.do")
+	public String board_board(String page,Model model,HttpSession session) {
 		System.out.println("Controller_목록 ");
+		
+		String session_id=(String)session.getAttribute("username");
+		System.out.println("session_id null값 확인: "+session_id);
+		if(session_id.equals(null))
+			return "redirect:../user/signin.do";
 		
 		try {
 			if(page==null)
@@ -61,7 +66,7 @@ public class BoardController {
 		return "board/board";
 	}
 	
-	@GetMapping("board_detail.do")
+	@GetMapping("board/board_detail.do")
 	public String board_detail(int no,Model model) {
 		System.out.println("Controller_상세 no: "+no);
 		//vueJS로 구현 => RestController
@@ -73,13 +78,13 @@ public class BoardController {
 	}
 	
 	//글쓰기****
-	@GetMapping("board_insert.do")
+	@GetMapping("board/board_insert.do")
 	public String board_insert() {
 		
 		return "board/board_insert";
 	}
 	//수정
-	@GetMapping("board_update.do")
+	@GetMapping("board/board_update.do")
 	public String board_update(int no,Model model){
 	System.out.println("Controller_수정 no: "+no);
 //	   BoardVO vo=service.boardDetailData(no);
@@ -88,7 +93,7 @@ public class BoardController {
 		return "board/board_update";
 	}
 	//삭제
-//	@GetMapping("board_delete.do")
+//	@GetMapping("board/board_delete.do")
 //	public String board_delete(int no,Model model) {
 //		System.out.println("Controller_삭제  no: "+no);
 //		service.boardDelete(no);

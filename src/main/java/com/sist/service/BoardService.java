@@ -30,7 +30,7 @@ public interface BoardService {
 	//해당 게시물 댓글리스트
 	public List<BoardReplyVO> boardReplyListData(Map map);
 	//해당게시물의 댓글 총페이지
-	public int boardReplyTotalPage();
+	public int boardReplyTotalPage(int board_no);
 	//댓글등록
 	public void replyInsert(BoardReplyVO vo);
 	//댓글수정

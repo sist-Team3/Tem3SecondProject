@@ -87,11 +87,11 @@ border-bottom:none
 		<h3 class="text-center">게시판 상세</h3>
 		<div class="row vue1">
 			<div style="float:right; margin:10px;">
-							<button class="btn btn-sm" style="float: inherit;margin-left: 10px;" v-on:click="update()" v-if="idCheck=='true'">수정</button>
-							<input type=hidden v-else>
-	           				<button class="btn btn-sm" style="float: inherit;margin-left: 10px;" v-on:click="del()" v-if="idCheck=='true'">삭제</button>
-	           				<input type=hidden v-else>
-	        			   <button class="btn btn-sm"style="float: inherit;margin-left: 10px;" v-on:click="list()">목록</button>
+				<button class="btn btn-sm" style="float: inherit;margin-left: 10px;" v-on:click="update()" v-if="idCheck=='true'">수정</button>
+				<input type=hidden v-else>
+	           	<button class="btn btn-sm" style="float: inherit;margin-left: 10px;" v-on:click="del()" v-if="idCheck=='true'">삭제</button>
+	           	<input type=hidden v-else>
+	        	<button class="btn btn-sm"style="float: inherit;margin-left: 10px;" v-on:click="list()">목록</button>
 	        </div>
 			<table class="table">
 				<tr>

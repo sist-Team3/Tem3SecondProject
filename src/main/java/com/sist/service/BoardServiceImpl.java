@@ -74,9 +74,9 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int boardReplyTotalPage() {
+	public int boardReplyTotalPage(int board_no) {
 		// TODO Auto-generated method stub
-		return rdao.boardReplyTotalPage();
+		return rdao.boardReplyTotalPage(board_no);
 	}
 
 	@Override
