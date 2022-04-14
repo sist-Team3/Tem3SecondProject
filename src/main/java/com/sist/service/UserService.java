@@ -35,6 +35,11 @@ public class UserService {
 		userDAO.save(user);
 		log.info("User Service 회원 전달 = {}", user.toString());
 	}
+	public void addOauthUser(UserVO user) {
+		user.setId(UUID.randomUUID().toString());		
+		userDAO.saveOauthUser(user);
+		log.info("User Service 회원 전달 = {}", user.toString());
+	}
 	
 	// 회원 확인 메서드 (이메일 기반 & 이름 기반)
 	public boolean isUser(String email) {

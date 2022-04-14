@@ -23,7 +23,10 @@ public class UserDAO {
 	public void save(UserVO user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userMapper.save(user);
-		log.info("User DAO 회원 전달 = {}", user.toString());
+	}
+	public void saveOauthUser(UserVO user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userMapper.saveOauth(user);
 	}
 	public UserVO findUserByEmail(String email) {
 		return userMapper.findByEmail(email);
