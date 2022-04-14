@@ -36,7 +36,7 @@ data.addRows([
 ]);
 
 var options = {
-title: '해당 오피스텔 다른 거래',
+title: '해당 빌라 다른 거래',
 hAxis: {
 title: '',
 viewWindow: {
@@ -100,6 +100,7 @@ chart.draw(data, options);
 				<div>가격</div>
 				<div>주소</div>
 				<div>전용 면적</div>
+				<div>대지권 면적</div>
 				<div>층수</div>
 				<div>건축년도</div>
 				<div>거래유형</div>
@@ -126,7 +127,11 @@ chart.draw(data, options);
 				</div>
 			 	<div>
 			 			<span id="area_first">${area_size1}㎡</span> <span id="area_second">${area_size2}평</span>
-			 			<button class="buttonChange" onclick="button_area()">⇆</button>
+			 			<button class="buttonChange" onclick="button_area1()">⇆</button>
+				</div>
+			 	<div>
+			 			<span id="area_third">${area_size3}㎡</span> <span id="area_fourth">${area_size4}평</span>
+			 			<button class="buttonChange" onclick="button_area2()">⇆</button>
 				</div>
 				<div>${vo.floor }층</div>
 				<div>${vo.construction_year}년</div>
@@ -190,42 +195,42 @@ chart.draw(data, options);
 				<th width=10% class="text-center">거래유형</th>
 					
 			</tr>
-			  <c:forEach var="osvo" items="${oSameList }">
-				<c:if test="${osvo.no ne vo.no }">
-					<c:if test="${not empty oSameList }">
+			  <c:forEach var="vsvo" items="${vSameList }">
+				<c:if test="${vsvo.no ne vo.no }">
+					<c:if test="${not empty vSameList }">
 							<tr style="height:30px;">
 								<td width=25% class="text-center">
-										<a href="../product/officetelDetail.do?no=${osvo.no}">${osvo.name }</a>
+										<a href="../product/villaDetail.do?no=${vsvo.no}">${vsvo.name }</a>
 								</td>
 								<td width=20% class="text-center">
 											<c:choose>
-												<c:when test="${osvo.price>99999 }">
-													${fn:substring(osvo.price,0,2) }억 ${fn:substring(osvo.price,2,6) }만원
+												<c:when test="${vsvo.price>99999 }">
+													${fn:substring(vsvo.price,0,2) }억 ${fn:substring(vsvo.price,2,6) }만원
 												</c:when>
 												<c:otherwise>
-													${fn:substring(osvo.price,0,1) }억 ${fn:substring(osvo.price,1,5) }만원
+													${fn:substring(vsvo.price,0,1) }억 ${fn:substring(vsvo.price,1,5) }만원
 												</c:otherwise>
 											</c:choose>
-											<c:if test="${osvo.price > vo.price }">(↑)</c:if>
-											<c:if test="${osvo.price == vo.price }">(동일)</c:if>
-											<c:if test="${osvo.price < vo.price }">(↓)</c:if>
+											<c:if test="${vsvo.price > vo.price }">(↑)</c:if>
+											<c:if test="${vsvo.price == vo.price }">(동일)</c:if>
+											<c:if test="${vsvo.price < vo.price }">(↓)</c:if>
 								</td>
 								<td width=15% class="text-center">
-											${osvo.area_size } ㎡
-											<c:if test="${osvo.area_size > vo.area_size }">(↑)</c:if>
-											<c:if test="${osvo.area_size == vo.area_size }">(동일)</c:if>
-											<c:if test="${osvo.area_size < vo.area_size }">(↓)</c:if>
+											${vsvo.area_size } ㎡
+											<c:if test="${vsvo.area_size > vo.area_size }">(↑)</c:if>
+											<c:if test="${vsvo.area_size == vo.area_size }">(동일)</c:if>
+											<c:if test="${vsvo.area_size < vo.area_size }">(↓)</c:if>
 								</td>							
-								<td width=10% class="text-center">${osvo.floor }층</td>
+								<td width=10% class="text-center">${vsvo.floor }층</td>
 								<td width=20% class="text-center">
-											<fmt:formatDate value="${osvo.contract_date}" pattern="yyyy-MM-dd"/>
+											<fmt:formatDate value="${vsvo.contract_date}" pattern="yyyy-MM-dd"/>
 								</td>
-								<td width=10% class="text-center">${osvo.deal_type }</td>
+								<td width=10% class="text-center">${vsvo.deal_type }</td>
 							</tr>
 					</c:if>
 				</c:if>
 			  </c:forEach>
-			  <c:if test="${fn:length(oSameList)==1 }">
+			  <c:if test="${fn:length(vSameList)==1 }">
 					<tr style="height:30px;">
 						<td colspan="6" class="text-center">다른 계약 매물 없음</td>
 					</tr>
@@ -257,7 +262,7 @@ function button_mark() {
 }
 /* 목록으로 돌아가기 버튼 */
 function button_back() {
-		   location.href="../product/officetellist.do"
+		   location.href="../product/villalist.do"
 
 }
 
@@ -277,7 +282,7 @@ function button_address() {
 
 let j =0;
 $('#area_first').hide();
-function button_area() {
+function button_area1() {
 	if(j==0){
 		$("#area_first").show();
 		$("#area_second").hide();
@@ -289,6 +294,19 @@ function button_area() {
 	}
 };
 
+let k =0;
+$('#area_third').hide();
+function button_area2() {
+	if(k==0){
+		$("#area_third").show();
+		$("#area_fourth").hide();
+		k=1
+	}else{
+		$("#area_third").hide();
+		$("#area_fourth").show();
+		k=0;
+	}
+};
 
 
 

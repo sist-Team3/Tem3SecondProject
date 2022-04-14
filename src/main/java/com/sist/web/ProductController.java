@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.sist.dao.ProductDAO;
 import com.sist.vo.ApartmentVO;
 import com.sist.vo.OfficetelVO;
+import com.sist.vo.VillaVO;
 
 @Controller
 public class ProductController {
@@ -121,4 +122,58 @@ public class ProductController {
 		model.addAttribute("oSameList", oSameList);
 		return "product/officetelDetail";
 	}
+	
+	
+	//빌라
+		@GetMapping("product/villaDetail.do")
+		public String villaDetail(int no,Model model)
+		{
+			VillaVO vo=dao.villaDetailData(no);
+			
+			// 거래금액 억단위 변경
+			int price=vo.getPrice();
+			int p1=price/10000;
+			int p2=price-p1*10000;
+			
+			// 면적 유형 = 제곱미터 & 평수 
+			int area_size1=vo.getArea_size();
+			int area_size2=(area_size1*3025)/10000;
+			
+			int area_size3=vo.getLandarea_size();
+			int area_size4=(area_size3*3025)/10000;
+			
+			// 거래일자 YY/MM/DD 에서 YY년MM월DD일 변경
+			Date contract_date=vo.getContract_date();
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+			String c_date=simpleDateFormat.format(contract_date);
+			
+			
+			// 주소 연결
+			String addr_B=vo.getAddress()+vo.getBunji();
+			String addr_R=vo.getAddress()+vo.getRoad_name();
+			
+			// 월별 계약건수
+			int ACount=dao.villa_ACount(vo.getRoad_name());
+			int BCount=dao.villa_BCount(vo.getRoad_name());
+			int CCount=dao.villa_CCount(vo.getRoad_name());
+			
+			// 해당 매물 다른 계약 건수
+			List<VillaVO> vSameList=dao.villaSameData(vo.getRoad_name());
+			
+			model.addAttribute("vo", vo);
+			model.addAttribute("p1", p1);
+			model.addAttribute("p2", p2);
+			model.addAttribute("area_size1", area_size1);
+			model.addAttribute("area_size2", area_size2);
+			model.addAttribute("area_size3", area_size3);
+			model.addAttribute("area_size4", area_size4);
+			model.addAttribute("addr_B", addr_B);
+			model.addAttribute("addr_R", addr_R);
+			model.addAttribute("c_date", c_date);
+			model.addAttribute("ACount", ACount);
+			model.addAttribute("BCount", BCount);
+			model.addAttribute("CCount", CCount);
+			model.addAttribute("vSameList", vSameList);
+			return "product/villaDetail";
+		}
 }

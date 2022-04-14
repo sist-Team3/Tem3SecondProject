@@ -17,29 +17,46 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=676eb5fa2637b234997b24dd7566e9ba&libraries=services"></script>
 
 <!-- 구글 차트 정보 -->
-  <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+<script type="text/javascript">
 
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Year', '해당 아파트 계약 건수'],
-          ['22.01',  <c:out value="${ACount}"/>],
-          ['22.02',  <c:out value="${BCount}"/>],
-          ['22.03',  <c:out value="${CCount}"/>]
-        ]);					
+google.charts.load('current', {packages: ['corechart', 'bar']});
 
-        var options = {
-          title: '',
-          curveType: 'function',
-          legend: { position: 'bottom' }
-        };
+google.charts.setOnLoadCallback(drawBasic);
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+ 
+function drawBasic() {
+var data = new google.visualization.DataTable();
+data.addColumn('string', '날짜');
+data.addColumn('number', '계약건수');
 
-        chart.draw(data, options);
-      }
-    </script>
+data.addRows([
+['22.01', <c:out value="${ACount}"/>],
+['22.02', <c:out value="${BCount}"/>],
+['22.03', <c:out value="${CCount}"/>],
+]);
+
+var options = {
+title: '해당 아파트 다른 거래',
+hAxis: {
+title: '',
+viewWindow: {
+min: [3, 0],
+max: [3, 10]
+}
+},
+
+vAxis: {
+title: ''
+}
+};
+
+var chart = new google.visualization.ColumnChart(
+document.getElementById('chart_div'));
+chart.draw(data, options);
+}
+
+</script>
+
 <style>
 .map_wrap, .map_wrap * {margin:0; padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap {position:relative;width:700px;height:500px;}
@@ -93,24 +110,21 @@
 		 		<div>${c_date }</div>
 			  	<div>
 			  		<c:choose>
-					  		<c:when test="${vo.price>9999 && p2!=0}">
+					  		<c:when test="${p2!=0}">
 								 	${p1 }억 ${p2 }만원
 							</c:when>
-							<c:when test="${vo.price>9999 && p2==0 }">
+							<c:when test="${p2==0 }">
 								 	${p1 }억원
-						 	</c:when>
-						 	<c:when test="${vo.price<10000 }">
-						 	  		${vo.price}만원
 						 	</c:when>
 				 	</c:choose>
 				</div>
 				<div>
 					 	 		<span id="address_first"> ${addr_B} </span>	<span id="address_second"> ${addr_R} </span>
-						  		<button class="buttonC1" onclick="button_address()">⇆</button>
+						  		<button class="buttonChange" onclick="button_address()">⇆</button>
 				</div>
 			 	<div>
 			 			<span id="area_first">${area_size1}㎡</span> <span id="area_second">${area_size2}평</span>
-			 			<button class="buttonC2" onclick="button_area()">⇆</button>
+			 			<button class="buttonChange" onclick="button_area()">⇆</button>
 				</div>
 				<div>${vo.floor }층</div>
 				<div>${vo.construction_date}년</div>
@@ -119,13 +133,13 @@
 		 </div>
 	</div>
 	<div class="buttonMenu">
-			<button class="button2" onclick="button_inquire();">문의하기</button>
+			<button class="button2" onclick="button_mark();">즐겨찾기</button>
 			<button class="button3" onclick="button_back()">목록</button>
 	</div>
   </div>
 	
 	
-<!-- 카카오 맵 -->
+<!-- /////////////////////카카오 맵////////////////////// -->
 		<div class="map_wrap">
     	<div id="map" style="width:700px;height:500px;position:relative;overflow:hidden;"></div>
 	
@@ -157,18 +171,12 @@
 		    </ul>
 	</div>
 	
-	<ul>
-		<br>
-	</ul>
 	
-<!-- 차트 -->
-	<div id="curve_chart"></div>
+<!-- /////////////////////차트///////////////////////////// -->
+	<div id="chart_div"></div>
   
-  	<ul>
-		<br>
-	</ul>
 	
-<!-- 이름 같은 매물 정보 -->
+<!-- ///////////////////이름 같은 매물 정보/////////////////////// -->
  	<div>
 		<table class="table2">
 			<tr style="background-color:gray;color:white;">
@@ -182,14 +190,20 @@
 			</tr>
 			  <c:forEach var="asvo" items="${aSameList }">
 				<c:if test="${asvo.no ne vo.no }">
-				  <c:choose>
-					<c:when test="${not empty aSameList }">
+					<c:if test="${not empty aSameList }">
 							<tr style="height:30px;">
 								<td width=25% class="text-center">
 										<a href="../product/apartmentDetail.do?no=${asvo.no}">${asvo.name }</a>
 								</td>
 								<td width=20% class="text-center">
-											${asvo.price/10000}억원
+											<c:choose>
+												<c:when test="${asvo.price>99999 }">
+													${fn:substring(asvo.price,0,2) }억 ${fn:substring(asvo.price,2,6) }만원
+												</c:when>
+												<c:otherwise>
+													${fn:substring(asvo.price,0,1) }억 ${fn:substring(asvo.price,1,5) }만원
+												</c:otherwise>
+											</c:choose>
 											<c:if test="${asvo.price > vo.price }">(↑)</c:if>
 											<c:if test="${asvo.price == vo.price }">(동일)</c:if>
 											<c:if test="${asvo.price < vo.price }">(↓)</c:if>
@@ -201,20 +215,17 @@
 											<c:if test="${asvo.area_size < vo.area_size }">(↓)</c:if>
 								</td>							
 								<td width=10% class="text-center">${asvo.floor }층</td>
-								<td width=20% class="text-center">
-											<fmt:formatDate value="${asvo.contract_date}" pattern="yyyy-MM-dd"/>
-								</td>
+								<td width=20% class="text-center"><fmt:formatDate value="${asvo.contract_date}" pattern="yyyy-MM-dd"/></td>
 								<td width=10% class="text-center">${asvo.deal_type }</td>
 							</tr>
-					</c:when>
-				  </c:choose>
+					</c:if>
 				</c:if>
 			  </c:forEach>
-			  <c:if test="${fn:length(aSameList)==1 }">
+			<c:if test="${fn:length(aSameList)==1 }">
 					<tr style="height:30px;">
 						<td colspan="6" class="text-center">다른 계약 매물 없음</td>
 					</tr>
-			  </c:if>
+			</c:if>
 		</table>
  	</div>
 	   	<ul>
@@ -226,9 +237,9 @@
 <script>
 
 /* 문의하기 버튼 */
-function button_inquire() {
+function button_mark() {
 	if(${not empty sessionScope.username}){
-		if(confirm("문의가 접수되었습니다. 마이페이지로 이동하시겠습니까?"))
+		if(confirm("즐겨찾기에 추가되었습니다. 마이페이지로 이동하시겠습니까?"))
 		{
 		location.href="../mypage/main.do";
 		}
@@ -246,7 +257,7 @@ function button_back() {
 
 }
 
-$('#address_first').hide();	//toggle
+$('#address_first').hide();
 let i = 0;
 function button_address() {
 	if(i==0){
