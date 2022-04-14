@@ -8,6 +8,11 @@
 
 <script type="text/javascript">
 function searchToggle(){
+	
+	if($.trim($('.search-input').val())==''){
+		alert('검색어를 입력하시오!')
+		return false;
+	}
     let form = $('#searchForm')
     let category= $('select[name=searchCategory] option:selected').val()
     var searchFd = document.getElementById("searchFd").value;
@@ -45,7 +50,7 @@ function searchToggle(){
 							</select>
 						</div>
 						<div class="input-holder">
-							<input type="text" class="search-input" name="fd" placeholder="search-for.." id="searchFd"/>
+							<input type="text" class="search-input"  name="fd" placeholder="search-for.." id="searchFd"/>
 							<button class="search-icon" onclick="searchToggle();">
 								<span></span>
 							</button>

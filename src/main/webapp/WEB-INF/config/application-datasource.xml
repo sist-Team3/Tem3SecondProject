@@ -37,7 +37,7 @@
     <tx:annotation-driven/>
     
     <!-- log파일로 전송 : sql문장 실행과정 확인  -->
-    <!-- <bean id="dataSource" 
+   <!-- <bean id="dataSource" 
           class="net.sf.log4jdbc.Log4jdbcProxyDataSource"> 
       <constructor-arg ref="ds" /> 
       <property name="logFormatter"> 

@@ -53,7 +53,7 @@ $(function(){
 				</div>		
 				<div class="search-option1">
 			     	<input type=text size=20 class="input-sm" id="searchfd" style="float: left" v-model="fd" value="${fd }" @keyup.enter="findApart()">
-			        <input type=button value="검색" id="searchbtn"  class="btn btn-sm btn-danger" @click="findApart()"  >
+			        <input type=button value="검색" id="searchbtn"  class="btn btn-sm btn-danger" @click="findApart()">
 			    </div>
 				<div class="search-option2">
 					<ul class="search-option4">
@@ -95,23 +95,6 @@ $(function(){
 	<!--정렬 -->
 				<div class="search-sort">
 					<ul id="search-sort1">
-						<c:choose>
-							<c:when test="">
-								<c:set var="sort1" value="currnt_sort"/>
-							</c:when>
-							<c:when test="">
-								<c:set var="sort2" value="currnt_sort"/>
-							</c:when>
-							<c:when test="">
-								<c:set var="sort3" value="currnt_sort"/>
-							</c:when>
-							<c:when test="">
-								<c:set var="sort4" value="currnt_sort"/>
-							</c:when>
-							<c:otherwise>
-								<c:set var="sort5" value="currnt_sort"/>
-							</c:otherwise>
-						</c:choose>
 						<li id="rsort">
 							<span style="color : #5d5d5d; font-size: 13px;"> 
 								<b id="sc">정렬하기</b>
@@ -182,9 +165,9 @@ $(function(){
 	    		startPage:1,
 	    		endPage:10,
 	    		pageList:[],
-	    		fd:'',
+	    		fd:$('#searchfd').val(),
 	    		isActive:true,
-	    		checkOption:[],
+	    		checkOption:['지역'],
 	    		sort:'contract',
 	    		gu:''
 	    	},
@@ -209,7 +192,7 @@ $(function(){
 				}
 			},
 	    	mounted:function(){
-	    		this.apartmentlistData(1);
+	    		this.apartmentlistData(this.curpage);
 	    	},
 	    	methods:{
 	    		apartmentlistData:function(page){

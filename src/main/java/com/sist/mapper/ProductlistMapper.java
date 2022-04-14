@@ -5,6 +5,7 @@ import com.sist.vo.*;
 
 import org.apache.ibatis.annotations.Select;
 import org.junit.platform.suite.api.SelectClasses;
+import org.springframework.test.context.jdbc.Sql;
 
 public interface ProductlistMapper {
 	/*
@@ -58,12 +59,6 @@ public interface ProductlistMapper {
 	@Select("SELECT COUNT(*) FROM villa_3") 
 	public int villaCount();
 	
-	// 아파트 상품 검색
-	public List<ApartmentVO> getApartmentlist(Criteria cri);
-	
-	// 아파트 상품 갯수
-	public int ApartmentTotal(Criteria cri);
-	
     @Select("<script>"
     		+ "SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,num "
 				  +"FROM (SELECT no,area_size,price,floor,address,name,road_name,construction_date,contract_date,rownum as num  "
@@ -96,7 +91,7 @@ public interface ProductlistMapper {
 				  + "price DESC"
 				  + "</when>"
 				  + "<when test=\"sort=='construction'.toString()\">"
-				  + "construction_date DESC"
+				  + "construction_date DESC, contract_date DESC"
 				  + "</when>"
 				  + "<when test=\"sort=='size'.toString()\">"
 				  + "area_size DESC"
@@ -181,7 +176,7 @@ public interface ProductlistMapper {
 			+ "price DESC"
 			+ "</when>"
 			+ "<when test=\"sort=='construction'.toString()\">"
-			+ "construction_date DESC"
+			+ "construction_year DESC, contract_date DESC"
 			+ "</when>"
 			+ "<when test=\"sort=='size'.toString()\">"
 			+ "area_size DESC"
@@ -264,14 +259,14 @@ public interface ProductlistMapper {
 			+ "<when test=\"sort=='price'.toString()\">"
 			+ "price DESC"
 			+ "</when>"
-			+ "<when test=\"sort=='construction'.toString()\">"
-			+ "construction_date DESC"
+			+ "<when test=\"sort=='contract'.toString()\">"
+			+ "contract_date DESC"
 			+ "</when>"
 			+ "<when test=\"sort=='size'.toString()\">"
 			+ "area_size DESC"
 			+ "</when>"
-			+ "<when test=\"sort=='contract'.toString()\">"
-			+ "contract_date DESC"
+			+ "<when test=\"sort=='construction'.toString()\">"
+			+ "construction_year DESC, contract_date DESC"
 			+ "</when>"
 			+ "</choose>"
 			+ "</trim>"
