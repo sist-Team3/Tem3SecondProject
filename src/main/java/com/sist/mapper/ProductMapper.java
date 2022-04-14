@@ -83,4 +83,7 @@ public interface ProductMapper {
 	@Insert("INSERT INTO mark_3 (no,${type},email) VALUES ((SELECT NVL(MAX(no)+1,1) FROM mark_3),#{no},#{email})")
 	public void insertMarkApart(Map map);
 	
+	@Select("SELECT count(*) FROM mark_3 WHERE email=#{email} AND ${type}=#{no}")
+	public int checkMark(Map map);
+
 }

@@ -88,6 +88,9 @@ public class ProductDAO {
 	public void insertMarkApart(Map map) {
 		mapper.insertMarkApart(map);
 	}
+	public int checkMark(Map map) {
+		return mapper.checkMark(map);
+	}
 
 	
 }

@@ -195,21 +195,27 @@ public class ProductController {
 			String email=(String)session.getAttribute("username");
 			Map map = new HashMap();
 			String link="";
+			ra.addAttribute("no", no);
 			if(type==1) {
 				map.put("type","ano");
 				link="apartmentDetail";
+				map.put("no",no);
+				map.put("email",email);
+				
 			}else if (type==2) {
 				map.put("type","ono");
 				link="officetelDetail";
+				map.put("no",no);
+				map.put("email",email);
 			}else {
 				map.put("type","vno");
 				link="villaDetail";
+				map.put("no",no);
+				map.put("email",email);
 			}
-			map.put("no",no);
-			map.put("email",email);
+			
 			dao.insertMarkApart(map);
 			
-			ra.addAttribute("no", no);
 			return "redirect:../product/"+link+".do";
 		}
 }
