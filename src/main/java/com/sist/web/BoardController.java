@@ -24,13 +24,6 @@ public class BoardController {
 	
 	@GetMapping("board/board.do")
 	public String board_board(String page,Model model,HttpSession session) {
-		System.out.println("Controller_목록 ");
-		
-		String session_id=(String)session.getAttribute("username");
-		System.out.println("session_id null값 확인: "+session_id);
-		if(session_id.equals(null))
-			return "redirect:../user/signin.do";
-		
 		try {
 			if(page==null)
 				page="1";
