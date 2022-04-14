@@ -1,0 +1,93 @@
+@charset "UTF-8";
+.top-bar{
+	background-color : rgb(31, 45 , 60);
+}
+.navbar-default top-bar affix .navbar-nav li a{
+	color:white;
+}
+.navbar-default a.navbar-brand.dark{
+	color:white;
+}
+#login-area{
+	height: 70vh;
+	margin-top: 25vh;
+	margin-bottom: 20vh;
+	background-color: rgb(247,247,247,255);
+	box-shadow: 12px 12px 10px 0px rgba(0, 0, 0, 0.1);
+	border-radius: 5px 5px 5px 5px;
+	text-align: center;
+}
+#login-form{
+	margin-top: 10vh;
+}
+div.login-picture{
+	height: 70vh;
+	overflow: hidden;
+}
+div.login-picture>img{
+	margin-top: -40vh;
+	margin-left: -30px;
+	width: 700px;
+	overflow: hidden;
+}
+#btn-login-default{
+	margin: 50px 0px 0px 0px;
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
+}
+#login-naver>img{
+	margin: 20px 0px 20px 0px;
+	width: 200px;
+}
+#find-id-pw{
+	font-size: 15px;
+	font-weight: bold;
+	text-align: right;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+#login-title{
+	margin-top: 50px;
+	margin-bottom: -10px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 50px;
+}
+#email-input{
+	margin-bottom: 10px;
+	border-radius: 50px;
+	height: 50px;
+	font-size: 15px;
+}
+#password-input{
+	margin-bottom: 10px;
+	border-radius: 50px;
+	height: 50px;
+	font-size: 15px;
+}
+#email-label{
+	margin-bottom: 10px;
+	margin-left: -22vw;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+}
+#password-label{
+	margin-bottom: 10px;
+	margin-left: -20vw;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+}
+.login-error-msg{
+	position: absolute;
+	top: 120px;
+	left: 80px;
+	width: 20vw;
+	border-radius: 50px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 17px;
+	font-weight: 400;
+	color: red;
+	background-color: #ffb0b0;
+	text-align: center;
+	vertical-align: center;
+	padding-top: 10px;
+}
