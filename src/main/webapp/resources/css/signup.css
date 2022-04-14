@@ -1,0 +1,67 @@
+@charset "UTF-8";
+.top-bar{
+	background-color : rgb(31, 45 , 60);
+}
+.navbar-default top-bar affix .navbar-nav li a{
+	color:white;
+}
+.navbar-default a.navbar-brand.dark{
+	color:white;
+}
+#sign-up-form{
+	padding: 250px 100px 100px 100px;
+	margin-top: 30vh;
+	margin-bottom: 20vh;
+	background-color: rgba(255, 255, 255, 0.9);
+	border-radius: 20px;
+}
+.sign-up-title-area{
+	margin-top: -200px;
+	margin-bottom: 100px;
+	text-align: center;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+#sign-up-title{
+	color: #2102a1;
+	font-size: 50px;
+	font-weight: 600;
+}
+#sign-up-subtitle{
+	margin-top: 30px;
+	font-size: 23px;
+	font-weight: 500;
+}
+.form-control{
+	padding-left: 20px;
+	border-radius: 50px;
+	height: 55px;
+}
+.error-msg{
+	margin-bottom: 30px;
+	margin-left: 20px;
+	color: red;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+	font-weight: 600;
+}
+.form-label{
+	margin-top: 10px;
+	margin-left: 20px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+	font-weight: 500;
+}
+.sign-up-btn-area{
+	margin-top: 30px;
+	text-align: center;
+}
+#sign-up-btn{
+	width: 250px;
+	height: 80px;
+	border-radius: 20px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 30px;
+	font-weight: 500;
+	color: white;
+	background-color: #300fd6;
+}
