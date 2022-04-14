@@ -143,7 +143,7 @@ public class UserController {
 	public String getPasswordByCert(@RequestParam("certNum") String certNum,
 									@RequestParam("phone") String phone,
 									 HttpServletRequest request) {
-		return userService.getEmailByPhoneCertification(certNum, phone, request);
+		return userService.getPasswordByPhoneCertification(certNum, phone, request);
 	}
 	
 	/* 
@@ -155,5 +155,22 @@ public class UserController {
 	public String getPhoneCertCode(@RequestParam String phone, 
 									HttpServletRequest request) {
 		return userService.getPhoneCertification(phone, request);
+	}
+	// 편집용
+	@RequestMapping("/userOkJsp.do")
+	public String editUserOkPage(Model model) {
+		UserVO user = new UserVO();
+		user.setEmail("example@naver.com");
+		user.setName("뽀로로");
+		model.addAttribute("user", user);
+		return "user/userOk";
+	}
+	@RequestMapping("/oauthSignUpJSP.do")
+	public String editOauthOkPage(Model model) {
+		UserVO user = new UserVO();
+		user.setEmail("example@naver.com");
+		user.setName("뽀로로");
+		model.addAttribute("user", user);
+		return "user/oauthSignUp";
 	}
 }

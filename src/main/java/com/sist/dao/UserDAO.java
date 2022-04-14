@@ -31,6 +31,9 @@ public class UserDAO {
 	public String isUserByName(String name) {
 		return userMapper.findByName(name) > 0 ? "true" : "false";
 	}
+	public boolean isUserByPhone(String phone) {
+		return userMapper.findByPhone(phone) > 0 ? true : false;
+	}
 	public boolean isUserByEmail(String email) {
 		return userMapper.findByEmail(email) != null ? true : false;
 	}
