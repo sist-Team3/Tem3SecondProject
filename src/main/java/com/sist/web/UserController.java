@@ -83,7 +83,6 @@ public class UserController {
 	public String getSignIn(HttpSession session, Model model) {
         String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
         model.addAttribute("url", naverAuthUrl);
-        
 		return "user/signIn";
 	}
 	// 2-2. OAuth 로그인 처리
