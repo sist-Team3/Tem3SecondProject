@@ -183,7 +183,7 @@ public class MyPageRestController {
             mailHelper.setTo(to);
             mailHelper.setSubject(subject);
             mailHelper.setText(content, true);
-            // true는 html을 사용하겠다는 의미입니다.
+            // true는 html을 사용하겠다는 의미.
             
             // application-context - <property name="password" value=""/>  value에 비밀번호 넣어야 전송됨
             //mailSender.send(mail); 
