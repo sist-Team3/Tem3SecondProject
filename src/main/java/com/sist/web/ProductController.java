@@ -193,6 +193,7 @@ public class ProductController {
 		@RequestMapping("product/insertJjim.do")
 		public String insertJiim (int no, int type,Model model,RedirectAttributes ra,HttpSession session) {
 			String email=(String)session.getAttribute("username");
+			System.out.println(email);
 			Map map = new HashMap();
 			String link="";
 			ra.addAttribute("no", no);

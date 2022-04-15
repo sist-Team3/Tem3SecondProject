@@ -9,6 +9,11 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../resources/css/board.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+	$('.navbar-default.affix .navbar-nav li a').css('color','white')
+	$('#headTitle').css('color','white')
+</script>
 <style type="text/css">
 .top-bar{
    background-color : rgb(31, 45 , 60);

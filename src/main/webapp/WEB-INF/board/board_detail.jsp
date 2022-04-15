@@ -231,6 +231,10 @@ textarea {
 			idCheck:''//
 		},
 		mounted:function(){
+			let t1 = document.querySelectorAll(".navbar-default.affix .navbar-nav li a")
+			t1.forEach(t => t.style.color="white")
+			let t2 = document.getElementById("headTitle")
+			t2.style.color="white"
 			this.boardList();
 		},
 		methods:{

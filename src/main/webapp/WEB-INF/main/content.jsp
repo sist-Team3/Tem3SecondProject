@@ -117,7 +117,7 @@ function searchToggle(){
 			</div>
 			<div class="row">
 				<h2>
-					<a href="#">뉴스</a>
+					<a href="../news/main.do">뉴스</a>
 				</h2>
 				<p class="lead"></p>
 			</div>

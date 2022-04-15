@@ -18,7 +18,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a href="../main/main.do" class="navbar-brand">LRoom</a>
+				<a href="../main/main.do" class="navbar-brand" id="headTitle">LRoom</a>
 			</div>
 			<div id="bs-example-navbar-collapse-1"
 				class="collapse navbar-collapse">
