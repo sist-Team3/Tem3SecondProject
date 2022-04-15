@@ -48,6 +48,13 @@ public class BoardController {
 			map.put("end", end);
 			List<BoardVO> bList=service.boardListData(map);
 			
+			//내게시글 수
+			String user_id=(String)session.getAttribute("username");
+			int myBoardCnt=service.myBoardCount(user_id);
+			int myReplyCnt=service.myReplyCount(user_id);
+			
+			model.addAttribute("myBoardCnt",myBoardCnt);
+			model.addAttribute("myReplyCnt",myReplyCnt);
 			model.addAttribute("bList",bList);
 			model.addAttribute("curpage",curpage);
 			model.addAttribute("count",count);

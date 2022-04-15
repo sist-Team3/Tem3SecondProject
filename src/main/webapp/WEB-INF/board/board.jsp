@@ -86,7 +86,7 @@ th{
 		<!-- <h2 class="color_sky_point text-center" style="margin-top:20px;"><strong>자유게시판</strong></h2>
 		<img class="arw" src="../resources/img/apt_board.jpg" style="width: 100%;height: 500px;"> -->
 		
-         <div><strong><span style="font-size: 20px">${sessionScope.username }</span>님의 게시글은 총 <span class="color_sky_point">56</span>개 (일반 <span class="color_sky_point">42</span> + 댓글 <span class="color_sky_point">14</span>) 입니다 :)
+         <div><strong><span style="font-size: 20px">${sessionScope.username }</span>님의 게시글은 총 <span class="color_sky_point">${myBoardCnt+ myReplyCnt}</span>개 (일반 <span class="color_sky_point">${myBoardCnt }</span> + 댓글 <span class="color_sky_point">${myReplyCnt }</span>) 입니다 :)
            </strong>
            <div style="height:10px;"></div>
            <form method=GET action="../board/board_insert.do">
