@@ -80,10 +80,12 @@ public interface ProductMapper {
 			+ "FROM villa_3 WHERE road_name=#{road_name}")
 	public List<VillaVO> villaSameData(String road_name);
 	
-	@Insert("INSERT INTO mark_3 (no,${type},email) VALUES ((SELECT NVL(MAX(no)+1,1) FROM mark_3),#{no},#{email})")
-	public void insertMarkApart(Map map);
 	
-	@Select("SELECT count(*) FROM mark_3 WHERE email=#{email} AND ${type}=#{no}")
-	public int checkMark(Map map);
-
+	/*
+	 * @Insert("INSERT INTO mark_3 (no,type,email) VALUES ((SELECT NVL(MAX(no)+1,1) FROM mark_3),#{type},#{email})"
+	 * ) public void insertMarkApart(Map map);
+	 * 
+	 * @Select("SELECT count(*) FROM mark_3 WHERE email=#{email} AND type=#{type}")
+	 * public int checkMark(Map map);
+	 */
 }

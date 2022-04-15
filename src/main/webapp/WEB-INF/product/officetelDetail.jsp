@@ -135,8 +135,8 @@ chart.draw(data, options);
 		 </div>
 	</div>
 	<div class="buttonMenu">
-			<button class="button2" onclick="button_mark(${vo.no});">즐겨찾기</button>
-			<button class="button3" onclick="button_back()">목록</button>
+<!-- 		<button class="button2" onclick="button_mark(${vo.no});">즐겨찾기</button>  -->
+			<button class="button2" onclick="button_back()">목록</button>
 	</div>
   </div>
 	
@@ -146,17 +146,17 @@ chart.draw(data, options);
     	<div id="map" style="width:700px;height:500px;position:relative;overflow:hidden;"></div>
 	
 		    <ul id="category">
-		        <li id="HP8" data-order="0"> 
+		        <li id="SC4" data-order="0"> 
 		            <span class="category_bg bank"></span>
-		            병원
+		            학교
 		        </li>       
 		        <li id="PS3" data-order="1"> 
 		            <span class="category_bg mart"></span>
 		            어린이집,유치원
 		        </li>  
-		        <li id="SC4" data-order="2"> 
+		        <li id="HP8" data-order="2"> 
 		            <span class="category_bg pharmacy"></span>
-		            학교
+		            병원
 		        </li>  
 		        <li id="SW8" data-order="3"> 
 		            <span class="category_bg oil"></span>
@@ -241,6 +241,7 @@ chart.draw(data, options);
 <script>
 
 /* 문의하기 버튼 */
+/*
 function button_mark(no) {
 	if(${not empty sessionScope.username}){
 		if(confirm("즐겨찾기에 추가되었습니다. 마이페이지로 이동하시겠습니까?"))
@@ -259,7 +260,7 @@ function button_mark(no) {
 }
 function insertJjim(no){
 	location.href="../product/insertJjim.do?no="+no+"&type="+2
-}
+}*/
 /* 목록으로 돌아가기 버튼 */
 function button_back() {
 		   location.href="../product/officetellist.do"
