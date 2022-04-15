@@ -189,7 +189,8 @@ public class ProductController {
 			model.addAttribute("vSameList", vSameList);
 			return "product/villaDetail";
 		}
-		
+
+/*
 		@RequestMapping("product/insertJjim.do")
 		public String insertJiim (int no, int type,Model model,RedirectAttributes ra,HttpSession session) {
 			String email=(String)session.getAttribute("username");
@@ -219,4 +220,6 @@ public class ProductController {
 			
 			return "redirect:../product/"+link+".do";
 		}
+*/
+		
 }

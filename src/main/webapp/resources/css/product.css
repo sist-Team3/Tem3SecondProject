@@ -80,37 +80,18 @@ div.wrapper div.container {
 	font-size:5px;
 }
 .buttonMenu{
-	width:185px;
+	width:65px;
 	margin:auto;
 }
 .button2 {
   text-decoration:none;
   background-color: ghostwhite;
   color: black; 
-  border: 2px solid red;
-  font-weight:bold;
-  font-size:x-large;
-}
-.button2:hover {
-  text-decoration:none;
-  background-color: red;
-  color: white;
-}
-.button3 {
-
-  text-decoration:none;
-  background-color: ghostwhite;
-  color: black; 
-  border: 2px solid red;
+  border: 2px solid;
   font-weight:bold;
   font-size:x-large;
 }
 
-.button3:hover {
-  text-decoration:none;
-  background-color: blue;
-  color: white;
-}
 
 
 .table2{
