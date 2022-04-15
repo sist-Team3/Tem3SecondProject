@@ -50,11 +50,9 @@ public class MyPageRestController {
 			Date date=new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String day = sdf.format(date);
-			vo.setDbday(day);
+//			vo.setDbday(day);
 			vo.setAddress1(" ");
-			vo.setPostcode(12345);
-			vo.setPhone("01000000000");
-			vo.setAddress1("서울시");
+//			vo.setPostcode(12345);
 		}
 		if(vo.getAddress2()==null) {
 			vo.setAddress2("");

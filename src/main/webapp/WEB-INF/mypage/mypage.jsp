@@ -168,7 +168,7 @@ function telMax(el, maxlength) {
 	                    <tr>
 	                        <th>비밀번호</th>
 	                        <td>
-	                            <input type="password" v-model="pwd.change_pwd" id="change_pwd" class="form-control" placeholder="숫자/영문 조합 9자 이상만 가능합니다." @keyup="chkPW()" >
+	                            <input type="password" v-model="pwd.change_pwd" id="change_pwd" class="form-control" placeholder="숫자/영문/특수문자 조합 9자 이상만 가능합니다." @keyup="chkPW()" >
 	                        </td>
 	                    </tr>
 	                    <tr>
@@ -286,7 +286,7 @@ function telMax(el, maxlength) {
 				,chkPW:function(){
 					 $('span#validation').remove()
 					 let pw = this.pwd.change_pwd
-					 let eng = pw.search(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/ig);
+					 let eng = pw.search(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{8,16}$/ig);
 					 if(pw.search(/\s/) != -1){
 						this.validAlert('change_pwd','비밀번호는 공백 없이 입력하시오.')
 					  	return false;
@@ -294,7 +294,7 @@ function telMax(el, maxlength) {
 						 this.validAlert('change_pwd','비밀번호는 9 ~ 16자리 사이로 입력하시오!');
 					  	return false;
 					 }else if(eng < 0 ){
-						 this.validAlert('change_pwd','영문,숫자를 혼합하여 입력하시오.');
+						 this.validAlert('change_pwd','영문,숫자,특수문자를 혼합하여 입력하시오.');
 					  	return false;
 					 }else if(pw==this.pwd.now_pwd){
 						 this.validAlert('change_pwd','현재 비밀번호와 같습니다!')
