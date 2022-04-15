@@ -2,20 +2,16 @@ package com.sist.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sist.dao.ProductDAO;
 import com.sist.vo.ApartmentVO;
@@ -27,16 +23,55 @@ public class ProductController {
 	@Autowired
 	private ProductDAO dao;
 	
+	@GetMapping("product/cookie.do")
+	public String cookieCheck(int no,int type,HttpServletResponse res,HttpServletRequest req) {
+		Cookie[] cookies = req.getCookies();
+		 {
+			switch(type) {
+				case 1:
+					for(int i=0;i<cookies.length;i++) {
+						if(cookies[i].getName().equals("a"+no)) {
+							Cookie cookie = new Cookie("a"+no, null);
+							cookie.setMaxAge(0);
+							cookie.setPath("/");
+							res.addCookie(cookie);
+						}
+					}
+					return "redirect:../product/apartmentDetail.do?no="+no;
+				case 2:
+					for(int i=0;i<cookies.length;i++) {
+						if(cookies[i].getName().equals("o"+no)) {
+							Cookie cookie = new Cookie("o"+no, null);
+							cookie.setMaxAge(0);
+							cookie.setPath("/");
+							res.addCookie(cookie);
+						}
+					}
+					return "redirect:../product/officetelDetail.do?no="+no;
+				default:
+					for(int i=0;i<cookies.length;i++) {
+						if(cookies[i].getName().equals("v"+no)) {
+							Cookie cookie = new Cookie("v"+no, null);
+							cookie.setMaxAge(0);
+							cookie.setPath("/");
+							res.addCookie(cookie);
+						}
+					}
+					return "redirect:../product/villaDetail.do?no="+no;
+			}
+		}
+	}
+	
 	//아파트
 	@GetMapping("product/apartmentDetail.do")
-	public String apartmetDetail(int no,Model model,HttpServletResponse res)
+	public String apartmetDetail(String no,Model model,HttpServletResponse res)
 	{
+		ApartmentVO vo=dao.apartmentDetailData(Integer.parseInt(no));
+		
 		Cookie cookie = new Cookie("a"+no, String.valueOf(no));
 		cookie.setMaxAge(60*60*24);
 		cookie.setPath("/");
 		res.addCookie(cookie);
-		
-		ApartmentVO vo=dao.apartmentDetailData(no);
 		
 		// 거래금액 억단위 변경
 		int price=vo.getPrice();
@@ -85,6 +120,7 @@ public class ProductController {
 	public String officetelDetail(int no,Model model,HttpServletResponse res)
 	{
 		OfficetelVO vo=dao.officetelDetailData(no);
+		
 		Cookie cookie = new Cookie("o"+no, String.valueOf(no));
 		cookie.setMaxAge(60*60*24);
 		cookie.setPath("/");
@@ -137,6 +173,7 @@ public class ProductController {
 		@GetMapping("product/villaDetail.do")
 		public String villaDetail(int no,Model model,HttpServletResponse res)
 		{
+			
 			VillaVO vo=dao.villaDetailData(no);
 			Cookie cookie = new Cookie("v"+no, String.valueOf(no));
 			cookie.setMaxAge(60*60*24);

@@ -64,7 +64,6 @@ public class MyPageRestController {
 	@GetMapping(value="mypage_recent.do",produces="text/plain;charset=utf-8" )
 	public String mypage_recent(HttpServletRequest req) {
 		String result="";
-		System.out.println("cookie Method");
 		List<Object> list = new ArrayList<>();
 		Cookie[] getCookie=req.getCookies();
 		if(getCookie != null) {
@@ -72,25 +71,22 @@ public class MyPageRestController {
 			for(int i=getCookie.length-1;i>=0;i--) {
 				if(k>4)
 					break;
-				if(getCookie[i].getName().startsWith("a")) {
+				if(getCookie[i].getName().startsWith("a") && getCookie[i].getValue()!=null) {
 					String value=getCookie[i].getValue();
-					System.out.println("a value= "+value);
 					ApartmentVO vo = pDao.apartmentDetailData(Integer.parseInt(value));
 					vo.setType(1);
 					list.add(vo);
 					k++;
 				}
-				if(getCookie[i].getName().startsWith("o")) {
+				if(getCookie[i].getName().startsWith("o") && getCookie[i].getValue()!=null) {
 					String value=getCookie[i].getValue();
-					System.out.println("o value= "+value);
 					OfficetelVO vo = pDao.officetelDetailData(Integer.parseInt(value));
 					vo.setType(2);
 					list.add(vo);
 					k++;
 				}
-				if(getCookie[i].getName().startsWith("v")) {
+				if(getCookie[i].getName().startsWith("v") && getCookie[i].getValue()!=null) {
 					String value=getCookie[i].getValue();
-					System.out.println("v value= "+value);
 					VillaVO vo = pDao.villaDetailData(Integer.parseInt(value));
 					vo.setType(3);
 					list.add(vo);

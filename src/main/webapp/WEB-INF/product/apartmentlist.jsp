@@ -133,7 +133,7 @@ $(function(){
 								<td width=20% class="text-center">{{vo.address }}</td>
 								<td width=15% class="text-center">{{vo.road_name }}</td>
 								<td width=20% class="text-center">
-											<a :href="'../product/apartmentDetail.do?no='+vo.no">{{vo.name }}</a>
+											<a :href="'../product/cookie.do?type=1&no='+vo.no">{{vo.name }}</a>
 								</td>							
 								<td width=10% class="text-center">{{vo.price | currency}}</td>
 								 <td width=10% class="text-center">{{vo.construction_date}}년</td>
