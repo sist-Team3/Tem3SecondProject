@@ -49,4 +49,14 @@ public class BoardDAO {
 	public void boardDelete(int no) {
 		mapper.boardDelete(no);
 	}
+	
+	//내 게시글 수
+	public int myBoardCount(String user_id) {
+		return mapper.myBoardCount(user_id);
+	}
+	
+	//내 댓글 수
+	public int myReplyCount(String user_id) {
+		return mapper.myReplyCount(user_id);
+	}
 }

@@ -52,6 +52,14 @@ public interface BoardMapper {
 			+"WHERE no=#{no}")
 	public void boardDelete(int no);
 	
+	//내 게시글 수
+	@Select("SELECT COUNT(*) FROM freeboard_3 WHERE user_id=#{user_id}")
+	public int myBoardCount(String user_id);
+	
+	//내 댓글 수
+	@Select("SELECT COUNT(*) FROM board_reply_3 WHERE user_id=#{user_id}")
+	public int myReplyCount(String user_id);
+	
 	//비밀번호 확인
 //	@Select("SELECT password FROM user_3 WHERE id=#{id}")
 //	public String boardGetPwd(String id);

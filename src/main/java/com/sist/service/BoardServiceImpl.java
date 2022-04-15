@@ -105,6 +105,18 @@ public class BoardServiceImpl implements BoardService{
 		rdao.replyDelete(no);
 	}
 
+	@Override
+	public int myBoardCount(String user_id) {
+		// TODO Auto-generated method stub
+		return dao.myBoardCount(user_id);
+	}
+
+	@Override
+	public int myReplyCount(String user_id) {
+		// TODO Auto-generated method stub
+		return dao.myReplyCount(user_id);
+	}
+
 
 
 }

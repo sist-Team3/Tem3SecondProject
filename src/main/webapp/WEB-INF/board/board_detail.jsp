@@ -338,6 +338,7 @@ textarea {
 				console.log("content:"+content);
 				this.parentNo=no; 
 				this.updateContent=content;
+				this.replyForm=0;
 				this.updateForm=1;
 			},//
 			updateCancle:function(){
@@ -364,8 +365,10 @@ textarea {
 				})
 			},//대댓글추가
 			replyFormOpen:function(no){
+				
 				console.log(no);
 				this.parentNo=no; 
+				this.updateForm=0;//수정입력창 close
 				this.replyForm=1;//댓글입력창 open
 				let n=document.getElementById("contentReply");
 				n.focus();

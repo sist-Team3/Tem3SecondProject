@@ -40,4 +40,9 @@ public interface BoardService {
 	public void replyReplyInsert(int pno,BoardReplyVO vo);
 	//(대)댓글 삭제
 	public void replyDelete(int no);
+	//내 게시글 수
+	public int myBoardCount(String user_id);
+	//내 댓글 수
+	public int myReplyCount(String user_id);
+
 }

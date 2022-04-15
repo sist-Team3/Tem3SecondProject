@@ -2,6 +2,8 @@ package com.sist.dao;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -24,8 +26,10 @@ public class UserDAO {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userMapper.save(user);
 	}
-	public void saveOauthUser(UserVO user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+	public void saveOauthUser(UserVO user, HttpServletRequest request) {
+		user.setId(UUID.randomUUID().toString());
+		String pw = request.getSession().getAttribute("oauthUserPassword").toString();
+		user.setPassword(passwordEncoder.encode(pw));
 		userMapper.saveOauth(user);
 	}
 	public UserVO findUserByEmail(String email) {
