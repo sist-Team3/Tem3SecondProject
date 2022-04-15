@@ -70,8 +70,9 @@ public class UserController {
     }
 	// 1-3. 회원가입 처리 (OAuth)
 	@PostMapping("/oauthsignup.do")
-	public String signUpByOauth(@ModelAttribute("user") UserVO user) {
-		userService.addOauthUser(user);
+	public String signUpByOauth(@ModelAttribute("user") UserVO user,
+								 HttpServletRequest request) {
+		userService.addOauthUser(user, request);
 		return "user/userOk";
 	}
 	
@@ -95,6 +96,8 @@ public class UserController {
 		if (userService.isUser(oauthUser.getEmail())) {
 			return userService.oauthLogIn(oauthUser.getEmail(), oauthUser.getPassword(), request);
 		}
+		HttpSession  session = request.getSession();
+		session.setAttribute("oauthUserPassword", oauthUser.getPassword());
 		model.addAttribute("user", oauthUser);
 	    return "user/oauthSignUp";
 	}

@@ -20,7 +20,6 @@
 				<p id="oauth-sign-sub"><strong>${user.email}</strong>로 가입하시겠습니까?</p>
 				<form method="post" action="../user/oauthsignup.do">
 				  	<input type="hidden" class="form-control" name="email" value="${user.email}"/>
-					<input type="hidden" class="form-control" name="password" value="${user.password}"/>
 					<input type="hidden" class="form-control" name="name" value="${user.name}"/>
 					<input type="submit" class="btn" id="naver-sign-in-btn" value="회원가입">
 				</form>
